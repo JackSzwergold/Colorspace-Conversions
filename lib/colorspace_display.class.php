@@ -231,11 +231,13 @@ class Display extends Helpers {
 
   public function build_pixel_box ($url, $hex, $text, $css = null) {
 
-    $ret = sprintf('<div class="PixelBox %s" style="background-color: %s;">', $css, $hex)
+    $ret = sprintf('<a href="%s">', $url)
+         . sprintf('<div class="PixelBox %s" style="background-color: %s;">', $css, $hex)
          . '<div class="Padding">'
-         . sprintf('<p><a href="%s">%s&nbsp;&nbsp;&nbsp;</a></p>', $url, $text)
+         . sprintf('<p>%s</p>', $text)
          . '</div><!-- .Padding -->'
          . '</div><!-- .PixelBox -->'
+         . '</a>'
          ;
 
     return $ret;
