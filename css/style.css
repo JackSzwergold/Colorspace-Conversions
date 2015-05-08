@@ -1,0 +1,152 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+html { font-size: 9pt; }
+
+body
+{
+	z-index: 0;
+	position: relative;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 100%;
+	line-height: 1.2em;
+	text-align: center;
+	background-color: #ffffff;
+}
+
+a, a:visited, a:hover, a:active
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+ul, li { list-style: none; }
+:focus { -moz-outline-style: none; }
+a { outline: none; }
+
+/**************************************************************************************************/
+.Core,
+.Padding,
+.PixelBoxWrapper, .PixelBox, .PixelBoxContainer,
+.InfoBox, .Grid,
+ul, li
+{
+	position: relative;
+	float: left;
+	display: inline;
+}
+
+/**************************************************************************************************/
+.Wrapper
+{
+	height: 100%;
+	margin: 0 auto 0 auto;
+	padding: 0;
+	clear: both;
+	text-align: left;
+}
+
+.Wrapper .Padding
+{
+	padding: 0 0 0 0;
+	clear: both;
+}
+
+.microView .Wrapper { width: 186px; }
+.tinyView .Wrapper { width: 326px; }
+.smallView .Wrapper { width: 466px; }
+.largeView .Wrapper { width: 760px; }
+.megaView .Wrapper { width: 970px; }
+
+/**************************************************************************************************/
+.Core { }
+.Core .Padding { padding: 0; }
+
+/**************************************************************************************************/
+.Core .Grid .Padding { padding: 6px 3px 0 3px; }
+
+.Core .Grid ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+.Core .Grid ul li .Padding { padding: 0 3px 6px 3px; }
+
+/**************************************************************************************************/
+.Core .Text .Padding { padding: 15px 0 15px 0; }
+
+/**************************************************************************************************/
+.Core .InfoBox
+{
+	width: 720px;
+	padding: 0;
+	color: #ffffff;
+	background-color: #444444;
+	margin: 0 0 20px 0;
+}
+
+.Core .InfoBox .Padding { padding: 20px 20px 20px 20px; }
+
+/**************************************************************************************************/
+.Core .Grid
+{
+	position: relative;
+	display: block;
+	float: left;
+	width: 720px;
+	padding: 0;
+}
+
+.Core .Grid .Padding { padding: 0 0 20px 0; }
+
+/**************************************************************************************************/
+.PixelBoxContainer
+{
+	color: #ffffff;
+	background-color: #333333;
+}
+
+.PixelBoxContainer .Padding { padding: 20px 20px 0 20px; }
+
+/**************************************************************************************************/
+.Grid .PixelBox
+{
+	height: 20px;
+	width: 20px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+}
+
+.Grid .PixelBox p
+{
+	font-size: 80%;
+	padding: 0;
+	margin: 0;
+}
+
+/**************************************************************************************************/
+.PMS .Grid .PixelBox
+{
+	width: 120px;
+	height: 50px;
+	margin: 0;
+}
+
+.PMS .Grid .PixelBox .Padding { padding: 10px 0 0 10px; }
+
+/**************************************************************************************************/
+.Core .light p,
+.Core .light p a, .Core .light p a:visited,
+.Core .light p a:hover, .Core .light p a:active { color: #ffffff; }
+.Core .dark p,
+.Core .dark p a, .Core .dark p a:visited,
+.Core .dark p a:hover, .Core .dark p a:active { color: #000000; }
+
+/**************************************************************************************************/
+.ClearDiv { clear: both; }

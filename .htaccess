@@ -1,0 +1,14 @@
+AddDefaultCharset UTF-8
+
+Options +FollowSymlinks
+
+RewriteEngine on
+
+# This redirects any call to this directory to an index file with $_GET parameters.
+# The 'colorspace=$1&value=$2' passes the pathname as an HTML param called 'colorspace' & 'value'.
+RewriteRule     ^([A-Za-z0-9-_]+)/([A-Za-z0-9-_]+)/?$   index.php?colorspace=$1&value=$2 [L]
+
+# This setup allows us to have files or directoires on the root of the site without conflicting with rewrite rules.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule     ^([A-Za-z0-9-_]+)/?$    index.php?colorspace=$1 [L]
