@@ -331,7 +331,7 @@ class Display extends Helpers {
         $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
 
         // Set the text to be passed back into the pixel box.
-        $pixel_text = sprintf('<p>PMS %s</p>', ucwords(preg_replace('~_+~', ' ', $pms_key)));
+        $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
 
         // Set the pixel box.
         $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
