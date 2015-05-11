@@ -7,7 +7,7 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
- * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>. 
+ * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
  *
  * w: http://www.preworn.com
  * e: me@preworn.com
@@ -18,6 +18,7 @@
  *          2014-01-23, js: refinements
  *          2014-02-17, js: setting a 'base'
  *          2014-02-27, js: adding a page URL
+ *          2015-05-10, js: adding DIV wrapper class & id
  *
  */
 
@@ -47,8 +48,9 @@ class frontendDisplay {
   private $page_title = NULL;
   private $page_description = NULL;
   private $page_content = NULL;
-  private $page_div_wrapper = NULL;
-  
+  private $page_div_wrapper_class = NULL;
+  private $page_div_wrapper_id = NULL;
+
   private $page_viewport = '';
   private $page_robots = '';
 
@@ -139,8 +141,9 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Set the page DIV wrapper.
-  function setPageDivWrapper($page_div_wrapper = null) {
-    $this->page_div_wrapper = $page_div_wrapper;
+  function setPageDivWrapper($page_div_wrapper_class = null, $page_div_wrapper_id = null) {
+    $this->page_div_wrapper_class = $page_div_wrapper_class;
+    $this->page_div_wrapper_id = $page_div_wrapper_id;
   } // setPageDivWrapper
 
 
@@ -364,7 +367,7 @@ class frontendDisplay {
     if (!empty($robots)) {
       $meta_names['robots'] = $robots;
     }
- 
+
     // The copyright changes between 'xhtml' & 'html5'
     $copyright_key = '';
     if ($this->doctype == 'xhtml') {
@@ -435,6 +438,18 @@ class frontendDisplay {
   // Set the wrapper.
   function setWrapper($body = null) {
 
+    $body_div_stuff = array();
+    $body_div_close_stuff = array();
+
+    if (!empty($this->page_div_wrapper_class)) {
+      $body_div_stuff[] = sprintf('class="%s"', $this->page_div_wrapper_class);
+      $body_div_close_stuff[] = sprintf('.%s', $this->page_div_wrapper_class);
+    }
+
+    if (!empty($this->page_div_wrapper_id)) {
+      $body_div_stuff[] = sprintf('id="%s"', $this->page_div_wrapper_id);
+    }
+
     $ret = '<div class="Wrapper">'
          . '<div class="Padding">'
 
@@ -448,11 +463,11 @@ class frontendDisplay {
          . '<div class="Core">'
          . '<div class="Padding">'
 
-         . sprintf('<div class="%s">', $this->page_div_wrapper)
+         . sprintf('<div %s>', implode($body_div_stuff, ' '))
 
          . $body
 
-         . sprintf('</div><!-- .%s -->', $this->page_div_wrapper)
+         . sprintf('</div><!-- %s -->', implode($body_div_close_stuff, ' '))
 
          . '</div><!-- .Middle -->'
          . '</div><!-- .Padding -->'
