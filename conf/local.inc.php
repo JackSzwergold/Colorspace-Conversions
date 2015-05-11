@@ -22,7 +22,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
   define('BASE_PATH', '/Colorspace-Conversions/');
 }
 else {
-  define('BASE_PATH', '/');
+  define('BASE_PATH', '/colorspace/');
 }
 
 /**************************************************************************************************/
