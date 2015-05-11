@@ -479,9 +479,9 @@ class frontendDisplay {
          . '</div><!-- .Padding -->'
          . '</div><!-- .Content -->'
 
-          . '</div><!-- .Padding -->'
-          . '</div><!-- .Wrapper -->'
-          ;
+         . '</div><!-- .Padding -->'
+         . '</div><!-- .Wrapper -->'
+         ;
 
     return $ret;
 
