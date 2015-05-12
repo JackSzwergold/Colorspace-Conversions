@@ -436,7 +436,7 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Set the wrapper.
-  function setWrapper($body = null) {
+  function setWrapper($body = null, $wrappper_array = array()) {
 
     $body_div_stuff = array();
     $body_div_close_stuff = array();
@@ -457,36 +457,29 @@ class frontendDisplay {
             ;
     }
 
-    $ret = '<div class="Wrapper">'
-         . '<div class="Padding">'
+    // Set the wrapper array.
+    $wrappper_array = array();
+    $wrappper_array[] = 'Wrapper';
+    $wrappper_array[] = 'Padding';
+    $wrappper_array[] = 'Content';
+    $wrappper_array[] = 'Padding';
+    $wrappper_array[] = 'Section';
+    $wrappper_array[] = 'Padding';
+    $wrappper_array[] = 'Middle';
+    $wrappper_array[] = 'Core';
+    $wrappper_array[] = 'Padding';
 
-         . '<div class="Content">'
-         . '<div class="Padding">'
+    // Set the wrapper divs.
+    $div_opening = $div_closing = '';
+    if (!empty($wrappper_array)) {
+      $div_opening = '<div class="' . implode($wrappper_array, '">' . "\n" . '<div class="') . '">';
+      $div_closing = '</div><!-- .' . implode(array_reverse($wrappper_array), '-->' . "\n" . '</div><!-- .') . ' -->';
+    }
 
-         . '<div class="Section">'
-         . '<div class="Padding">'
-         . '<div class="Middle">'
-
-         . '<div class="Core">'
-         . '<div class="Padding">'
-
+    return $div_opening
          . $body
-
-         . '</div><!-- .Middle -->'
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .Section -->'
-
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .Core -->'
-
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .Content -->'
-
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .Wrapper -->'
+         . $div_closing
          ;
-
-    return $ret;
 
   } // setWrapper
 
