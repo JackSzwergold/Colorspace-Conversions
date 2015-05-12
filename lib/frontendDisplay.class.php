@@ -436,7 +436,7 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Set the wrapper.
-  function setWrapper($body = null, $wrappper_array = array()) {
+  function setWrapper($body = null) {
 
     $body_div_stuff = array();
     $body_div_close_stuff = array();
