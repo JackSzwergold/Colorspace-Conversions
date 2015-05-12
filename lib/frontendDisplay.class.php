@@ -19,6 +19,7 @@
  *          2014-02-17, js: setting a 'base'
  *          2014-02-27, js: adding a page URL
  *          2015-05-10, js: adding DIV wrapper class & id
+ *          2015-05-11, js: setting dynamic DIV wrapper creation
  *
  */
 
@@ -48,8 +49,10 @@ class frontendDisplay {
   private $page_title = NULL;
   private $page_description = NULL;
   private $page_content = NULL;
+
   private $page_div_wrapper_class = NULL;
   private $page_div_wrapper_id = NULL;
+  private $page_div_wrappper_array = array();
 
   private $page_viewport = '';
   private $page_robots = '';
@@ -137,6 +140,13 @@ class frontendDisplay {
   function setPageContent($content = null) {
     $this->content = $content;
   } // setPageContent
+
+
+  //**************************************************************************************//
+  // Set the page DIVs.
+  function setPageDivs($page_div_wrappper_array = array()) {
+    $this->page_div_wrappper_array = $page_div_wrappper_array;
+  } // setPageDivs
 
 
   //**************************************************************************************//
@@ -457,23 +467,11 @@ class frontendDisplay {
             ;
     }
 
-    // Set the wrapper array.
-    $wrappper_array = array();
-    $wrappper_array[] = 'Wrapper';
-    $wrappper_array[] = 'Padding';
-    $wrappper_array[] = 'Content';
-    $wrappper_array[] = 'Padding';
-    $wrappper_array[] = 'Section';
-    $wrappper_array[] = 'Padding';
-    $wrappper_array[] = 'Middle';
-    $wrappper_array[] = 'Core';
-    $wrappper_array[] = 'Padding';
-
     // Set the wrapper divs.
     $div_opening = $div_closing = '';
-    if (!empty($wrappper_array)) {
-      $div_opening = '<div class="' . implode($wrappper_array, '">' . "\n" . '<div class="') . '">';
-      $div_closing = '</div><!-- .' . implode(array_reverse($wrappper_array), '-->' . "\n" . '</div><!-- .') . ' -->';
+    if (!empty($this->page_div_wrappper_array)) {
+      $div_opening = '<div class="' . implode($this->page_div_wrappper_array, '">' . "\n" . '<div class="') . '">';
+      $div_closing = '</div><!-- .' . implode(array_reverse($this->page_div_wrappper_array), '-->' . "\n" . '</div><!-- .') . ' -->';
     }
 
     return $div_opening

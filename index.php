@@ -17,6 +17,8 @@
  *          2015-04-29, js: development & cleanup
  *          2015-04-30, js: development & cleanup
  *          2015-05-03, js: setting more configuration and structure stuff
+ *          2015-05-10, js: adding DIV wrapper class & id
+ *          2015-05-11, js: setting dynamic DIV wrapper creation
  *
  */
 
@@ -78,6 +80,20 @@ $page_title = ucwords(preg_replace('/_/', ' ', $page_title));
 $page_base = BASE_URL;
 
 //**************************************************************************************//
+// Set the page DIVs array.
+
+$page_divs_array = array();
+$page_divs_array[] = 'Wrapper';
+$page_divs_array[] = 'Padding';
+$page_divs_array[] = 'Content';
+$page_divs_array[] = 'Padding';
+$page_divs_array[] = 'Section';
+$page_divs_array[] = 'Padding';
+$page_divs_array[] = 'Middle';
+$page_divs_array[] = 'Core';
+$page_divs_array[] = 'Padding';
+
+//**************************************************************************************//
 // Init the display class and get the values.
 
 $DisplayClass = new Display();
@@ -96,6 +112,7 @@ $frontendDisplayClass->setPageURL('http://www.preworn.com/colorspace/' . implode
 $frontendDisplayClass->setPageCopyright('(c) Copyright ' . date('Y') . ' Jack Szwergold. Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.');
 $frontendDisplayClass->setPageDescription('Some PHP classes to handle colorspace conversions.');
 $frontendDisplayClass->setPageContent($body);
+$frontendDisplayClass->setPageDivs($page_divs_array);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
 $frontendDisplayClass->setPageRobots('noindex, nofollow');
 $frontendDisplayClass->setPageBase($page_base);
