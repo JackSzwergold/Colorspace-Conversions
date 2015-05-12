@@ -450,6 +450,13 @@ class frontendDisplay {
       $body_div_stuff[] = sprintf('id="%s"', $this->page_div_wrapper_id);
     }
 
+    if (!empty($this->page_div_wrapper_class) && !empty($this->page_div_wrapper_id)) {
+      $body = sprintf('<div %s>', implode($body_div_stuff, ' '))
+            . $body
+            . sprintf('</div><!-- %s -->', implode($body_div_close_stuff, ' '))
+            ;
+    }
+
     $ret = '<div class="Wrapper">'
          . '<div class="Padding">'
 
@@ -463,11 +470,7 @@ class frontendDisplay {
          . '<div class="Core">'
          . '<div class="Padding">'
 
-         . sprintf('<div %s>', implode($body_div_stuff, ' '))
-
          . $body
-
-         . sprintf('</div><!-- %s -->', implode($body_div_close_stuff, ' '))
 
          . '</div><!-- .Middle -->'
          . '</div><!-- .Padding -->'
