@@ -5,7 +5,7 @@
 
 set :branch, "develop"
 
-server 'www.preworn.com', user: 'sysop', roles: %w{app db web}, my_property: :my_value
+server 'www.preworn.com', user: ENV["CAP_USER"] || 'sysop', roles: %w{app db web}, my_property: :my_value
 
 set :web_builds, "#{deploy_to}/builds"
 # set :content_data_path, "#{deploy_to}/content"
