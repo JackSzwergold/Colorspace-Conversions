@@ -1,22 +1,25 @@
-# branch: Set the github branch that will be used for this deployment.
-# server: The name of the destination server you will be deploying to.
-# web_builds: The directory on the server into which the actual source code will deployed.
-# live_root: The live directory which the current version will be linked to.
-
+# Set the github branch that will be used for this deployment.
 set :branch, "develop"
 
+# The details of the destination server you will be deploying to.
 server 'www.preworn.com', user: ENV["CAP_USER"] || 'sysop', roles: %w{app db web}, my_property: :my_value
 
+# The directory on the server into which the actual source code will deployed.
 set :web_builds, "#{deploy_to}/builds"
-# set :content_data_path, "#{deploy_to}/content"
+
+# The directory on the server that stores content related data.
+set :content_data_path, "#{deploy_to}/content"
+
+# The live, web root directory which the current version will be linked to.
 set :live_root, "#{deploy_to}/staging.preworn.com"
 
+# Set the 'deploy_to' directory for this task.
 set :deploy_to, "/var/www/builds/#{fetch(:application)}/staging"
 
 # Disable warnings about the absence of the styleseheets, javscripts & images directories.
 set :normalize_asset_timestamps, false
 
-# Set symbollic links and other related items.
+# Create the 'create_symlink' task to create symbolic links and other related items.
 namespace :deploy do
 
   desc "Set the symbolic links."
