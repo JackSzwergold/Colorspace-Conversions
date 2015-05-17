@@ -2,6 +2,7 @@
 lock '3.4.0'
 
 set :application, 'colorspace_conversions'
+set :short_name, 'colorspace'
 set :repo_url, 'git@github.com:JackSzwergold/Colorspace-Conversions.git'
 
 # Default branch is :master

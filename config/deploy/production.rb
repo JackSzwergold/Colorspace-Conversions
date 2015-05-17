@@ -29,8 +29,8 @@ namespace :deploy do
         info "If there is a symbolic link to 'site' then create a symbolic link called 'site'."
         execute "cd #{fetch(:live_root)} && if [ ! -h site ]; then if [ ! -d site ]; then ln -sf #{current_path} ./site; fi; fi"
 
-        info "If there is a symbolic link to 'site/colorspace', delete it. Irregardless, create a new symbolic link to 'site/colorspace'."
-        execute "cd #{fetch(:live_root)} && if [ -h site/colorspace ]; then rm site/colorspace; fi && ln -sf #{current_path} ./site/colorspace"
+        info "If there is a symbolic link to 'site/#{fetch(:short_name)}', delete it. Irregardless, create a new symbolic link to 'site/#{fetch(:short_name)}'."
+        execute "cd #{fetch(:live_root)} && if [ -h site/#{fetch(:short_name)} ]; then rm site/#{fetch(:short_name)}; fi && ln -sf #{current_path} ./site/#{fetch(:short_name)}"
 
     end
   end
