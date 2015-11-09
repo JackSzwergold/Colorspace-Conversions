@@ -11,7 +11,7 @@ set :web_builds, "#{deploy_to}/builds"
 set :content_data_path, "#{deploy_to}/content"
 
 # The live, web root directory which the current version will be linked to.
-set :live_root, "#{deploy_to}/www.preworn.com"
+set :live_root, "#{deploy_to}/www.lastplacechamp.com"
 
 # Set the 'deploy_to' directory for this task.
 set :deploy_to, "/var/www/builds/#{fetch(:application)}/production"
