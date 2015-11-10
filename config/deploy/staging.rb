@@ -26,14 +26,14 @@ namespace :deploy do
   task :create_symlink do
     on roles(:app) do
 
-        info "If there is no directory & no symbolic link to 'site' then create a directory named 'site'."
-        execute "cd #{fetch(:live_root)} && if [ ! -d site ]; then if [ ! -h site ]; then mkdir ./site; fi; fi"
+        info "If there is no directory & no symbolic link to 'site/art' then create a directory named 'site/art'."
+        execute "cd #{fetch(:live_root)} && if [ ! -d site/art ]; then if [ ! -h site/art ]; then mkdir ./site/art; fi; fi"
 
-        info "If there is a symbolic link to 'site' then create a symbolic link called 'site'."
-        execute "cd #{fetch(:live_root)} && if [ ! -h site ]; then if [ ! -d site ]; then ln -sf #{current_path} ./site; fi; fi"
+        info "If there is a symbolic link to 'site/art' then create a symbolic link called 'site/art'."
+        execute "cd #{fetch(:live_root)} && if [ ! -h site/art ]; then if [ ! -d site/art ]; then ln -sf #{current_path} ./site/art; fi; fi"
 
-        info "If there is a symbolic link to 'site/#{fetch(:short_name)}', delete it. Irregardless, create a new symbolic link to 'site/#{fetch(:short_name)}'."
-        execute "cd #{fetch(:live_root)} && if [ -h site/#{fetch(:short_name)} ]; then rm site/#{fetch(:short_name)}; fi && ln -sf #{current_path} ./site/#{fetch(:short_name)}"
+        info "If there is a symbolic link to 'site/art/#{fetch(:short_name)}', delete it. Irregardless, create a new symbolic link to 'site/art/#{fetch(:short_name)}'."
+        execute "cd #{fetch(:live_root)} && if [ -h site/art/#{fetch(:short_name)} ]; then rm site/art/#{fetch(:short_name)}; fi && ln -sf #{current_path} ./site/art/#{fetch(:short_name)}"
 
     end
   end
