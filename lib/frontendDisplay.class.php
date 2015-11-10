@@ -1,4 +1,4 @@
-<?php
+<?
 
 /**
  * Frontend Display Class (frontendDisplay.class.php) (c) by Jack Szwergold
@@ -7,7 +7,7 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
- * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
+ * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>. 
  *
  * w: http://www.preworn.com
  * e: me@preworn.com
@@ -42,6 +42,8 @@ class frontendDisplay {
   private $javascripts = array();
 
   private $base = NULL;
+  private $page_depth = 0;
+  private $markdown_parts = array();
 
   private $view_mode = NULL;
   private $page_url = NULL;
@@ -56,6 +58,9 @@ class frontendDisplay {
 
   private $page_viewport = '';
   private $page_robots = '';
+
+  private $amazon_info = array();
+  private $paypal_info = array();
 
   private $page_markdown_file = NULL;
 
@@ -183,6 +188,28 @@ class frontendDisplay {
   function setPageBase($page_base = null) {
     $this->base = $page_base;
   } // setPageBase
+
+
+  //**************************************************************************************//
+  // Set the page depth and markdown part.
+  function setPageURLParts($markdown_parts = array()) {
+    $this->page_depth = count($markdown_parts);
+    $this->markdown_parts = $markdown_parts;
+  } // setPageURLParts
+
+
+  //**************************************************************************************//
+  // Set the Amazon Info
+  function setAmazonInfo($amazon_info = null) {
+    $this->amazon_info = $amazon_info;
+  } // setAmazonInfo
+
+
+  //**************************************************************************************//
+  // Set the PayPal Info
+  function setPayPalInfo($paypal_info = null) {
+    $this->paypal_info = $paypal_info;
+  } // setPayPalInfo
 
 
   //**************************************************************************************//
@@ -324,22 +351,22 @@ class frontendDisplay {
 
     $favicons['standard']['rel'] = 'icon';
     $favicons['standard']['type'] = 'image/png';
-    $favicons['standard']['href'] = 'favicons/favicon.ico';
+    $favicons['standard']['href'] = BASE_URL . 'favicons/favicon.ico';
 
     $favicons['opera']['rel'] = 'icon';
     $favicons['opera']['type'] = 'image/png';
-    $favicons['opera']['href'] = 'favicons/speeddial-160px.png';
+    $favicons['opera']['href'] = BASE_URL . 'favicons/speeddial-160px.png';
 
     $favicons['iphone']['rel'] = 'apple-touch-icon-precomposed';
-    $favicons['iphone']['href'] = 'favicons/apple-touch-icon-57x57-precomposed.png';
+    $favicons['iphone']['href'] = BASE_URL . 'favicons/apple-touch-icon-57x57-precomposed.png';
 
     $favicons['iphone4_retina']['rel'] = 'apple-touch-icon-precomposed';
     $favicons['iphone4_retina']['sizes'] = '114x114';
-    $favicons['iphone4_retina']['href'] = 'favicons/apple-touch-icon-114x114-precomposed.png';
+    $favicons['iphone4_retina']['href'] = BASE_URL . 'favicons/apple-touch-icon-114x114-precomposed.png';
 
     $favicons['ipad']['rel'] = 'apple-touch-icon-precomposed';
     $favicons['ipad']['sizes'] = '72x72';
-    $favicons['ipad']['href'] = 'favicons/apple-touch-icon-72x72-precomposed.png';
+    $favicons['ipad']['href'] = BASE_URL . 'favicons/apple-touch-icon-72x72-precomposed.png';
 
     $ret = array();
     foreach ($favicons as $favicon_type => $favicon_parts) {
@@ -377,7 +404,7 @@ class frontendDisplay {
     if (!empty($robots)) {
       $meta_names['robots'] = $robots;
     }
-
+ 
     // The copyright changes between 'xhtml' & 'html5'
     $copyright_key = '';
     if ($this->doctype == 'xhtml') {
@@ -445,8 +472,73 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
+  // Set the header.
+  function setNameplate($content = null) {
+
+    $list_items = array();
+
+    if ($this->page_depth > 0) {
+      $last_part = array_slice($this->markdown_parts,-1,1);
+      if ($last_part[0] == 'index') {
+        $back_url = BASE_PATH;
+      }
+      else {
+        $back_url = BASE_PATH . $this->markdown_parts[0];
+      }
+      $list_items[] = '<li id="back"><p>'
+                    . sprintf('<a href="%s" title="back">«</a>', $back_url)
+                    . '</p></li>'
+                    ;
+    }
+
+    if (!empty($this->amazon_info)) {
+      $list_items[] = sprintf('<li id="%s">', $this->amazon_info['short_name'])
+                    . '<p>'
+                    . sprintf('<a href="%s" title="%s">%s</a>', $this->amazon_info['url'], $this->amazon_info['description'], $this->amazon_info['short_name'])
+                    . '</p>'
+                    . '</li>'
+                    ;
+    }
+
+    if (!empty($this->paypal_info)) {
+      $list_items[] = sprintf('<li id="%s">', $this->paypal_info['short_name'])
+                    . '<p>'
+                    . sprintf('<a href="%s" title="%s">%s</a>', $this->paypal_info['url'], $this->paypal_info['description'], $this->paypal_info['short_name'])
+                    . '</p>'
+                    . '</li>'
+                    ;
+    }
+
+    if (!empty($list_items)) {
+      $content = '<ul>'
+               . implode('', $list_items)
+               . '</ul>'
+               ;
+    }
+
+    $ret = '<div class="Nameplate">'
+         . '<div class="Padding">'
+         . '<div class="Left">'
+         . '<div class="Padding">'
+
+         . $content
+
+         . '</div><!-- .Padding -->'
+         . '</div><!-- .Left -->'
+         . '</div><!-- .Padding -->'
+         . '</div><!-- .Nameplate -->'
+         ;
+
+    return $ret;
+
+  } // setNameplate
+
+
+  //**************************************************************************************//
   // Set the wrapper.
   function setWrapper($body = null) {
+
+    $nameplate = $this->setNameplate();
 
     $body_div_stuff = array();
     $body_div_close_stuff = array();
@@ -474,10 +566,13 @@ class frontendDisplay {
       $div_closing = '</div><!-- .' . implode(array_reverse($this->page_div_wrappper_array), '-->' . "\n" . '</div><!-- .') . ' -->';
     }
 
-    return $div_opening
+    $ret = $nameplate
+         . $div_opening
          . $body
          . $div_closing
          ;
+
+    return $ret;
 
   } // setWrapper
 

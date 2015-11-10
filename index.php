@@ -80,6 +80,15 @@ $page_title = ucwords(preg_replace('/_/', ' ', $page_title));
 $page_base = BASE_URL;
 
 //**************************************************************************************//
+// Init the display class and get the values.
+
+$DisplayClass = new Display();
+$DisplayClass->show_rgb_grid = true;
+// $DisplayClass->show_cmyk_grid = true;
+$DisplayClass->show_pms_grid = true;
+$body = $DisplayClass->init($colorspace, $value);
+
+//**************************************************************************************//
 // Set the page DIVs array.
 
 $page_divs_array = array();
@@ -92,15 +101,6 @@ $page_divs_array[] = 'Padding';
 $page_divs_array[] = 'Middle';
 $page_divs_array[] = 'Core';
 $page_divs_array[] = 'Padding';
-
-//**************************************************************************************//
-// Init the display class and get the values.
-
-$DisplayClass = new Display();
-$DisplayClass->show_rgb_grid = true;
-// $DisplayClass->show_cmyk_grid = true;
-$DisplayClass->show_pms_grid = true;
-$body = $DisplayClass->init($colorspace, $value);
 
 //**************************************************************************************//
 // Init the "frontendDisplay()" class.
