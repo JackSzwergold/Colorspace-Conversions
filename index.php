@@ -101,6 +101,7 @@ $frontendDisplayClass->setPageContent($body);
 $frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
 $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
+// $frontendDisplayClass->setJavascripts($JAVASCRIPTS_ARRAY);
 $frontendDisplayClass->setPageBase($page_base);
 // $frontendDisplayClass->setPageURLParts($markdown_parts);
 // $frontendDisplayClass->setAmazonInfo($AMAZON_INFO);
