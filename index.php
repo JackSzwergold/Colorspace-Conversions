@@ -89,32 +89,18 @@ $DisplayClass->show_pms_grid = true;
 $body = $DisplayClass->init($colorspace, $value);
 
 //**************************************************************************************//
-// Set the page DIVs array.
-
-$page_divs_array = array();
-$page_divs_array[] = 'Wrapper';
-$page_divs_array[] = 'Padding';
-$page_divs_array[] = 'Content';
-$page_divs_array[] = 'Padding';
-$page_divs_array[] = 'Section';
-$page_divs_array[] = 'Padding';
-$page_divs_array[] = 'Middle';
-$page_divs_array[] = 'Core';
-$page_divs_array[] = 'Padding';
-
-//**************************************************************************************//
 // Init the "frontendDisplay()" class.
 
 $frontendDisplayClass = new frontendDisplay('text/html', 'utf-8', FALSE, FALSE);
 $frontendDisplayClass->setViewMode($mode);
-$frontendDisplayClass->setPageTitle($page_title);
-$frontendDisplayClass->setPageURL('http://www.preworn.com/colorspace/' . implode($url_parts, '/'));
-$frontendDisplayClass->setPageCopyright('(c) Copyright ' . date('Y') . ' Jack Szwergold. Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.');
-$frontendDisplayClass->setPageDescription('Some PHP classes to handle colorspace conversions.');
+$frontendDisplayClass->setPageTitle($SITE_TITLE);
+$frontendDisplayClass->setPageURL($SITE_URL);
+$frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
+$frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
 $frontendDisplayClass->setPageContent($body);
-$frontendDisplayClass->setPageDivs($page_divs_array);
+$frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
-$frontendDisplayClass->setPageRobots('noindex, nofollow');
+$frontendDisplayClass->setPageRobots($SITE_ROBOTS);
 $frontendDisplayClass->setPageBase($page_base);
 $frontendDisplayClass->initContent();
 
