@@ -7,7 +7,7 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
- * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>. 
+ * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
  *
  * w: http://www.preworn.com
  * e: me@preworn.com
@@ -404,7 +404,7 @@ class frontendDisplay {
     if (!empty($robots)) {
       $meta_names['robots'] = $robots;
     }
- 
+
     // The copyright changes between 'xhtml' & 'html5'
     $copyright_key = '';
     if ($this->doctype == 'xhtml') {
