@@ -48,7 +48,7 @@ $mode = 'large';
 // Init the arrays.
 $url_parts = array();
 $markdown_parts = array();
-$title_parts = array('Colorspace Conversions');
+$title_parts = array($SITE_TITLE);
 
 // Parse the '$_GET' parameters.
 foreach($VALID_GET_PARAMETERS as $get_parameter) {
@@ -93,7 +93,7 @@ $body = $DisplayClass->init($colorspace, $value);
 
 $frontendDisplayClass = new frontendDisplay('text/html', 'utf-8', FALSE, FALSE);
 $frontendDisplayClass->setViewMode($mode);
-$frontendDisplayClass->setPageTitle($SITE_TITLE);
+$frontendDisplayClass->setPageTitle($page_title);
 $frontendDisplayClass->setPageURL($SITE_URL);
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
 $frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
@@ -102,6 +102,9 @@ $frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
 $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
 $frontendDisplayClass->setPageBase($page_base);
+// $frontendDisplayClass->setPageURLParts($markdown_parts);
+// $frontendDisplayClass->setAmazonInfo($AMAZON_INFO);
+// $frontendDisplayClass->setPayPalInfo($PAYPAL_INFO);
 $frontendDisplayClass->initContent();
 
 ?>
