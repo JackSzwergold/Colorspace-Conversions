@@ -298,8 +298,8 @@ class frontendDisplay {
     // Set the javascript values.
     $javascripts = array();
     $javascripts[] = BASE_URL . 'script/json2.js';
-    $javascripts[] = BASE_URL . 'script/jquery/jquery-1.10.2.min.js';
-    $javascripts[] = BASE_URL . 'script/jquery/jquery-1.10.2.min.map';
+    $javascripts[] = BASE_URL . 'script/jquery/jquery-1.11.3.min.js';
+    $javascripts[] = BASE_URL . 'script/jquery/jquery-1.11.3.min.map';
     $javascripts[] = BASE_URL . 'script/jquery/jquery.noconflict.js';
 
     // Merge the base JavaScripts with the passed array of javasccripts.
