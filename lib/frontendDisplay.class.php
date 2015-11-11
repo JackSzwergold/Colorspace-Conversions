@@ -447,14 +447,17 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Load the markdown file.
-  function loadMarkdown($md_file = null) {
+  function loadMarkdown($markdown_file = null) {
 
-    if (empty($md_file)) {
+    // If the markdown file is empty or the file doens’t exist, just bail out of the function.
+    if (empty($markdown_file) || !file_exists($markdown_file)) {
       return;
     }
 
-    $md_file = file_get_contents($md_file);
-    $ret = Parsedown::instance()->parse($md_file);
+    $ret = '';
+
+    $markdown_file_contents = file_get_contents($markdown_file);
+    $ret = Parsedown::instance()->parse($markdown_file_contents);
 
     return $ret;
 
