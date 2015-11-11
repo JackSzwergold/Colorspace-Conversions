@@ -21,6 +21,10 @@
 /**************************************************************************************************/
 // Define localized defaults.
 
+// Enable or disable JSON debugging output.
+$DEBUG_OUTPUT_JSON = false;
+
+// Set the base URL path.
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
   define('BASE_PATH', '/Colorspace-Conversions/');
 }
@@ -62,11 +66,6 @@ $PAGE_DIVS_ARRAY[] = 'Padding';
 
 // Set the javascript values.
 $JAVASCRIPTS_ARRAY = array();
-//$JAVASCRIPTS_ARRAY[] = 'script/json2.js';
-//$JAVASCRIPTS_ARRAY[] = 'script/jquery/jquery-1.11.3.min.js';
-//$JAVASCRIPTS_ARRAY[] = 'script/jquery/jquery-1.11.3.min.map';
-//$JAVASCRIPTS_ARRAY[] = 'script/jquery/jquery.noconflict.js';
-//$JAVASCRIPTS_ARRAY[] = 'script/iscroll.js';
 
 // Set the controller and parameter stuff.
 $VALID_CONTROLLERS = array('colorspace', 'value');

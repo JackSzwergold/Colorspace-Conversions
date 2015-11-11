@@ -26,67 +26,18 @@
 // Require the basic classes & functions.
 
 require_once 'conf/conf.inc.php';
-require_once 'common/functions.inc.php';
-require_once 'lib/frontendDisplay.class.php';
-require_once 'lib/colorspace_conversions.class.php';
-require_once 'lib/colorspace_helpers.class.php';
-require_once 'lib/colorspace_display.class.php';
+require_once BASE_FILEPATH . '/common/functions.inc.php';
+require_once BASE_FILEPATH . '/lib/frontendDisplay.class.php';
+require_once BASE_FILEPATH . '/lib/frontendDisplayHelpers.php';
 
 //**************************************************************************************//
-// Set config options.
-
-$DEBUG_OUTPUT_JSON = false;
-
-//**************************************************************************************//
-// Set the mode.
-
-$mode = 'large';
-
-//**************************************************************************************//
-// Get the URL param & set the markdown file as well as the page title.
-
-// Init the arrays.
-$url_parts = array();
-$markdown_parts = array();
-$title_parts = array($SITE_TITLE);
-
-// Parse the '$_GET' parameters.
-foreach($VALID_GET_PARAMETERS as $get_parameter) {
-  $$get_parameter = '';
-  if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-    if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-      $$get_parameter = $_GET[$get_parameter];
-    }
-  }
-}
-
-// Set the controller.
-if (!empty($colorspace)) {
-  $url_parts[] = $colorspace;
-  $title_parts[] = strtoupper($colorspace);
-}
-
-// Set the page.
-if (!empty($colorspace) && !empty($value)) {
-  $url_parts[] = $value;
-  $title_parts[] = $value;
-}
-
-// Set the page title.
-$page_title = join(' / ', $title_parts);
-$page_title = ucwords(preg_replace('/_/', ' ', $page_title));
-
 // Set the page base.
-$page_base = BASE_URL;
-
-//**************************************************************************************//
-// Init the display class and get the values.
-
-$DisplayClass = new Display();
-$DisplayClass->show_rgb_grid = true;
-// $DisplayClass->show_cmyk_grid = true;
-$DisplayClass->show_pms_grid = true;
-$body = $DisplayClass->init($colorspace, $value);
+if (FALSE && !empty($controller)) {
+  $page_base = BASE_URL . $controller . '/';
+}
+else {
+  $page_base = BASE_URL;
+}
 
 //**************************************************************************************//
 // Init the "frontendDisplay()" class.
