@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Frontend Display Class (frontendDisplay.class.php) (c) by Jack Szwergold
@@ -322,19 +322,9 @@ class frontendDisplay {
   // Set the JavaScript.
   function setJavaScript() {
 
-    // Set the javascript values.
-    $javascripts = array();
-    $javascripts[] = BASE_URL . 'script/json2.js';
-    $javascripts[] = BASE_URL . 'script/jquery/jquery-1.11.3.min.js';
-    $javascripts[] = BASE_URL . 'script/jquery/jquery-1.11.3.min.map';
-    $javascripts[] = BASE_URL . 'script/jquery/jquery.noconflict.js';
-
-    // Merge the base JavaScripts with the passed array of javasccripts.
-    $javascripts = array_merge($javascripts, $this->javascripts);
-
     // Roll through the '$javascripts'
     $ret = array();
-    foreach($javascripts as $javascript) {
+    foreach($this->javascripts as $javascript) {
       $ret[] = sprintf('<script src="%s" type="%s"></script>', $javascript, 'text/javascript');
     }
 
