@@ -19,7 +19,7 @@
  */
 
 //**************************************************************************************//
-// Require the basic configuration settings & functions.
+// Require the basics.
 
 require_once BASE_FILEPATH . '/lib/colorspace_conversions.class.php';
 require_once BASE_FILEPATH . '/lib/colorspace_helpers.class.php';
@@ -63,6 +63,52 @@ if (!empty($colorspace) && !empty($value)) {
 // Set the page title.
 $page_title = join(' / ', $title_parts);
 $page_title = ucwords(preg_replace('/_/', ' ', $page_title));
+
+
+//**************************************************************************************//
+// Here is the function to parse the parameters.
+
+function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
+
+  // Init the arrays.
+  $url_parts = array();
+  $title_parts = array($SITE_TITLE);
+
+  // Parse the '$_GET' parameters.
+  foreach($VALID_GET_PARAMETERS as $get_parameter) {
+    $$get_parameter = '';
+    if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+      if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+        $$get_parameter = $_GET[$get_parameter];
+      }
+    }
+  }
+
+  // Set the controller.
+  if (!empty($colorspace)) {
+    $url_parts[] = $colorspace;
+    $title_parts[] = strtoupper($colorspace);
+  }
+
+  // Set the page.
+  if (!empty($colorspace) && !empty($value)) {
+    $url_parts[] = $value;
+    $title_parts[] = $value;
+   }
+
+  // Set the page title.
+  $page_title = join(' / ', $title_parts);
+  $page_title = preg_replace('/_/', ' ', $page_title);
+  // $page_title = ucwords($page_title);
+
+  return array($colorspace, $page_title, $url_parts);
+
+} // parse_parameters
+
+//**************************************************************************************//
+// Run the actual function and get the parts.
+
+list($colorspace, $page_title, $url_parts) = parse_parameters($SITE_TITLE, $VALID_GET_PARAMETERS);
 
 //**************************************************************************************//
 // Init the display class and get the values.
