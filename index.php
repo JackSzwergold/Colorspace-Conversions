@@ -32,7 +32,8 @@ require_once BASE_FILEPATH . '/lib/frontendDisplayHelpers.php';
 
 //**************************************************************************************//
 // Set the page base.
-if (FALSE && !empty($controller)) {
+
+if (isset($controller) && !empty($controller)) {
   $page_base = BASE_URL . $controller . '/';
 }
 else {
