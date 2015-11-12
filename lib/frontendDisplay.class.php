@@ -469,15 +469,9 @@ class frontendDisplay {
   function setNameplate($content = null) {
 
     $list_items = array();
-
     if ($this->page_depth > 0) {
-      $last_part = array_slice($this->markdown_parts,-1,1);
-      if ($last_part[0] == 'index') {
-        $back_url = BASE_PATH;
-      }
-      else {
-        $back_url = BASE_PATH . $this->markdown_parts[0];
-      }
+      $markdown_sliced = array_slice(array_values($this->markdown_parts), 0, -1);
+      $back_url = BASE_PATH . join('/', $markdown_sliced);
       $list_items[] = '<li id="back"><p>'
                     . sprintf('<a href="%s" title="back">«</a>', $back_url)
                     . '</p></li>'
