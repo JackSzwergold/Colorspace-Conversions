@@ -40,6 +40,7 @@ class frontendDisplay {
   private $params = array();
 
   private $javascripts = array();
+  private $css = array();
 
   private $base = NULL;
   private $page_depth = 0;
@@ -56,11 +57,10 @@ class frontendDisplay {
   private $page_div_wrapper_id = NULL;
   private $page_div_wrappper_array = array();
 
-  private $page_viewport = '';
-  private $page_robots = '';
+  private $page_viewport = NULL;
+  private $page_robots = NULL;
 
-  private $amazon_info = array();
-  private $paypal_info = array();
+  private $payment_info = array();
 
   private $page_markdown_file = NULL;
 
@@ -177,10 +177,17 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the additional javascripts.
-  function setJavascripts($javascripts = null) {
+  // Set the JavaScript stuff.
+  function setJavaScriptItems($javascripts = array()) {
     $this->javascripts = $javascripts;
-  } // setJavascripts
+  } // setJavaScriptItems
+
+
+  //**************************************************************************************//
+  // Set the CSS stuff.
+  function setCSSItems($css = array()) {
+    $this->css = $css;
+  } // setCSSItems
 
 
   //**************************************************************************************//
@@ -199,17 +206,10 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the Amazon Info
-  function setAmazonInfo($amazon_info = null) {
-    $this->amazon_info = $amazon_info;
-  } // setAmazonInfo
-
-
-  //**************************************************************************************//
-  // Set the PayPal Info
-  function setPayPalInfo($paypal_info = null) {
-    $this->paypal_info = $paypal_info;
-  } // setPayPalInfo
+  // Set the payment info.
+  function setPaymentInfo($payment_info = null) {
+    $this->payment_info = $payment_info;
+  } // setPaymentInfo
 
 
   //**************************************************************************************//
@@ -257,7 +257,13 @@ class frontendDisplay {
       //**********************************************************************************//
       // Set the JavaScript.
 
-      $javascript = $this->setJavaScript();
+      $javascript_array = $this->setJavaScriptArray();
+
+
+      //**********************************************************************************//
+      // Set the CSS.
+
+      $css_array = $this->setCSSArray();
 
 
       //**********************************************************************************//
@@ -275,9 +281,9 @@ class frontendDisplay {
            . '<head>'
            . '<title>' . $this->page_title . '</title>'
            . join('', $meta_content)
-           . '<link rel="stylesheet" href="' . BASE_URL . 'css/style.css" type="text/css" />'
+           . join('', $css_array)
            . join('', $favicons)
-           . join('', $javascript)
+           . join('', $javascript_array)
            . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
            . '</head>'
            . '<body>'
@@ -319,18 +325,33 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the JavaScript.
-  function setJavaScript() {
+  // Set the JavaScript stuff.
+  function setJavaScriptArray() {
 
-    // Roll through the '$javascripts'
+    // Roll through the '$javascripts' array.
     $ret = array();
     foreach($this->javascripts as $javascript) {
-      $ret[] = sprintf('<script src="%s" type="%s"></script>', $javascript, 'text/javascript');
+      $ret[] = sprintf('<script src="' . BASE_URL . '%s" type="%s"></script>', $javascript, 'text/javascript');
     }
 
     return $ret;
 
-  } // setJavaScript
+  } // setJavaScriptArray
+
+
+  //**************************************************************************************//
+  // Set the CSS stuff.
+  function setCSSArray() {
+
+    // Roll through the '$css' array.
+    $ret = array();
+    foreach($this->css as $css) {
+      $ret[] = sprintf('<link rel="stylesheet" href="' . BASE_URL . '%s" type="text/css" />', $css);
+    }
+
+    return $ret;
+
+  } // setCSSArray
 
 
   //**************************************************************************************//
@@ -468,51 +489,54 @@ class frontendDisplay {
   // Set the header.
   function setNameplate($content = null) {
 
-    $list_items = array();
+    $li_items_l = array();
     if ($this->page_depth > 0) {
       $markdown_sliced = array_slice(array_values($this->markdown_parts), 0, -1);
       $back_url = BASE_PATH . join('/', $markdown_sliced);
-      $list_items[] = '<li id="back"><p>'
+      $li_items_l[] = '<li id="back"><p>'
                     . sprintf('<a href="%s" title="back">«</a>', $back_url)
                     . '</p></li>'
                     ;
     }
 
-    if (!empty($this->amazon_info)) {
-      $list_items[] = sprintf('<li id="%s">', $this->amazon_info['short_name'])
-                    . '<p>'
-                    . sprintf('<a href="%s" title="%s">%s</a>', $this->amazon_info['url'], $this->amazon_info['description'], $this->amazon_info['short_name'])
-                    . '</p>'
-                    . '</li>'
-                    ;
+    if (!empty($this->payment_info)) {
+      foreach($this->payment_info as $payment_key => $payment_value) {
+        $li_items_r[] = sprintf('<li id="%s">', $payment_key)
+                      . '<p>'
+                      . sprintf('<a href="%s" title="%s">%s %s</a>', $payment_value['url'], $payment_value['description'], $payment_value['short_name'], $payment_value['emoji'])
+                      . '</p>'
+                      . '</li>'
+                      ;
+      }
     }
 
-    if (!empty($this->paypal_info)) {
-      $list_items[] = sprintf('<li id="%s">', $this->paypal_info['short_name'])
-                    . '<p>'
-                    . sprintf('<a href="%s" title="%s">%s</a>', $this->paypal_info['url'], $this->paypal_info['description'], $this->paypal_info['short_name'])
-                    . '</p>'
-                    . '</li>'
-                    ;
+    if (!empty($li_items_l)) {
+      $content_l = sprintf('<ul>%s</ul>', implode('', $li_items_l));
     }
 
-    if (!empty($list_items)) {
-      $content = '<ul>'
-               . implode('', $list_items)
-               . '</ul>'
-               ;
+    if (!empty($li_items_r)) {
+      $content_r = sprintf('<ul>%s</ul>', implode('', $li_items_r));
     }
+
+    $div_l = '<div class="Left">'
+           . '<div class="Padding">'
+           . $content_l
+           . '</div><!-- .Padding -->'
+           . '</div><!-- .Left -->'
+           ;
+
+    $div_r = '<div class="Right">'
+           . '<div class="Padding">'
+           . $content_r
+           . '</div><!-- .Padding -->'
+           . '</div><!-- .Right -->'
+           ;
 
     $ret = '<div class="Nameplate">'
-         . '<div class="Padding">'
-         . '<div class="Left">'
-         . '<div class="Padding">'
-
-         . $content
-
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .Left -->'
-         . '</div><!-- .Padding -->'
+         // . '<div class="Padding">'
+         . $div_l
+         . $div_r
+         // . '</div><!-- .Padding -->'
          . '</div><!-- .Nameplate -->'
          ;
 

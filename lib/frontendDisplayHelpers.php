@@ -28,7 +28,7 @@ require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
 //**************************************************************************************//
 // Set the mode.
 
-$mode = 'large';
+$VIEW_MODE = 'large';
 
 //**************************************************************************************//
 // Get the URL param & set the markdown file as well as the page title.

@@ -23,7 +23,7 @@
  */
 
 //**************************************************************************************//
-// Require the basic classes & functions.
+// Require the basic configuration settings & functions.
 
 require_once 'conf/conf.inc.php';
 require_once BASE_FILEPATH . '/common/functions.inc.php';
@@ -44,7 +44,7 @@ else {
 // Init the "frontendDisplay()" class.
 
 $frontendDisplayClass = new frontendDisplay('text/html', 'utf-8', FALSE, FALSE);
-$frontendDisplayClass->setViewMode($mode);
+$frontendDisplayClass->setViewMode($VIEW_MODE);
 $frontendDisplayClass->setPageTitle($page_title);
 $frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
@@ -53,11 +53,10 @@ $frontendDisplayClass->setPageContent($body);
 $frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
 $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
-// $frontendDisplayClass->setJavascripts($JAVASCRIPTS_ARRAY);
+// $frontendDisplayClass->setJavaScriptItems($JAVASCRIPTS_ITEMS);
+$frontendDisplayClass->setCSSItems($CSS_ITEMS);
 $frontendDisplayClass->setPageBase($page_base);
 // $frontendDisplayClass->setPageURLParts($markdown_parts);
-// $frontendDisplayClass->setAmazonInfo($AMAZON_INFO);
-// $frontendDisplayClass->setPayPalInfo($PAYPAL_INFO);
+// $frontendDisplayClass->setPaymentInfo($PAYMENT_INFO);
 $frontendDisplayClass->initContent();
-
 ?>
