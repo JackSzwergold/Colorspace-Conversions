@@ -40,6 +40,23 @@ $SITE_COPYRIGHT = '(c) Copyright ' . date('Y') . ' Jack Szwergold. Creative Comm
 $SITE_ROBOTS = 'noindex, nofollow';
 $SITE_VIEWPORT = 'width=device-width, initial-scale=0.65, maximum-scale=2, minimum-scale=0.65, user-scalable=yes';
 
+// Favicon info.
+$FAVICONS = array();
+$FAVICONS['standard']['rel'] = 'icon';
+$FAVICONS['standard']['type'] = 'image/png';
+$FAVICONS['standard']['href'] = 'favicons/favicon.ico';
+$FAVICONS['opera']['rel'] = 'icon';
+$FAVICONS['opera']['type'] = 'image/png';
+$FAVICONS['opera']['href'] = 'favicons/speeddial-160px.png';
+$FAVICONS['iphone']['rel'] = 'apple-touch-icon-precomposed';
+$FAVICONS['iphone']['href'] = 'favicons/apple-touch-icon-57x57-precomposed.png';
+$FAVICONS['iphone4_retina']['rel'] = 'apple-touch-icon-precomposed';
+$FAVICONS['iphone4_retina']['sizes'] = '114x114';
+$FAVICONS['iphone4_retina']['href'] = 'favicons/apple-touch-icon-114x114-precomposed.png';
+$FAVICONS['ipad']['rel'] = 'apple-touch-icon-precomposed';
+$FAVICONS['ipad']['sizes'] = '72x72';
+$FAVICONS['ipad']['href'] = 'favicons/apple-touch-icon-72x72-precomposed.png';
+
 // Payment info.
 $PAYMENT_INFO = array();
 $PAYMENT_INFO['amazon']['short_name'] = 'Amazon';

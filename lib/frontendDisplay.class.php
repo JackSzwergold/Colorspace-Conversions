@@ -191,6 +191,13 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
+  // Set the Favicon stuff.
+  function setFaviconItems($favicons = array()) {
+    $this->favicons = $favicons;
+  } // setFaviconItems
+
+
+  //**************************************************************************************//
   // Set the HTML base.
   function setPageBase($page_base = null) {
     $this->base = $page_base;
@@ -241,30 +248,27 @@ class frontendDisplay {
       //**********************************************************************************//
       // Set the meta tags
 
-      $meta_content = $this->setMetaTags($this->page_description, $this->page_viewport, $this->page_robots);
+      $meta_content_array = $this->setMetaTags($this->page_description, $this->page_viewport, $this->page_robots);
 
       //**********************************************************************************//
-      // Set the favicons
+      // Set the favicons.
 
-      $favicons = $this->setFavicons();
+      $favicon_array = $this->setFaviconArray();
 
       //**********************************************************************************//
       // Set the HTML/XHTML doctype.
 
       $doctype = $this->setDoctype();
 
-
       //**********************************************************************************//
       // Set the JavaScript.
 
       $javascript_array = $this->setJavaScriptArray();
 
-
       //**********************************************************************************//
       // Set the CSS.
 
       $css_array = $this->setCSSArray();
-
 
       //**********************************************************************************//
       // Set the view wrapper.
@@ -280,9 +284,9 @@ class frontendDisplay {
       $ret = $doctype
            . '<head>'
            . '<title>' . $this->page_title . '</title>'
-           . join('', $meta_content)
+           . join('', $meta_content_array)
            . join('', $css_array)
-           . join('', $favicons)
+           . join('', $favicon_array)
            . join('', $javascript_array)
            . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
            . '</head>'
@@ -328,7 +332,7 @@ class frontendDisplay {
   // Set the JavaScript stuff.
   function setJavaScriptArray() {
 
-    // Roll through the '$javascripts' array.
+    // Roll through the JavaScripts array.
     $ret = array();
     foreach($this->javascripts as $javascript) {
       $ret[] = sprintf('<script src="' . BASE_URL . '%s" type="%s"></script>', $javascript, 'text/javascript');
@@ -343,7 +347,7 @@ class frontendDisplay {
   // Set the CSS stuff.
   function setCSSArray() {
 
-    // Roll through the '$css' array.
+    // Roll through the CSS array.
     $ret = array();
     foreach($this->css as $css) {
       $ret[] = sprintf('<link rel="stylesheet" href="' . BASE_URL . '%s" type="text/css" />', $css);
@@ -356,34 +360,15 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Set the favicons.
-  function setFavicons() {
+  function setFaviconArray() {
 
-    $favicons = array();
-
-    $favicons['standard']['rel'] = 'icon';
-    $favicons['standard']['type'] = 'image/png';
-    $favicons['standard']['href'] = BASE_URL . 'favicons/favicon.ico';
-
-    $favicons['opera']['rel'] = 'icon';
-    $favicons['opera']['type'] = 'image/png';
-    $favicons['opera']['href'] = BASE_URL . 'favicons/speeddial-160px.png';
-
-    $favicons['iphone']['rel'] = 'apple-touch-icon-precomposed';
-    $favicons['iphone']['href'] = BASE_URL . 'favicons/apple-touch-icon-57x57-precomposed.png';
-
-    $favicons['iphone4_retina']['rel'] = 'apple-touch-icon-precomposed';
-    $favicons['iphone4_retina']['sizes'] = '114x114';
-    $favicons['iphone4_retina']['href'] = BASE_URL . 'favicons/apple-touch-icon-114x114-precomposed.png';
-
-    $favicons['ipad']['rel'] = 'apple-touch-icon-precomposed';
-    $favicons['ipad']['sizes'] = '72x72';
-    $favicons['ipad']['href'] = BASE_URL . 'favicons/apple-touch-icon-72x72-precomposed.png';
-
+    // Roll through the favicon array.
     $ret = array();
-    foreach ($favicons as $favicon_type => $favicon_parts) {
+    foreach ($this->favicons as $favicon_type => $favicon_parts) {
       $parts = array();
       foreach ($favicon_parts as $favicon_key => $favicon_value) {
-        $parts[] = $favicon_key . '="' .$favicon_value . '"';
+        $favicon_value = $favicon_key == 'href' ? BASE_URL . $favicon_value : $favicon_value;
+        $parts[] = $favicon_key . '="' . $favicon_value . '"';
       }
       $ret[$favicon_type] = sprintf('<!-- %s favicon -->', $favicon_type);
       $ret[$favicon_type] .= sprintf('<link %s />', join(' ', $parts));
@@ -391,7 +376,7 @@ class frontendDisplay {
 
     return $ret;
 
-  } // setFavicons
+  } // setFaviconArray
 
 
   //**************************************************************************************//
