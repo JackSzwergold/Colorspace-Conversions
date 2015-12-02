@@ -29,21 +29,34 @@ require_once 'conf/conf.inc.php';
 require_once BASE_FILEPATH . '/common/functions.inc.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplay.class.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplayHelpers.php';
+require_once BASE_FILEPATH . '/lib/contentCreation.class.php';
+
+//**************************************************************************************//
+// Init the "contentCreation()" class.
+
+$contentCreationClass = new contentCreation();
+list($params, $page_title, $markdown_file) = $contentCreationClass->init();
 
 //**************************************************************************************//
 // Set the page base.
 
-if (isset($controller) && !empty($controller)) {
-  $page_base = BASE_URL . $controller . '/';
-}
-else {
-  $page_base = BASE_URL;
+$page_base = BASE_URL;
+if (array_key_exists('controller', $params) && !empty($params['controller'])) {
+  $page_base = BASE_URL . $params['controller'] . '/';
 }
 
 //**************************************************************************************//
 // Init the "frontendDisplay()" class.
 
-$frontendDisplayClass = new frontendDisplay('text/html', 'utf-8', FALSE, FALSE);
+$frontendDisplayClass = new frontendDisplay(FALSE, FALSE);
+if ($params['controller'] == 'json') {
+  $frontendDisplayClass->setContentType('application/json');
+  $frontendDisplayClass->setPageContentJSON($json_content);
+}
+else {
+  $frontendDisplayClass->setContentType('text/html');
+}
+$frontendDisplayClass->setCharset('utf-8');
 $frontendDisplayClass->setViewMode($VIEW_MODE);
 $frontendDisplayClass->setPageTitle($page_title);
 $frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
@@ -60,4 +73,5 @@ $frontendDisplayClass->setPageBase($page_base);
 // $frontendDisplayClass->setPageURLParts($markdown_parts);
 // $frontendDisplayClass->setPaymentInfo($PAYMENT_INFO);
 $frontendDisplayClass->initContent();
+
 ?>

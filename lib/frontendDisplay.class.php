@@ -64,7 +64,7 @@ class frontendDisplay {
 
   private $page_markdown_file = NULL;
 
-  public function __construct($content_type = NULL, $charset = NULL, $json_encode = NULL, $DEBUG_MODE = NULL) {
+  public function __construct($json_encode = NULL, $DEBUG_MODE = NULL) {
     global $VALID_CONTENT_TYPES, $VALID_CHARSETS;
 
     if (!defined('BASE_PATH')) {
@@ -73,14 +73,6 @@ class frontendDisplay {
 
     if (!defined('BASE_URL')) {
       define('BASE_URL', '');
-    }
-
-    if (!empty($content_type) && in_array($content_type, $VALID_CONTENT_TYPES)) {
-      $this->content_type = $content_type;
-    }
-
-    if (!empty($charset) && in_array(strtolower($charset), $VALID_CHARSETS)) {
-      $this->charset = $charset;
     }
 
     if (!empty($json_encode)) {
@@ -96,6 +88,26 @@ class frontendDisplay {
     }
 
   } // __construct
+
+
+  //**************************************************************************************//
+  // Set the character set.
+  function setContentType($content_type = null) {
+    global $VALID_CONTENT_TYPES;
+    if (!empty($content_type) && in_array($content_type, $VALID_CONTENT_TYPES)) {
+      $this->content_type = $content_type;
+    }
+  } // setContentType
+
+
+  //**************************************************************************************//
+  // Set the character set.
+  function setCharset($charset = null) {
+    global $VALID_CHARSETS;
+    if (!empty($charset) && in_array(strtolower($charset), $VALID_CHARSETS)) {
+      $this->charset = $charset;
+    }
+  } // setCharset
 
 
   //**************************************************************************************//
@@ -138,6 +150,13 @@ class frontendDisplay {
   function setPageContentMarkdown($md_file = null) {
     $this->page_markdown_file = $md_file;
   } // setPageContentMarkdown
+
+
+  //**************************************************************************************//
+  // Set the page content markdown file.
+  function setPageContentJSON($json_content = null) {
+    $this->json_content = $json_content;
+  } // setPageContent
 
 
   //**************************************************************************************//
@@ -630,8 +649,8 @@ class frontendDisplay {
       }
       exit();
     }
-    else if (FALSE) {
-      $json_content = $this->json_encode ? json_encode($content) : '';
+    else if (!empty($this->json_content)) {
+      $json_content = $this->json_encode ? json_encode($this->json_content) : $this->json_content;
       header(sprintf('Content-Type: %s; charset=%s', $this->content_type, $this->charset));
       if ($this->json_via_header) {
         header('X-JSON:' . $json_content);
