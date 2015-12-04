@@ -56,7 +56,8 @@ class contentCreation {
     // Roll through the GET parameters and validate them.
     $params = array();
     foreach($VALID_GET_PARAMETERS as $get_parameter) {
-      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+      // if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+      if (array_key_exists($get_parameter, $_GET)) {
         if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
           $params[$get_parameter] = $_GET[$get_parameter];
         }
