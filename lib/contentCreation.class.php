@@ -72,6 +72,7 @@ class contentCreation {
   function set_markdown_file ($params = array()) {
 
     // Assume the full path given is for an actual Markdown file.
+    $markdown_file = '';
     if (count($params) > 0) {
       $markdown_file = $this->markdown_path . join("/", $params) . ".md";
     }
