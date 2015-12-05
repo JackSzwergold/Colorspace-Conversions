@@ -8,6 +8,10 @@ Options +FollowSymlinks
 
 RewriteEngine on
 
+# Ignore these base directories.
+RewriteRule ^(clients|art|css|favicons|script)($|/) - [L]
+# RewriteCond %{REQUEST_URI} !^(clients/.*)$ [NC]
+
 # This redirects any call to this directory to an index file with $_GET parameters.
 # The 'colorspace=$1&value=$2' passes the pathname as an HTML param called 'colorspace' & 'value'.
 RewriteRule     ^([A-Za-z0-9-_]+)/([A-Za-z0-9-_]+)/?$   index.php?colorspace=$1&value=$2 [L]
