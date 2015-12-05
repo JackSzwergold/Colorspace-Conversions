@@ -29,6 +29,7 @@
 class frontendDisplay {
 
   private $DEBUG_MODE = FALSE;
+  private $JSON_MODE = FALSE;
 
   private $content_type = 'text/html';
   private $charset = 'utf-8';
@@ -609,20 +610,32 @@ class frontendDisplay {
 
     $this->params['controller'] = null;
     $this->params['id'] = 0;
+    $this->params['section'] = null;
+    $this->params['subsection'] = null;
     $this->params['_debug'] = FALSE;
 
-    foreach($_GET as $parameter_key => $parameter_value) {
+    foreach($_GET as $key => $value) {
 
-      if (in_array($parameter_key, $VALID_GET_PARAMETERS)) {
-        if ($parameter_key == 'controller') {
+      if (in_array($key, $VALID_GET_PARAMETERS)) {
+        if ($key == 'controller') {
           $this->params['controller'] = preg_replace('/[^A-Za-z-_]/s', '', trim($_GET['controller']));
         }
-        else if ($parameter_key == 'id') {
+        else if ($key == 'id') {
           $this->params['id'] = intval($_GET['id']);
         }
-        else if ($parameter_key == '_debug') {
+        else if ($key == 'section') {
+          $this->params['section'] = intval($_GET['section']);
+        }
+        else if ($key == 'subsection') {
+          $this->params['subsection'] = intval($_GET['subsection']);
+        }
+        else if ($key == '_debug') {
           $this->params['_debug'] = TRUE;
           $this->DEBUG_MODE = TRUE;
+        }
+        else if ($key == 'json') {
+          $this->params['json'] = TRUE;
+          $this->JSON_MODE = TRUE;
         }
       }
     }

@@ -1,5 +1,9 @@
 AddDefaultCharset UTF-8
 
+# Header set Access-Control-Allow-Origin "*"
+# Header add Access-Control-Allow-Headers "Content-Type, Cache-Control"
+# Header add Access-Control-Allow-Methods "GET"
+
 Options +FollowSymlinks
 
 RewriteEngine on
