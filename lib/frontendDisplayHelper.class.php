@@ -86,7 +86,7 @@ class frontendDisplayHelper {
 	$DisplayClass->show_pms_grid = true;
 	$html_content = $DisplayClass->init($colorspace, $value);
 
-    return array($VIEW_MODE, $html_content, null);
+    return array($VIEW_MODE, $html_content, null, $page_title, $url_parts);
 
   } // init
 
