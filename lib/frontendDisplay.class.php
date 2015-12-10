@@ -478,7 +478,7 @@ class frontendDisplay {
 
     // Roll through the '$meta_properties'
     foreach($meta_properties as $property_key => $property_value) {
-      $ret[] = sprintf('<meta property="%s" content="%s" />', $property_key, $content);
+      $ret[] = sprintf('<meta property="%s" content="%s" />', $property_key, $property_value);
     }
 
     return $ret;

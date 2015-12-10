@@ -79,7 +79,7 @@ $frontendDisplayClass->setContentType(($JSON_MODE ? 'application/json' : 'text/h
 $frontendDisplayClass->setCharset('utf-8');
 $frontendDisplayClass->setViewMode($VIEW_MODE);
 $frontendDisplayClass->setPageTitle($SITE_TITLE . $page_title);
-$frontendDisplayClass->setPageURL($SITE_URL);
+$frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
 $frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
 $frontendDisplayClass->setPageContent($html_content);
