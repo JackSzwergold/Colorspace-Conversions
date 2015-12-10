@@ -40,7 +40,7 @@ class contentCreation {
   // Get and return the values.
   function init () {
 
-    $params = $this->parse_parameters();
+    $params = $this->process_get_parameters();
     $markdown_file = $this->set_markdown_file($params);
     $page_title = $this->set_page_title($params);
 
@@ -49,17 +49,30 @@ class contentCreation {
   } // parse_parameters
 
   //**************************************************************************************//
-  // Parse the '$_GET' parameters.
-  function parse_parameters () {
+  // Process the 'GET' parameters parameters.
+  function process_get_parameters () {
     global $VALID_GET_PARAMETERS;
 
     // Roll through the GET parameters and validate them.
     $params = array();
-    foreach($VALID_GET_PARAMETERS as $get_parameter) {
-      // if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-      if (array_key_exists($get_parameter, $_GET)) {
-        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-          $params[$get_parameter] = $_GET[$get_parameter];
+    foreach($VALID_GET_PARAMETERS as $key => $value) {
+      if (array_key_exists($value, $_GET)) {
+        if (in_array($value, $VALID_GET_PARAMETERS)) {
+		  if ($value == 'controller') {
+		    $params[$value] = preg_replace('/[^A-Za-z-_]/s', '', trim($_GET[$value]));
+		  }
+		  else if ($value == 'id') {
+		    $params[$value] = intval($_GET[$value]);
+		  }
+		  else if ($value == '_debug') {
+		    $params[$value] = TRUE;
+		  }
+		  else if ($value == 'json') {
+		    $params[$value] = TRUE;
+		  }
+		  else {
+		    $params[$value] = trim($_GET[$value]);
+		  }
         }
       }
     }

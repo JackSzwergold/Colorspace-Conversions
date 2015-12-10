@@ -31,14 +31,15 @@ class frontendDisplay {
   private $DEBUG_MODE = FALSE;
   private $JSON_MODE = FALSE;
 
+  private $html_content;
+  private $json_content;
+
   private $content_type = 'text/html';
   private $charset = 'utf-8';
   private $doctype = 'html5';
 
   private $json_encode = FALSE;
   private $json_via_header = FALSE;
-
-  private $params = array();
 
   private $javascripts = array();
   private $css = array();
@@ -65,8 +66,7 @@ class frontendDisplay {
 
   private $page_markdown_file = NULL;
 
-  public function __construct($json_encode = NULL, $DEBUG_MODE = NULL) {
-    global $VALID_CONTENT_TYPES, $VALID_CHARSETS;
+  public function __construct() {
 
     if (!defined('BASE_PATH')) {
       define('BASE_PATH', '/');
@@ -76,19 +76,25 @@ class frontendDisplay {
       define('BASE_URL', '');
     }
 
-    if (!empty($json_encode)) {
-      $this->json_encode = $json_encode;
-    }
+  } // __construct
 
-    // if (!empty($json_via_header)) {
-    //   $this->json_via_header = $json_via_header;
-    // }
 
+  //**************************************************************************************//
+  // Set the debug mode.
+  function setDebugMode($DEBUG_MODE = null) {
     if (!empty($DEBUG_MODE)) {
       $this->DEBUG_MODE = $DEBUG_MODE;
     }
+  } // setDebugMode
 
-  } // __construct
+
+  //**************************************************************************************//
+  // Set the JSON mode.
+  function setJSONMode($JSON_MODE = null) {
+    if (!empty($JSON_MODE)) {
+      $this->JSON_MODE = $JSON_MODE;
+    }
+  } // setJSONMode
 
 
   //**************************************************************************************//
@@ -155,15 +161,15 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Set the page content markdown file.
-  function setPageContentJSON($json_content = null) {
+  function setPageJSONContent($json_content = null) {
     $this->json_content = $json_content;
-  } // setPageContent
+  } // setPageJSONContent
 
 
   //**************************************************************************************//
   // Set the page content.
-  function setPageContent($content = null) {
-    $this->content = $content;
+  function setPageContent($html_content = null) {
+    $this->html_content = $html_content;
   } // setPageContent
 
 
@@ -242,28 +248,37 @@ class frontendDisplay {
   //**************************************************************************************//
   // Init the content.
   function initContent($response_header = NULL) {
-    global $VALID_CONTROLLERS;
+
+    // If we are not in JSON mode, then build the HTML content.
+    if (!$this->JSON_MODE) {
+      $this->buildHTMLContent();
+    }
+
+    // If we are not in JSON mode, then build the HTML content.
+    $this->renderContent($response_header);
+
+  } // initContent
+
+
+  //**************************************************************************************//
+  // Build the HTML content.
+  function buildHTMLContent() {
 
     //**************************************************************************************//
-    // Filtrer the URL parameters
+    // Set the HTML content or load the markdown content as HTML content.
 
-    $this->filterURLParameters();
-
-    //**************************************************************************************//
-    // Load the markdown content.
-
-    $content = '';
-    if (!empty($this->content)) {
-      $content = $this->content;
+    $html_content = '';
+    if (!empty($this->html_content)) {
+      $html_content = $this->html_content;
     }
     else if (!empty($this->page_markdown_file)) {
-      $content = $this->loadMarkdown($this->page_markdown_file);
+      $html_content = $this->loadMarkdown($this->page_markdown_file);
     }
 
     //**********************************************************************************//
     // If the content is not empty, do something with it.
 
-    if (!empty($content)) {
+    if (!empty($html_content)) {
 
       //**********************************************************************************//
       // Set the meta tags
@@ -294,12 +309,12 @@ class frontendDisplay {
       // Set the view wrapper.
 
       $body = sprintf('<div class="%sView">', $this->view_mode)
-            . $this->setWrapper($content)
+            . $this->setWrapper($html_content)
             . sprintf('</div><!-- .%sView -->', $this->view_mode)
             ;
 
-       //**********************************************************************************//
-      // Set the final content.
+      //**********************************************************************************//
+      // Set the final HTML content.
 
       $ret = $doctype
            . '<head>'
@@ -317,13 +332,13 @@ class frontendDisplay {
            ;
 
       //**********************************************************************************//
-      // Return the output.
+      // Set the HTML content class.
 
-      $this->renderContent($ret, $response_header);
+      $this->html_content = $ret;
 
     }
 
-  } // initContent
+  } // buildHTMLContent
 
 
   //**************************************************************************************//
@@ -452,18 +467,18 @@ class frontendDisplay {
     $ret = array();
 
     // Roll through the '$meta_http_equivs'
-    foreach($meta_http_equivs as $http_equiv => $content) {
-      $ret[] = sprintf('<meta http-equiv="%s" content="%s" />', $http_equiv, $content);
+    foreach($meta_http_equivs as $http_equiv_key => $http_equiv_value) {
+      $ret[] = sprintf('<meta http-equiv="%s" content="%s" />', $http_equiv_key, $http_equiv_value);
     }
 
     // Roll through the '$meta_names'
-    foreach($meta_names as $name => $content) {
-      $ret[] = sprintf('<meta name="%s" content="%s" />', $name, $content);
+    foreach($meta_names as $name_key => $name_value) {
+      $ret[] = sprintf('<meta name="%s" content="%s" />', $name_key, $name_value);
     }
 
     // Roll through the '$meta_properties'
-    foreach($meta_properties as $property => $content) {
-      $ret[] = sprintf('<meta property="%s" content="%s" />', $property, $content);
+    foreach($meta_properties as $property_key => $property_value) {
+      $ret[] = sprintf('<meta property="%s" content="%s" />', $property_key, $content);
     }
 
     return $ret;
@@ -604,65 +619,12 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Filter through the URL parameters.
-  private function filterURLParameters() {
-    global $VALID_GET_PARAMETERS;
-
-    $this->params['controller'] = null;
-    $this->params['id'] = 0;
-    $this->params['section'] = null;
-    $this->params['subsection'] = null;
-    $this->params['_debug'] = FALSE;
-
-    foreach($_GET as $key => $value) {
-
-      if (in_array($key, $VALID_GET_PARAMETERS)) {
-        if ($key == 'controller') {
-          $this->params['controller'] = preg_replace('/[^A-Za-z-_]/s', '', trim($_GET['controller']));
-        }
-        else if ($key == 'id') {
-          $this->params['id'] = intval($_GET['id']);
-        }
-        else if ($key == 'section') {
-          $this->params['section'] = intval($_GET['section']);
-        }
-        else if ($key == 'subsection') {
-          $this->params['subsection'] = intval($_GET['subsection']);
-        }
-        else if ($key == '_debug') {
-          $this->params['_debug'] = TRUE;
-          $this->DEBUG_MODE = TRUE;
-        }
-        else if ($key == 'json') {
-          $this->params['json'] = TRUE;
-          $this->JSON_MODE = TRUE;
-        }
-      }
-    }
-
-  } // filterURLParameters
-
-
-  //**************************************************************************************//
   // Function to send content to output.
-  private function renderContent ($content, $response_header = NULL) {
+  private function renderContent ($response_header = NULL) {
     global $VALID_CONTENT_TYPES, $VALID_CHARSETS, $DEBUG_OUTPUT_JSON;
 
     // If we are in debugging mode, just dump the content array & exit.
-    if ($this->DEBUG_MODE) {
-      header('Content-Type: text/plain; charset=utf-8');
-      if ($DEBUG_OUTPUT_JSON && $this->json_encode) {
-        $json_content = json_encode($content);
-        // Strip back slahes from forward slashes so we can read URLs.
-        $json_content = str_replace('\/','/', $json_content);
-        echo prettyPrint($json_content);
-      }
-      else {
-        print_r($content);
-      }
-      exit();
-    }
-    else if (!empty($this->json_content)) {
+    if ($this->JSON_MODE && !empty($this->json_content)) {
       $json_content = $this->json_encode ? json_encode($this->json_content) : $this->json_content;
       header(sprintf('Content-Type: %s; charset=%s', $this->content_type, $this->charset));
       if ($this->json_via_header) {
@@ -674,9 +636,14 @@ class frontendDisplay {
       }
       exit();
     }
+    else if ($this->DEBUG_MODE && !empty($this->html_content)) {
+      header('Content-Type: text/plain; charset=utf-8');
+      echo $this->html_content;
+      exit();
+    }
     else {
       header(sprintf('Content-Type: %s; charset=%s', $this->content_type, $this->charset));
-      echo $content;
+      echo $this->html_content;
       exit();
     }
 

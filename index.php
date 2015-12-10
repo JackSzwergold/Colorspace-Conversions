@@ -28,7 +28,7 @@
 require_once 'conf/conf.inc.php';
 require_once BASE_FILEPATH . '/common/functions.inc.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplay.class.php';
-require_once BASE_FILEPATH . '/lib/frontendDisplayHelpers.php';
+require_once BASE_FILEPATH . '/lib/frontendDisplayHelper.class.php';
 require_once BASE_FILEPATH . '/lib/contentCreation.class.php';
 
 //**************************************************************************************//
@@ -38,42 +38,58 @@ $contentCreationClass = new contentCreation();
 list($params, $page_title, $markdown_file) = $contentCreationClass->init();
 
 //**************************************************************************************//
+// Set the debug mode value.
+
+$DEBUG_MODE = array_key_exists('_debug', $params);
+
+//**************************************************************************************//
+// Set the JSON mode value.
+
+$JSON_MODE = array_key_exists('json', $params);
+
+//**************************************************************************************//
 // Set the page base.
 
 $page_base = BASE_URL;
-if (array_key_exists('controller', $params) && !empty($params['controller'])) {
+$controller = 'small';
+if (array_key_exists('controller', $params) && !empty($params['controller']) && $params['controller'] != 'index') {
+  $controller = $params['controller'];
   $page_base = BASE_URL . $params['controller'] . '/';
 }
 
 //**************************************************************************************//
-// Init the "frontendDisplay()" class.
+// Set the query suffix to the page base.
 
-$frontendDisplayClass = new frontendDisplay(FALSE, FALSE);
-// if (array_key_exists('json', $params) && !empty($params['json']) && $params['controller'] == 'json') {
-if (array_key_exists('json', $params)) {
-  // $frontendDisplayClass->setContentType('application/vnd.api+json');
-  $frontendDisplayClass->setContentType('application/json');
-  $frontendDisplayClass->setPageContentJSON($json_content);
-}
-else {
-  $frontendDisplayClass->setContentType('text/html');
-}
+$page_base_suffix = $JSON_MODE ? '?json' : '';
+
+//**************************************************************************************//
+// Fetch the values out of the frontend display helper.
+
+$frontendDisplayHelperClass = new frontendDisplayHelper();
+list($VIEW_MODE, $html_content, $json_content) = $frontendDisplayHelperClass->init($controller, $page_base, $page_base_suffix, $DEBUG_MODE);
+
+//**************************************************************************************//
+// Init the front end display class and set other things.
+
+$frontendDisplayClass = new frontendDisplay();
+$frontendDisplayClass->setPageJSONContent($json_content);
+$frontendDisplayClass->setJSONMode($JSON_MODE);
+$frontendDisplayClass->setDebugMode($DEBUG_MODE);
+$frontendDisplayClass->setContentType(($JSON_MODE ? 'application/json' : 'text/html'));
 $frontendDisplayClass->setCharset('utf-8');
 $frontendDisplayClass->setViewMode($VIEW_MODE);
-$frontendDisplayClass->setPageTitle($page_title);
-$frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
+$frontendDisplayClass->setPageTitle($SITE_TITLE);
+$frontendDisplayClass->setPageURL($SITE_URL);
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
 $frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
-$frontendDisplayClass->setPageContent($body);
+$frontendDisplayClass->setPageContent($html_content);
 $frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
 $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
 // $frontendDisplayClass->setJavaScriptItems($JAVASCRIPTS_ITEMS);
 $frontendDisplayClass->setCSSItems($CSS_ITEMS);
 $frontendDisplayClass->setFaviconItems($FAVICONS);
-$frontendDisplayClass->setPageBase($page_base);
-// $frontendDisplayClass->setPageURLParts($markdown_parts);
-// $frontendDisplayClass->setPaymentInfo($PAYMENT_INFO);
+$frontendDisplayClass->setPageBase($page_base . $page_base_suffix);
 $frontendDisplayClass->initContent();
 
 ?>
