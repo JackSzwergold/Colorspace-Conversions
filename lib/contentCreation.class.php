@@ -91,7 +91,7 @@ class contentCreation {
       $markdown_file = $this->markdown_path . join("/", $params) . ".md";
     }
 
-    // If that full path for a file doens’t exist do the following.
+    // If that full path for a file doesn’t exist do the following.
     if (!file_exists($markdown_file)) {
 
       // For this test we are assuming of the file doesn’t exist, it might be a directory.
