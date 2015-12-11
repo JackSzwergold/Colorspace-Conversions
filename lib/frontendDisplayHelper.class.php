@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Frontend Display Helpers (frontendDisplayHelpers.php) (c) by Jack Szwergold
+ * Frontend Display Helper Class (frontendDisplayHelper.class.php) (c) by Jack Szwergold
  *
- * Frontend Display Helpers is licensed under a
+ * Frontend Display Helper Class is licensed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
@@ -26,7 +26,7 @@ require_once BASE_FILEPATH . '/lib/colorspace_helpers.class.php';
 require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
 
 //**************************************************************************************//
-// The beginnings of a frontend display helper class.
+// The beginnings of a front end display helper class.
 
 class frontendDisplayHelper {
 
@@ -86,6 +86,7 @@ class frontendDisplayHelper {
 	$DisplayClass->show_pms_grid = true;
 	$html_content = $DisplayClass->init($colorspace, $value);
 
+    // return array($VIEW_MODE, $html_content, null);
     return array($VIEW_MODE, $html_content, null, $page_title, $url_parts);
 
   } // init
