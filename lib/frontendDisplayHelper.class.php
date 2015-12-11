@@ -30,13 +30,15 @@ require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
 
 class frontendDisplayHelper {
 
-  public function init($VIEW_MODE = 'longlist', $page_base, $page_base_suffix = '', $DEBUG_MODE = FALSE) {
+  private $DEBUG_MODE = FALSE;
+
+  public function init ($VIEW_MODE = 'longlist', $page_base, $page_base_suffix = '', $DEBUG_MODE = FALSE) {
    global $VALID_GET_PARAMETERS;
 
 	//**************************************************************************************//
 	// Set the mode.
 
-	$VIEW_MODE = 'large';
+	$page_title = '';
 
 	//**************************************************************************************//
 	// Get the URL param & set the markdown file as well as the page title.
@@ -69,8 +71,11 @@ class frontendDisplayHelper {
 	}
 
 	// Set the page title.
-	$page_title = join(' / ', $title_parts);
-	$page_title = ucwords(preg_replace('/_/', ' ', $page_title));
+	$this->page_title = join(' / ', $title_parts);
+	$this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
+
+	// Set the URL parts.
+	$this->url_parts = $url_parts;
 
 	//**************************************************************************************//
 	// Run the actual function and get the parts.
@@ -86,15 +91,27 @@ class frontendDisplayHelper {
 	$DisplayClass->show_pms_grid = true;
 	$html_content = $DisplayClass->init($colorspace, $value);
 
-    // return array($VIEW_MODE, $html_content, null);
-    return array($VIEW_MODE, $html_content, null, $page_title, $url_parts);
+    return array($VIEW_MODE, $html_content, null);
 
   } // init
 
 
   //**************************************************************************************//
-  // Here is the function to parse the parameters.
+  // Get the page title.
+  function getPageTitle () {
+    return $this->page_title;
+  } // getPageTitle
 
+
+  //**************************************************************************************//
+  // Get the URL parts.
+  function getURLParts () {
+    return $this->url_parts;
+  } // getURLParts
+
+
+  //**************************************************************************************//
+  // Here is the function to parse the parameters.
   function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
 
     // Init the arrays.

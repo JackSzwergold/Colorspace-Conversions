@@ -51,7 +51,7 @@ $JSON_MODE = array_key_exists('json', $params);
 // Set the page base.
 
 $page_base = BASE_URL;
-$controller = 'small';
+$controller = 'large';
 if (array_key_exists('controller', $params) && !empty($params['controller']) && $params['controller'] != 'index') {
   $controller = $params['controller'];
   $page_base = BASE_URL . $params['controller'] . '/';
@@ -66,7 +66,9 @@ $page_base_suffix = $JSON_MODE ? '?json' : '';
 // Fetch the values out of the frontend display helper.
 
 $frontendDisplayHelperClass = new frontendDisplayHelper();
-list($VIEW_MODE, $html_content, $json_content, $page_title, $url_parts) = $frontendDisplayHelperClass->init($controller, $page_base, $page_base_suffix, $DEBUG_MODE);
+list($VIEW_MODE, $html_content, $json_content) = $frontendDisplayHelperClass->init($controller, $page_base, $page_base_suffix, $DEBUG_MODE);
+$page_title = $frontendDisplayHelperClass->getPageTitle();
+$url_parts = $frontendDisplayHelperClass->getURLParts();
 
 //**************************************************************************************//
 // Init the front end display class and set other things.
