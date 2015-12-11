@@ -63,12 +63,27 @@ if (array_key_exists('controller', $params) && !empty($params['controller']) && 
 $page_base_suffix = $JSON_MODE ? '?json' : '';
 
 //**************************************************************************************//
-// Fetch the values out of the frontend display helper.
+// Instantiate the front end display helper class.
 
 $frontendDisplayHelperClass = new frontendDisplayHelper();
-list($VIEW_MODE, $html_content, $json_content) = $frontendDisplayHelperClass->init($controller, $page_base, $page_base_suffix, $DEBUG_MODE);
+
+//**************************************************************************************//
+// Set some values to the front end display helper class.
+
+$frontendDisplayHelperClass->setController($controller);
+$frontendDisplayHelperClass->setPageBase($page_base);
+$frontendDisplayHelperClass->setPageBaseSuffix($page_base_suffix);
+
+$frontendDisplayHelperClass->init($DEBUG_MODE);
+
+//**************************************************************************************//
+// Get values from the front end display helper class.
+
+$VIEW_MODE = $frontendDisplayHelperClass->getViewMode();
 $page_title = $frontendDisplayHelperClass->getPageTitle();
 $url_parts = $frontendDisplayHelperClass->getURLParts();
+$html_content = $frontendDisplayHelperClass->getHTMLContent();
+$json_content = $frontendDisplayHelperClass->getJSONContent();
 
 //**************************************************************************************//
 // Init the front end display class and set other things.

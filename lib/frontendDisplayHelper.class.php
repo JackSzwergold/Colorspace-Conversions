@@ -30,15 +30,17 @@ require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
 
 class frontendDisplayHelper {
 
-  private $DEBUG_MODE = FALSE;
+  private $controller = '';
+  private $page_base = '';
+  private $page_base_suffix = '';
 
-  public function init ($VIEW_MODE = 'longlist', $page_base, $page_base_suffix = '', $DEBUG_MODE = FALSE) {
+  private $url_parts = '';
+  private $VIEW_MODE = 'large';
+  private $html_content = '';
+  private $json_content = '';
+
+  public function init ($DEBUG_MODE = FALSE) {
    global $VALID_GET_PARAMETERS;
-
-	//**************************************************************************************//
-	// Set the mode.
-
-	$page_title = '';
 
 	//**************************************************************************************//
 	// Get the URL param & set the markdown file as well as the page title.
@@ -70,6 +72,9 @@ class frontendDisplayHelper {
 	  $title_parts[] = $value;
 	}
 
+	// Set the view mode.
+	// $this->VIEW_MODE = $VIEW_MODE;
+
 	// Set the page title.
 	$this->page_title = join(' / ', $title_parts);
 	$this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
@@ -89,11 +94,43 @@ class frontendDisplayHelper {
 	$DisplayClass->show_rgb_grid = true;
 	// $DisplayClass->show_cmyk_grid = true;
 	$DisplayClass->show_pms_grid = true;
-	$html_content = $DisplayClass->init($colorspace, $value);
-
-    return array($VIEW_MODE, $html_content, null);
+	$this->html_content = $DisplayClass->init($colorspace, $value);
 
   } // init
+
+
+  //**************************************************************************************//
+  // Set the controller.
+  function setController ($value) {
+    if (!empty($value)) {
+      $this->controller = $value;
+    }
+  } // setController
+
+
+  //**************************************************************************************//
+  // Set the page base.
+  function setPageBase ($value) {
+    if (!empty($value)) {
+      $this->page_base = $value;
+    }
+  } // setPageBase
+
+
+  //**************************************************************************************//
+  // Set the page base.
+  function setPageBaseSuffix ($value) {
+    if (!empty($value)) {
+      $this->page_base_suffix = $value;
+    }
+  } // setPageBaseSuffix
+
+
+  //**************************************************************************************//
+  // Get the view mode.
+  function getViewMode () {
+    return $this->VIEW_MODE;
+  } // getViewMode
 
 
   //**************************************************************************************//
@@ -111,6 +148,20 @@ class frontendDisplayHelper {
 
 
   //**************************************************************************************//
+  // Get the HTML content.
+  function getHTMLContent () {
+    return $this->html_content;
+  } // getHTMLContent
+
+
+  //**************************************************************************************//
+  // Get the JSON content.
+  function getJSONContent () {
+    return $this->json_content;
+  } // getJSONContent
+
+
+  //**************************************************************************************//
   // Here is the function to parse the parameters.
   function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
 
@@ -120,25 +171,25 @@ class frontendDisplayHelper {
 
     // Parse the '$_GET' parameters.
     foreach($VALID_GET_PARAMETERS as $get_parameter) {
-  	$$get_parameter = '';
-  	if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-  	  if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-  		$$get_parameter = $_GET[$get_parameter];
+  	  $$get_parameter = '';
+  	  if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+  	    if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+  		  $$get_parameter = $_GET[$get_parameter];
+  	    }
   	  }
-  	}
     }
 
     // Set the controller.
     if (!empty($colorspace)) {
-  	$url_parts[] = $colorspace;
-  	$title_parts[] = strtoupper($colorspace);
+  	  $url_parts[] = $colorspace;
+  	  $title_parts[] = strtoupper($colorspace);
     }
 
     // Set the page.
     if (!empty($colorspace) && !empty($value)) {
-  	$url_parts[] = $value;
-  	$title_parts[] = $value;
-     }
+  	  $url_parts[] = $value;
+  	  $title_parts[] = $value;
+    }
 
     // Set the page title.
     $page_title = join(' / ', $title_parts);
