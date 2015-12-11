@@ -36,11 +36,43 @@ class frontendDisplayHelper {
 
   private $url_parts = '';
   private $VIEW_MODE = 'large';
+  private $DEBUG_MODE = FALSE;
   private $html_content = '';
   private $json_content = '';
 
-  public function init ($DEBUG_MODE = FALSE) {
-   global $VALID_GET_PARAMETERS;
+  //**************************************************************************************//
+  // Set the controller.
+  public function setController ($value) {
+    if (!empty($value)) {
+      $this->controller = $value;
+    }
+  } // setController
+
+
+  //**************************************************************************************//
+  // Set the page base.
+  public function setPageBase ($value) {
+    if (!empty($value)) {
+      $this->page_base = $value;
+    }
+  } // setPageBase
+
+
+  //**************************************************************************************//
+  // Set the page base.
+  public function setPageBaseSuffix ($value) {
+    if (!empty($value)) {
+      $this->page_base_suffix = $value;
+    }
+  } // setPageBaseSuffix
+
+
+  public function initContent ($DEBUG_MODE = FALSE) {
+   global $SITE_TITLE, $VALID_GET_PARAMETERS;
+
+	//**************************************************************************************//
+	// Set the debug mode.
+	$this->DEBUG_MODE = $DEBUG_MODE;
 
 	//**************************************************************************************//
 	// Get the URL param & set the markdown file as well as the page title.
@@ -72,9 +104,6 @@ class frontendDisplayHelper {
 	  $title_parts[] = $value;
 	}
 
-	// Set the view mode.
-	// $this->VIEW_MODE = $VIEW_MODE;
-
 	// Set the page title.
 	$this->page_title = join(' / ', $title_parts);
 	$this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
@@ -96,74 +125,47 @@ class frontendDisplayHelper {
 	$DisplayClass->show_pms_grid = true;
 	$this->html_content = $DisplayClass->init($colorspace, $value);
 
-  } // init
-
-
-  //**************************************************************************************//
-  // Set the controller.
-  function setController ($value) {
-    if (!empty($value)) {
-      $this->controller = $value;
-    }
-  } // setController
-
-
-  //**************************************************************************************//
-  // Set the page base.
-  function setPageBase ($value) {
-    if (!empty($value)) {
-      $this->page_base = $value;
-    }
-  } // setPageBase
-
-
-  //**************************************************************************************//
-  // Set the page base.
-  function setPageBaseSuffix ($value) {
-    if (!empty($value)) {
-      $this->page_base_suffix = $value;
-    }
-  } // setPageBaseSuffix
+  } // initContent
 
 
   //**************************************************************************************//
   // Get the view mode.
-  function getViewMode () {
+  public function getViewMode () {
     return $this->VIEW_MODE;
   } // getViewMode
 
 
   //**************************************************************************************//
   // Get the page title.
-  function getPageTitle () {
+  public function getPageTitle () {
     return $this->page_title;
   } // getPageTitle
 
 
   //**************************************************************************************//
   // Get the URL parts.
-  function getURLParts () {
+  public function getURLParts () {
     return $this->url_parts;
   } // getURLParts
 
 
   //**************************************************************************************//
   // Get the HTML content.
-  function getHTMLContent () {
+  public function getHTMLContent () {
     return $this->html_content;
   } // getHTMLContent
 
 
   //**************************************************************************************//
   // Get the JSON content.
-  function getJSONContent () {
+  public function getJSONContent () {
     return $this->json_content;
   } // getJSONContent
 
 
   //**************************************************************************************//
   // Here is the function to parse the parameters.
-  function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
+  private function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
 
     // Init the arrays.
     $url_parts = array();

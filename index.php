@@ -74,7 +74,10 @@ $frontendDisplayHelperClass->setController($controller);
 $frontendDisplayHelperClass->setPageBase($page_base);
 $frontendDisplayHelperClass->setPageBaseSuffix($page_base_suffix);
 
-$frontendDisplayHelperClass->init($DEBUG_MODE);
+//**************************************************************************************//
+// Init the content via the class.
+
+$frontendDisplayHelperClass->initContent($DEBUG_MODE);
 
 //**************************************************************************************//
 // Get values from the front end display helper class.
