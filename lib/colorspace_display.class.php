@@ -62,6 +62,8 @@ class Display extends Helpers {
 
   public function init ($colorspace = NULL, $value = NULL) {
 
+    $rgb_array = array();
+
     if ($colorspace == 'rgb') {
       $rgb_array = $this->get_rgb_values($value);
     }
