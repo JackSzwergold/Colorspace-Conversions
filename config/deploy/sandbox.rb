@@ -2,7 +2,7 @@
 set :branch, "develop"
 
 # The details of the destination server you will be deploying to.
-server 'sandbox.local', user: ENV["CAP_USER"] || 'sysop', roles: %w{app db web}, my_property: :my_value
+server 'sandbox.local', user: ENV["CAP_USER"] || 'vagrant', roles: %w{app db web}, my_property: :my_value
 
 # The directory on the server into which the actual source code will deployed.
 set :web_builds, "#{deploy_to}/builds"
