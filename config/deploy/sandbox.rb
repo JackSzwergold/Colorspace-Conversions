@@ -1,5 +1,5 @@
 # Set the github branch that will be used for this deployment.
-set :branch, "develop"
+set :branch, "master"
 
 # The details of the destination server you will be deploying to.
 server 'sandbox.local', user: ENV["CAP_USER"] || 'vagrant', roles: %w{app db web}, my_property: :my_value
