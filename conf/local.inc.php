@@ -45,6 +45,7 @@ $SITE_VIEWPORT = 'width=device-width, initial-scale=1.0';
 $SITE_IMAGE = 'favicons/icon_200x200.png';
 $SITE_FB_ADMINS = '504768652';
 $SITE_KEYWORD = 'colorspace';
+$SITE_DEFAULT_CONTROLLER = 'large';
 
 // Favicon info.
 $FAVICONS = array();

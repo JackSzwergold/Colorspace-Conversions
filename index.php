@@ -52,7 +52,7 @@ $JSON_MODE = array_key_exists('json', $params);
 // Set the page base.
 
 $page_base = BASE_URL;
-$controller = 'small';
+$controller = $SITE_DEFAULT_CONTROLLER;
 $url_parts = array();
 $controller_parts = array('parent', 'child', 'grandchild', 'greatgrandchild');
 foreach ($controller_parts as $part) {
