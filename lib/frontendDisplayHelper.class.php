@@ -70,6 +70,10 @@ class frontendDisplayHelper {
   public function initContent ($DEBUG_MODE = FALSE) {
    global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
+ 	//**************************************************************************************//
+	// Set the view mode.
+	$this->VIEW_MODE = $this->controller;
+
 	//**************************************************************************************//
 	// Set the debug mode.
 	$this->DEBUG_MODE = $DEBUG_MODE;
