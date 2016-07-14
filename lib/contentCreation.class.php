@@ -22,7 +22,6 @@
 // Require the basics.
 
 require_once BASE_FILEPATH . '/lib/Parsedown.php';
-require_once BASE_FILEPATH . '/lib/ParsedownExtra.php';
 
 //**************************************************************************************//
 // The beginnings of a content creation class.
@@ -46,7 +45,7 @@ class contentCreation {
 
     return array($params, $page_title, $markdown_file);
 
-  } // parse_parameters
+  } // init
 
   //**************************************************************************************//
   // Process the 'GET' parameters parameters.
@@ -58,17 +57,20 @@ class contentCreation {
     foreach($VALID_GET_PARAMETERS as $key => $value) {
       if (array_key_exists($value, $_GET)) {
         if (in_array($value, $VALID_GET_PARAMETERS)) {
-		  if ($value == 'controller') {
+		  if ($value == 'parent') {
 		    $params[$value] = preg_replace('/[^A-Za-z-_]/s', '', trim($_GET[$value]));
-		  }
-		  else if ($value == 'id') {
-		    $params[$value] = intval($_GET[$value]);
 		  }
 		  else if ($value == '_debug') {
 		    $params[$value] = TRUE;
 		  }
 		  else if ($value == 'json') {
 		    $params[$value] = TRUE;
+		  }
+		  else if ($value == 'offset') {
+		    $params[$value] = intval($_GET[$value]);
+		  }
+		  else if ($value == 'count') {
+		    $params[$value] = intval($_GET[$value]);
 		  }
 		  else {
 		    $params[$value] = trim($_GET[$value]);

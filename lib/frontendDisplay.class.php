@@ -20,6 +20,7 @@
  *          2014-02-27, js: adding a page URL
  *          2015-05-10, js: adding DIV wrapper class & id
  *          2015-05-11, js: setting dynamic DIV wrapper creation
+ *          2016-06-09, js: major reshuffling to get footers, headers, content and ads working
  *
  */
 
@@ -31,6 +32,7 @@ class frontendDisplay {
   private $DEBUG_MODE = FALSE;
   private $JSON_MODE = FALSE;
 
+  private $content;
   private $html_content;
   private $json_content;
 
@@ -42,7 +44,7 @@ class frontendDisplay {
   private $json_via_header = FALSE;
 
   private $javascripts = array();
-  private $css = array();
+  private $link_items = array();
 
   private $base = NULL;
   private $page_depth = 0;
@@ -51,9 +53,18 @@ class frontendDisplay {
   private $view_mode = NULL;
   private $page_url = NULL;
   private $page_copyright = NULL;
+  private $page_license = NULL;
   private $page_title = NULL;
+  private $page_title_short = NULL;
   private $page_description = NULL;
   private $page_content = NULL;
+  private $page_image = NULL;
+  private $page_keyword = NULL;
+  private $page_date = NULL;
+  private $page_author = NULL;
+
+  private $header_content = NULL;
+  private $footer_content = NULL;
 
   private $page_div_wrapper_class = NULL;
   private $page_div_wrapper_id = NULL;
@@ -63,6 +74,9 @@ class frontendDisplay {
   private $page_robots = NULL;
 
   private $payment_info = array();
+  private $social_media_info = array();
+
+  private $ad_banner = NULL;
 
   private $page_markdown_file = NULL;
 
@@ -132,10 +146,17 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the page Copyright.
+  // Set the page copyright.
   function setPageCopyright($page_copyright = null) {
     $this->page_copyright = $page_copyright;
   } // setPageCopyright
+
+
+  //**************************************************************************************//
+  // Set the page license.
+  function setPageLicense($page_license = null) {
+    $this->page_license = $page_license;
+  } // setPageLicense
 
 
   //**************************************************************************************//
@@ -153,6 +174,41 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
+  // Set the page image.
+  function setPageImage($page_image = null) {
+    $this->page_image = $page_image;
+  } // setPageImage
+
+
+  //**************************************************************************************//
+  // Set the page keyword.
+  function setPageKeyword($page_keyword = null) {
+    $this->page_keyword = $page_keyword;
+  } // setPageKeyword
+
+
+  //**************************************************************************************//
+  // Set the page date.
+  function setPageDate($page_date = null) {
+    $this->page_date = $page_date;
+  } // setPageDate
+
+
+  //**************************************************************************************//
+  // Set the page author.
+  function setPageAuthor($page_author = null) {
+    $this->page_author = $page_author;
+  } // setPageAuthor
+
+
+  //**************************************************************************************//
+  // Set the Facebook admin stuff.
+  function setPageFBAdmins($page_fb_admins = null) {
+    $this->page_fb_admins = $page_fb_admins;
+  } // setPageFBAdmins
+
+
+  //**************************************************************************************//
   // Set the page content markdown file.
   function setPageContentMarkdown($md_file = null) {
     $this->page_markdown_file = $md_file;
@@ -167,7 +223,7 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the page content.
+  // Set the page html content.
   function setPageContent($html_content = null) {
     $this->html_content = $html_content;
   } // setPageContent
@@ -210,10 +266,10 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the CSS stuff.
-  function setCSSItems($css = array()) {
-    $this->css = $css;
-  } // setCSSItems
+  // Set the link items stuff.
+  function setLinkItems($link_items = array()) {
+    $this->link_items = $link_items;
+  } // setLinkItems
 
 
   //**************************************************************************************//
@@ -246,39 +302,81 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
+  // Set the social media info.
+  function setSocialMediaInfo($social_media_info = null) {
+    $this->social_media_info = $social_media_info;
+  } // setSocialMediaInfo
+
+
+  //**************************************************************************************//
+  // Set the ad banner stuff.
+  function setAdBanner($ad_banner = null) {
+    $this->ad_banner = $ad_banner;
+  } // setAdBanner
+
+
+  //**************************************************************************************//
+  // Set the body header.
+  function setBodyHeader($header_content = null) {
+    $this->header_content = $header_content;
+  } // setBodyHeader
+
+
+  //**************************************************************************************//
+  // Set the body footer.
+  function setBodyFooter($footer_content = null) {
+    $this->footer_content = $footer_content;
+  } // setBodyFooter
+
+
+  //**************************************************************************************//
+  // Init the core content.
+  function initCoreContent($response_header = NULL) {
+
+    // If we are not in JSON mode, then build the HTML content.
+    if (!$this->JSON_MODE) {
+      $this->buildCoreContent();
+    }
+
+  } // initCoreContent
+
+
+  //**************************************************************************************//
   // Init the content.
-  function initContent($response_header = NULL) {
+  function initHTMLContent($response_header = NULL) {
 
     // If we are not in JSON mode, then build the HTML content.
     if (!$this->JSON_MODE) {
       $this->buildHTMLContent();
     }
 
-    // If we are not in JSON mode, then build the HTML content.
     $this->renderContent($response_header);
 
-  } // initContent
+  } // initHTMLContent
+
+
+  //**************************************************************************************//
+  // Build the core content.
+  function buildCoreContent() {
+
+    //**************************************************************************************//
+    // Set the HTML content or load the markdown content as HTML content.
+
+    if (!empty($this->html_content)) {
+      $this->html_content = $this->html_content;
+    }
+    else if (!empty($this->page_markdown_file)) {
+      $this->html_content = $this->loadMarkdown($this->page_markdown_file);
+    }
+
+  } // buildCoreContent
 
 
   //**************************************************************************************//
   // Build the HTML content.
   function buildHTMLContent() {
 
-    //**************************************************************************************//
-    // Set the HTML content or load the markdown content as HTML content.
-
-    $html_content = '';
     if (!empty($this->html_content)) {
-      $html_content = $this->html_content;
-    }
-    else if (!empty($this->page_markdown_file)) {
-      $html_content = $this->loadMarkdown($this->page_markdown_file);
-    }
-
-    //**********************************************************************************//
-    // If the content is not empty, do something with it.
-
-    if (!empty($html_content)) {
 
       //**********************************************************************************//
       // Set the meta tags
@@ -288,7 +386,7 @@ class frontendDisplay {
       //**********************************************************************************//
       // Set the favicons.
 
-      $favicon_array = $this->setFaviconArray();
+      $favicon_array = $this->setHeaderLinkArray($this->favicons);
 
       //**********************************************************************************//
       // Set the HTML/XHTML doctype.
@@ -303,15 +401,42 @@ class frontendDisplay {
       //**********************************************************************************//
       // Set the CSS.
 
-      $css_array = $this->setCSSArray();
+      $css_array = $this->setHeaderLinkArray($this->link_items);
+
+      //**********************************************************************************//
+      // Set the body header.
+
+      $header = '';
+      if (!empty($this->header_content)) {
+		  $header = '<div class="Header">'
+				  . $this->header_content
+				  . '</div>'
+				  ;
+      }
+
+      //**********************************************************************************//
+      // Set the body footer.
+
+      $footer = '';
+      if (!empty($this->footer_content)) {
+		  $footer = '<div class="Footer">'
+				  . $this->footer_content
+				  . '</div>'
+				  ;
+      }
 
       //**********************************************************************************//
       // Set the view wrapper.
 
-      $body = sprintf('<div class="%sView">', $this->view_mode)
-            . $this->setWrapper($html_content)
-            . sprintf('</div><!-- .%sView -->', $this->view_mode)
-            ;
+      if (!empty($this->view_mode)) {
+        $body = sprintf('<div class="%sView">', $this->view_mode)
+              . $this->setWrapper($this->html_content)
+              . sprintf('</div><!-- .%sView -->', $this->view_mode)
+              ;
+      }
+      else {
+        $body = $this->setWrapper($this->html_content);
+      }
 
       //**********************************************************************************//
       // Set the final HTML content.
@@ -326,7 +451,9 @@ class frontendDisplay {
            . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
            . '</head>'
            . '<body>'
+           . $header
            . $body
+           . $footer
            . '</body>'
            . '</html>'
            ;
@@ -369,7 +496,7 @@ class frontendDisplay {
 
     // Roll through the JavaScripts array.
     $ret = array();
-    foreach($this->javascripts as $javascript) {
+    foreach ($this->javascripts as $javascript) {
       $ret[] = sprintf('<script src="' . BASE_URL . '%s" type="%s"></script>', $javascript, 'text/javascript');
     }
 
@@ -379,40 +506,28 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the CSS stuff.
-  function setCSSArray() {
+  // Set the header link stuff.
+  function setHeaderLinkArray($array = array()) {
 
-    // Roll through the CSS array.
+    // Roll through the generic 'link' stuffarray.
     $ret = array();
-    foreach($this->css as $css) {
-      $ret[] = sprintf('<link rel="stylesheet" href="' . BASE_URL . '%s" type="text/css" />', $css);
-    }
-
-    return $ret;
-
-  } // setCSSArray
-
-
-  //**************************************************************************************//
-  // Set the favicons.
-  function setFaviconArray() {
-
-    // Roll through the favicon array.
-    $ret = array();
-    foreach ($this->favicons as $favicon_type => $favicon_parts) {
+    foreach ($array as $array_type => $array_parts) {
       $parts = array();
-      foreach ($favicon_parts as $favicon_key => $favicon_value) {
-        $favicon_value = $favicon_key == 'href' ? BASE_URL . $favicon_value : $favicon_value;
-        $parts[] = $favicon_key . '="' . $favicon_value . '"';
+      foreach ($array_parts as $key => $value) {
+        if ($key == 'href') {
+          if (!filter_var($value, FILTER_VALIDATE_URL)) {
+            $value = BASE_URL . $value;
+          }
+        }
+        $parts[] = $key . '="' . $value . '"';
       }
-      $ret[$favicon_type] = sprintf('<!-- %s favicon -->', $favicon_type);
-      $ret[$favicon_type] .= sprintf('<link %s />', join(' ', $parts));
+      // $ret[$array_type] = sprintf('<!-- %s link_items -->', $type);
+      $ret[$array_type] = sprintf('<link %s />', join(' ', $parts));
     }
 
     return $ret;
 
-  } // setFaviconArray
-
+  } // setHeaderLinkArray
 
   //**************************************************************************************//
   // Set the meta content.
@@ -435,6 +550,15 @@ class frontendDisplay {
     if (!empty($robots)) {
       $meta_names['robots'] = $robots;
     }
+    if (!empty($this->page_date)) {
+      $meta_names['date'] = $this->page_date;
+      $meta_names['dc.date'] = $this->page_date;
+    }
+    if (!empty($this->page_author)) {
+      $meta_names['author'] = $this->page_author;
+      $meta_names['citation_author'] = $this->page_author;
+      $meta_names['dc.creator'] = $this->page_author;
+    }
 
     // The copyright changes between 'xhtml' & 'html5'
     $copyright_key = '';
@@ -445,11 +569,11 @@ class frontendDisplay {
       $copyright_key = 'dcterms.rightsHolder';
     }
     if (!empty($copyright_key) && !empty($this->page_url)) {
-      $meta_names[$copyright_key] = $this->page_copyright;
+      $meta_names[$copyright_key] = $this->page_copyright . '. ' . $this->page_license . '.';
     }
     $meta_names['apple-mobile-web-app-capable'] = 'yes';
 
-    // Set the meta property values.
+    // Set the OpenGraph meta property values.
     $meta_properties = array();
     $meta_properties['og:title'] = $this->page_title;
     if (!empty($description)) {
@@ -463,21 +587,43 @@ class frontendDisplay {
     if (!empty($this->page_title)) {
       $meta_properties['og:site_name'] = $this->page_title;
     }
+    if (!empty($this->page_image)) {
+      $meta_properties['og:image'] = $this->page_image;
+    }
+
+    // Set the Facebook specific meta property values.
+    if (!empty($this->page_fb_admins)) {
+      $meta_properties['fb:admins'] = $this->page_fb_admins;
+    }
+
+    // Set the Twitter meta property values.
+    $meta_properties['twitter:card'] = 'summary';
+    $meta_properties['twitter:title'] = $this->page_title;
+    if (!empty($description)) {
+      $meta_properties['twitter:description'] = $description;
+    }
+    if (!empty($this->page_url)) {
+      $meta_properties['twitter:url'] = $this->page_url;
+    }
+    if (!empty($this->page_image)) {
+      $meta_properties['twitter:image'] = $this->page_image;
+    }
+
 
     $ret = array();
 
     // Roll through the '$meta_http_equivs'
-    foreach($meta_http_equivs as $http_equiv_key => $http_equiv_value) {
+    foreach ($meta_http_equivs as $http_equiv_key => $http_equiv_value) {
       $ret[] = sprintf('<meta http-equiv="%s" content="%s" />', $http_equiv_key, $http_equiv_value);
     }
 
     // Roll through the '$meta_names'
-    foreach($meta_names as $name_key => $name_value) {
+    foreach ($meta_names as $name_key => $name_value) {
       $ret[] = sprintf('<meta name="%s" content="%s" />', $name_key, $name_value);
     }
 
     // Roll through the '$meta_properties'
-    foreach($meta_properties as $property_key => $property_value) {
+    foreach ($meta_properties as $property_key => $property_value) {
       $ret[] = sprintf('<meta property="%s" content="%s" />', $property_key, $property_value);
     }
 
@@ -490,42 +636,148 @@ class frontendDisplay {
   // Load the markdown file.
   function loadMarkdown($markdown_file = null) {
 
-    // If the markdown file is empty or the file doens’t exist, just bail out of the function.
-    if (empty($markdown_file) || !file_exists($markdown_file)) {
-      return;
-    }
-
     $ret = '';
 
-    $markdown_file_contents = file_get_contents($markdown_file);
-    $ret = Parsedown::instance()->parse($markdown_file_contents);
+    // If the markdown file exists and is not empty, do something.
+    if (file_exists($markdown_file) && !empty($markdown_file)) {
 
-    return $ret;
+      // Define BASE_FILEPATH
+      $markdown_file_parts = pathinfo($markdown_file);
+      $metadata_file = $markdown_file_parts['dirname'] . "/" . $markdown_file_parts['filename'] . '.yml';
+
+      // If the metadata YAML file exists and is not empty, do something.
+      if (file_exists($metadata_file) && !empty($metadata_file)) {
+        $yaml_data = Spyc::YAMLLoad($metadata_file);
+        $metadata_items = array('title', 'title_short', 'description', 'robots', 'copyright', 'license', 'keyword', 'date', 'author');
+        foreach ($metadata_items as $metadata_item) {
+          if (array_key_exists($metadata_item, $yaml_data)) {
+            $page_variable_name = "page_" . $metadata_item;
+            $this->$page_variable_name = $yaml_data[$metadata_item];
+          }
+        }
+      }
+
+      // Get the markdown file contents.
+      $markdown_file_contents = file_get_contents($markdown_file);
+
+      // Split the content between the header and body by splitting on the author name.
+      $split_file_contents = explode('By ' . $this->page_author, $markdown_file_contents);
+
+      $title = '';
+      $BYLINE_PRESENT = FALSE;
+      if (count($split_file_contents) == 1) {
+        $content = $split_file_contents[0];
+      }
+      else {
+        $BYLINE_PRESENT = TRUE;
+        $title = $split_file_contents[0];
+        $content = $split_file_contents[1];
+      }
+
+      // Split and check the markdown contents for the copyright/license line and remove it if it’s there.
+      $split_core_content = explode('***', $content);
+      $COPYRIGHT_PRESENT = FALSE;
+      if (count($split_core_content) > 1) {
+        $last_paragraph = $split_core_content[count($split_core_content) - 1];
+        if (!empty($this->page_license)) {
+          if (strpos($last_paragraph, $this->page_license)) {
+            $COPYRIGHT_PRESENT = TRUE;
+            array_pop($split_core_content);
+          }
+        }
+      }
+
+      // Build the header values.
+      $title = ($BYLINE_PRESENT && !empty($title) ? $title : '');
+      $author = ($BYLINE_PRESENT && !empty($this->page_author) ? 'By ' . $this->page_author : '');
+      $date = ($BYLINE_PRESENT && !empty($this->page_date) ? date("F j, Y", strtotime($this->page_date)) : '');
+
+      // Set the header values.
+      $header = $title
+              . $author
+              . (!empty($date) ? ' • <span>' . $date . '</span>' : '')
+              ;
+ 
+      // Parse the header values.
+      $header = Parsedown::instance()->parse($header);
+
+      // Set the header content.
+      if (!empty($header)) {
+        $header = '<header>'
+                . $header
+                . '</header>'
+                ;
+      }
+
+      // Parse the body content.
+      $body = Parsedown::instance()->parse(join('***', $split_core_content));
+
+      // Append the copyright box to the bottom of the body.
+      $footer = '';
+      if ($COPYRIGHT_PRESENT) {
+        $footer = '<div class="Copyright">'
+                . '<p>'
+                . (!empty($this->page_title_short) ? '“' . $this->page_title_short . ',” ' : '')
+                . (!empty($this->page_copyright) ? $this->page_copyright : '')
+                . (!empty($this->page_date) ? '; written on ' . date("F j, Y", strtotime($this->page_date)) . '. ' : '. ')
+                . (!empty($this->page_license) ? $this->page_license . '.' : '')
+                . '</p>'
+                . '</div>'
+                ;
+      }
+      if (!empty($footer)) {
+        $footer = '<footer>'
+                . $footer
+                . '</footer>'
+                ;
+      }
+
+    }
+
+    return '<article>'
+         . $header
+         . $body
+         . $footer
+         . '</article>'
+         ;
 
   } // loadMarkdown
 
 
   //**************************************************************************************//
-  // Set the header.
-  function setNameplate() {
+  // Set the navigation stuff.
+  function setNavigation() {
 
     $li_items_l = array();
     if ($this->page_depth > 0) {
       $markdown_sliced = array_slice(array_values($this->markdown_parts), 0, -1);
       $back_url = BASE_PATH . join('/', $markdown_sliced);
-      $li_items_l[] = '<li id="back"><p>'
+      $li_items_l[] = '<li id="back">'
                     . sprintf('<a href="%s" title="back">«</a>', $back_url)
-                    . '</p></li>'
+                    . '</li>'
                     ;
+    }
+    else {
+      $li_items_l[] = '<li></li>';
     }
 
     $li_items_r = array();
+
+    // Set the payment stuff.
     if (!empty($this->payment_info)) {
-      foreach($this->payment_info as $payment_key => $payment_value) {
+      foreach ($this->payment_info as $payment_key => $payment_value) {
         $li_items_r[] = sprintf('<li id="%s">', $payment_key)
-                      . '<p>'
                       . sprintf('<a href="%s" title="%s">%s %s</a>', $payment_value['url'], $payment_value['description'], $payment_value['short_name'], $payment_value['emoji'])
-                      . '</p>'
+                      . '</li>'
+                      ;
+      }
+    }
+
+    // Set the social media stuff.
+    if (!empty($this->social_media_info)) {
+      foreach ($this->social_media_info as $social_media_key => $social_media_value) {
+        $li_items_r[] = sprintf('<li id="%s">', $social_media_key)
+                      . sprintf('<a href="%s" title="%s">%s %s</a>', $social_media_value['url'], $social_media_value['description'], $social_media_value['short_name'], $social_media_value['emoji'])
                       . '</li>'
                       ;
       }
@@ -542,9 +794,7 @@ class frontendDisplay {
     $div_l = '';
     if (!empty($content_l)) {
       $div_l = '<div class="Left">'
-             . '<div class="Padding">'
              . $content_l
-             . '</div><!-- .Padding -->'
              . '</div><!-- .Left -->'
              ;
     }
@@ -552,34 +802,40 @@ class frontendDisplay {
     $div_r = '';
     if (!empty($content_r)) {
       $div_r = '<div class="Right">'
-             . '<div class="Padding">'
              . $content_r
-             . '</div><!-- .Padding -->'
              . '</div><!-- .Right -->'
              ;
     }
 
     $ret = '';
     if (!empty($content_l) || !empty($content_r)) {
-      $ret = '<div class="Nameplate">'
-           // . '<div class="Padding">'
+      $ret = '<div class="Navigation">'
            . $div_l
            . $div_r
-           // . '</div><!-- .Padding -->'
-           . '</div><!-- .Nameplate -->'
+           . '</div><!-- .Navigation -->'
            ;
     }
 
     return $ret;
 
-  } // setNameplate
+  } // setNavigation
+
+
+  //**************************************************************************************//
+  // Set the ad banner stuff.
+  function setAdBannerFinal() {
+
+    return '<div class="Ad">'
+         . sprintf($this->ad_banner, $this->page_keyword)
+         . '</div>'
+         ;
+
+  } // setAdBannerFinal
 
 
   //**************************************************************************************//
   // Set the wrapper.
   function setWrapper($body = null) {
-
-    $nameplate = $this->setNameplate();
 
     $body_div_stuff = array();
     $body_div_close_stuff = array();

@@ -30,6 +30,7 @@ require_once BASE_FILEPATH . '/common/functions.inc.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplay.class.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplayHelper.class.php';
 require_once BASE_FILEPATH . '/lib/contentCreation.class.php';
+require_once BASE_FILEPATH . '/lib/Spyc.php';
 
 //**************************************************************************************//
 // Init the "contentCreation()" class.
@@ -51,10 +52,17 @@ $JSON_MODE = array_key_exists('json', $params);
 // Set the page base.
 
 $page_base = BASE_URL;
-$controller = 'large';
-if (array_key_exists('controller', $params) && !empty($params['controller']) && $params['controller'] != 'index') {
-  $controller = $params['controller'];
-  $page_base = BASE_URL . $params['controller'] . '/';
+$controller = 'small';
+$url_parts = array();
+$controller_parts = array('parent', 'child', 'grandchild', 'greatgrandchild');
+foreach ($controller_parts as $part) {
+  if (array_key_exists($part, $params) && !empty($params[$part]) && $params[$part] != 'index') {
+    $url_parts[$part] = rawurlencode($params[$part]);
+  }
+}
+if (!empty($url_parts)) {
+  $controller = implode($url_parts, '/');
+  $page_base = BASE_URL . $controller . '/';
 }
 
 //**************************************************************************************//
@@ -101,15 +109,39 @@ $frontendDisplayClass->setViewMode($VIEW_MODE);
 $frontendDisplayClass->setPageTitle($SITE_TITLE . $page_title);
 $frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
+$frontendDisplayClass->setPageLicense($SITE_LICENSE);
 $frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
 $frontendDisplayClass->setPageContent($html_content);
 $frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
 $frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
+$frontendDisplayClass->setPageViewport($SITE_VIEWPORT);
 $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
 // $frontendDisplayClass->setJavaScriptItems($JAVASCRIPTS_ITEMS);
-$frontendDisplayClass->setCSSItems($CSS_ITEMS);
+$frontendDisplayClass->setLinkItems($LINK_ITEMS);
 $frontendDisplayClass->setFaviconItems($FAVICONS);
 $frontendDisplayClass->setPageBase($page_base . $page_base_suffix);
-$frontendDisplayClass->initContent();
+$frontendDisplayClass->setPageURLParts($params);
+// $frontendDisplayClass->setPaymentInfo($PAYMENT_INFO);
+$frontendDisplayClass->setSocialMediaInfo($SOCIAL_MEDIA_INFO);
+$frontendDisplayClass->setAdBanner($AMAZON_RECOMMENDATION);
+
+//**************************************************************************************//
+// Init the core content and set the header and footer items..
+
+// Set the core content.
+$frontendDisplayClass->initCoreContent();
+
+// Set the header.
+// $navigation = $frontendDisplayClass->setNavigation();
+// $frontendDisplayClass->setBodyHeader($navigation);
+
+// Set the footer.
+// $ad_banner = $frontendDisplayClass->setAdBannerFinal();
+// $frontendDisplayClass->setBodyFooter($ad_banner);
+
+//**************************************************************************************//
+// Init and display the final content.
+
+$frontendDisplayClass->initHTMLContent();
 
 ?>
