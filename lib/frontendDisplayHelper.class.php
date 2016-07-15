@@ -30,7 +30,8 @@ require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
 
 class frontendDisplayHelper {
 
-  private $controller = '';
+  private $controller_default = '';
+  private $controller_select = '';
   private $page_base = '';
   private $page_base_suffix = '';
 
@@ -41,13 +42,21 @@ class frontendDisplayHelper {
   private $json_content = '';
 
   //**************************************************************************************//
-  // Set the controller.
-  public function setController ($value) {
+  // Set the default controller.
+  public function setDefaultController ($value) {
     if (!empty($value)) {
-      $this->controller = $value;
+      $this->controller_default = $value;
     }
-  } // setController
+  } // setDefaultController
 
+
+ //**************************************************************************************//
+  // Set the selected controller.
+  public function setSelectedController ($value) {
+    if (!empty($value)) {
+      $this->controller_select = $value;
+    }
+  } // setSelectedController
 
   //**************************************************************************************//
   // Set the page base.
@@ -65,6 +74,33 @@ class frontendDisplayHelper {
       $this->page_base_suffix = $value;
     }
   } // setPageBaseSuffix
+
+
+  //**************************************************************************************//
+  // Set the count.
+  public function setCount ($value) {
+    if (!empty($value)) {
+      $this->count = $value;
+    }
+  } // setCount
+
+
+  //**************************************************************************************//
+  // Filter the view mode.
+  public function filterViewMode ($mode = null, $mode_options) {
+
+    if (!empty($mode) && $mode == 'random') {
+      $mode_keys = array_keys($mode_options);
+      shuffle($mode_keys);
+      $mode = $mode_keys[0];
+    }
+    else if (!empty($mode) && !array_key_exists($mode, $mode_options)) {
+      $mode = $this->controller_default;
+    }
+
+    return $mode;
+
+  } // filterViewMode
 
 
   public function initContent ($DEBUG_MODE = FALSE) {

@@ -78,7 +78,8 @@ $frontendDisplayHelperClass = new frontendDisplayHelper();
 //**************************************************************************************//
 // Set some values to the front end display helper class.
 
-$frontendDisplayHelperClass->setController($controller);
+$frontendDisplayHelperClass->setDefaultController($SITE_DEFAULT_CONTROLLER);
+$frontendDisplayHelperClass->setSelectedController($controller);
 $frontendDisplayHelperClass->setPageBase($page_base);
 $frontendDisplayHelperClass->setPageBaseSuffix($page_base_suffix);
 
