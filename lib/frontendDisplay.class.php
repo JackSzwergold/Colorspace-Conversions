@@ -51,6 +51,8 @@ class frontendDisplay {
   private $markdown_parts = array();
 
   private $view_mode = NULL;
+  private $view_div = NULL;
+
   private $page_url = NULL;
   private $page_copyright = NULL;
   private $page_license = NULL;
@@ -133,8 +135,9 @@ class frontendDisplay {
 
   //**************************************************************************************//
   // Set the page mode.
-  function setViewMode($view_mode = null) {
+  function setViewMode($view_mode = null, $view_div = false) {
     $this->view_mode = $view_mode;
+    $this->view_div = $view_div;
   } // setViewMode
 
 
@@ -428,7 +431,7 @@ class frontendDisplay {
       //**********************************************************************************//
       // Set the view wrapper.
 
-      if (!empty($this->view_mode)) {
+      if (!empty($this->view_mode) && $this->view_div) {
         $body = sprintf('<div class="%sView">', $this->view_mode)
               . $this->setWrapper($this->html_content)
               . sprintf('</div><!-- .%sView -->', $this->view_mode)

@@ -106,7 +106,7 @@ $frontendDisplayClass->setJSONMode($JSON_MODE);
 $frontendDisplayClass->setDebugMode($DEBUG_MODE);
 $frontendDisplayClass->setContentType(($JSON_MODE ? 'application/json' : 'text/html'));
 $frontendDisplayClass->setCharset('utf-8');
-$frontendDisplayClass->setViewMode($VIEW_MODE);
+$frontendDisplayClass->setViewMode($VIEW_MODE, TRUE);
 $frontendDisplayClass->setPageTitle($SITE_TITLE . $page_title);
 $frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
