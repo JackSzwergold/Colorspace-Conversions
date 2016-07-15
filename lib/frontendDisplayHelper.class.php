@@ -108,7 +108,7 @@ class frontendDisplayHelper {
 
  	//**************************************************************************************//
 	// Set the view mode.
-	$this->VIEW_MODE = $this->controller;
+	$this->VIEW_MODE = $this->controller_select;
 
 	//**************************************************************************************//
 	// Set the debug mode.
