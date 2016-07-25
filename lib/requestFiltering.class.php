@@ -72,6 +72,79 @@ class requestFiltering {
   } // process_parameters
 
   //**************************************************************************************//
+  // Process the debug mode.
+  function process_debug_mode ($params = array()) {
+
+    return array_key_exists('_debug', $params);
+
+  } // process_debug_mode
+
+  //**************************************************************************************//
+  // Process the JSON mode.
+  function process_json_mode ($params = array()) {
+
+    return array_key_exists('json', $params);
+
+  } // process_json_mode
+
+  //**************************************************************************************//
+  // Process the page base suffix.
+  function process_page_base_suffix ($JSON_MODE = false) {
+
+    return $JSON_MODE ? '?json' : '';
+
+  } // process_page_base_suffix
+
+  //**************************************************************************************//
+  // Process the URL parts.
+  function process_url_parts ($params = array()) {
+
+	$controller_parts = array('parent', 'child', 'grandchild', 'greatgrandchild');
+    $url_parts = array();
+	foreach ($controller_parts as $part) {
+	  if (array_key_exists($part, $params) && !empty($params[$part]) && $params[$part] != 'index') {
+		$url_parts[$part] = rawurlencode($params[$part]);
+	  }
+	}
+
+	return $url_parts;
+
+  } // process_url_parts
+
+  //**************************************************************************************//
+  // Process the controllers.
+  function process_controllers ($url_parts = array()) {
+    global $SITE_DEFAULT_CONTROLLER;
+
+    $controller = $SITE_DEFAULT_CONTROLLER;
+
+    if (!empty($url_parts)) {
+	  if (array_key_exists('parent', $url_parts) && !empty($url_parts['parent'])) {
+	    $controller = $url_parts['parent'];
+      }
+    }
+
+    return $controller;
+
+  } // process_controllers
+
+  //**************************************************************************************//
+  // Process the page base.
+  function process_page_base ($controller = '') {
+
+    $page_base = BASE_URL;
+
+    if (!empty($controller)) {
+	  $page_base = BASE_URL . $controller . '/';
+    }
+
+    return $page_base;
+
+  } // process_page_base
+
+  //**************************************************************************************//
+  //**************************************************************************************//
+  //**************************************************************************************//
   // Set the markdown file.
   function process_markdown_file ($params = array()) {
 
