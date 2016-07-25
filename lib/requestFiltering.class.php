@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Content Creation (contentCreation.php) (c) by Jack Szwergold
+ * Request Filtering (requestFiltering.class.php) (c) by Jack Szwergold
  *
- * Content Creation is licensed under a
+ * Request Filtering is licensed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
@@ -26,7 +26,7 @@ require_once BASE_FILEPATH . '/lib/Parsedown.php';
 //**************************************************************************************//
 // The beginnings of a content creation class.
 
-class contentCreation {
+class requestFiltering {
 
   private $markdown_path = "markdown/";
   private $redirect_header = "HTTP/1.1 301 Moved Permanently";
@@ -36,20 +36,8 @@ class contentCreation {
   } // __construct
 
   //**************************************************************************************//
-  // Get and return the values.
-  function init () {
-
-    $params = $this->process_get_parameters();
-    $markdown_file = $this->set_markdown_file($params);
-    $page_title = $this->set_page_title($params);
-
-    return array($params, $page_title, $markdown_file);
-
-  } // init
-
-  //**************************************************************************************//
   // Process the 'GET' parameters parameters.
-  function process_get_parameters () {
+  function process_parameters () {
     global $VALID_GET_PARAMETERS;
 
     // Roll through the GET parameters and validate them.
@@ -81,11 +69,11 @@ class contentCreation {
 
     return $params;
 
-  } // parse_parameters
+  } // process_parameters
 
   //**************************************************************************************//
   // Set the markdown file.
-  function set_markdown_file ($params = array()) {
+  function process_markdown_file ($params = array()) {
 
     // Assume the full path given is for an actual Markdown file.
     $markdown_file = '';
@@ -125,11 +113,11 @@ class contentCreation {
 
     return $markdown_file;
 
-  } // set_markdown_file
+  } // process_markdown_file
 
   //**************************************************************************************//
   // Set the page title.
-  function set_page_title ($params = array()) {
+  function process_page_title ($params = array()) {
     global $SITE_TITLE;
 
     // Set the first fragment to be the site title.
@@ -146,8 +134,8 @@ class contentCreation {
 
     return $ret;
 
-  } // set_page_title
+  } // process_page_title
 
-} // contentCreation
+} // requestFiltering
 
 ?>

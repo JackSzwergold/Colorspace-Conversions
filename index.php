@@ -29,14 +29,16 @@ require_once 'conf/conf.inc.php';
 require_once BASE_FILEPATH . '/common/functions.inc.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplay.class.php';
 require_once BASE_FILEPATH . '/lib/frontendDisplayHelper.class.php';
-require_once BASE_FILEPATH . '/lib/contentCreation.class.php';
+require_once BASE_FILEPATH . '/lib/requestFiltering.class.php';
 require_once BASE_FILEPATH . '/lib/Spyc.php';
 
 //**************************************************************************************//
-// Init the "contentCreation()" class.
+// Init the "requestFiltering()" class.
 
-$contentCreationClass = new contentCreation();
-list($params, $page_title, $markdown_file) = $contentCreationClass->init();
+$requestFilteringClass = new requestFiltering();
+$params = $requestFilteringClass->process_parameters();
+$markdown_file = $requestFilteringClass->process_markdown_file($params);
+$page_title = $requestFilteringClass->process_page_title($params);
 
 //**************************************************************************************//
 // Set the debug mode value.
