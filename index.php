@@ -37,61 +37,27 @@ require_once BASE_FILEPATH . '/lib/Spyc.php';
 
 $requestFilteringClass = new requestFiltering();
 $params = $requestFilteringClass->process_parameters();
+$DEBUG_MODE = $requestFilteringClass->process_debug_mode($params);
+$JSON_MODE = $requestFilteringClass->process_json_mode($params);
+$page_base_suffix = $requestFilteringClass->process_page_base_suffix($JSON_MODE);
+
 $markdown_file = $requestFilteringClass->process_markdown_file($params);
 $page_title = $requestFilteringClass->process_page_title($params);
 
-//**************************************************************************************//
-// Set the debug mode value.
-
-$DEBUG_MODE = array_key_exists('_debug', $params);
-
-//**************************************************************************************//
-// Set the JSON mode value.
-
-$JSON_MODE = array_key_exists('json', $params);
+$url_parts = $requestFilteringClass->process_url_parts($params);
+$controller = $requestFilteringClass->process_controllers($url_parts);
+$page_base = $requestFilteringClass->process_page_base($controller);
 
 //**************************************************************************************//
-// Set the page base.
-
-$page_base = BASE_URL;
-$controller = $SITE_DEFAULT_CONTROLLER;
-$url_parts = array();
-$controller_parts = array('parent', 'child', 'grandchild', 'greatgrandchild');
-foreach ($controller_parts as $part) {
-  if (array_key_exists($part, $params) && !empty($params[$part]) && $params[$part] != 'index') {
-    $url_parts[$part] = rawurlencode($params[$part]);
-  }
-}
-if (!empty($url_parts)) {
-  $controller = implode($url_parts, '/');
-  $page_base = BASE_URL . $controller . '/';
-}
-
-//**************************************************************************************//
-// Set the query suffix to the page base.
-
-$page_base_suffix = $JSON_MODE ? '?json' : '';
-
-//**************************************************************************************//
-// Instantiate the front end display helper class.
+// Now deal with the front end display helper class related stuff.
 
 $frontendDisplayHelperClass = new frontendDisplayHelper();
-
-//**************************************************************************************//
-// Set some values to the front end display helper class.
-
 $frontendDisplayHelperClass->setDefaultController($SITE_DEFAULT_CONTROLLER);
 $frontendDisplayHelperClass->setSelectedController($controller);
 $frontendDisplayHelperClass->setPageBase($page_base);
 $frontendDisplayHelperClass->setPageBaseSuffix($page_base_suffix);
-
-//**************************************************************************************//
-// Init the content via the class.
-
+$frontendDisplayHelperClass->setCount(array_key_exists('count', $params) ? $params['count'] : 1);
 $frontendDisplayHelperClass->initContent($DEBUG_MODE);
-
-//**************************************************************************************//
-// Get values from the front end display helper class.
 
 $VIEW_MODE = $frontendDisplayHelperClass->getViewMode();
 $page_title = $frontendDisplayHelperClass->getPageTitle();
@@ -109,8 +75,8 @@ $frontendDisplayClass->setDebugMode($DEBUG_MODE);
 $frontendDisplayClass->setContentType(($JSON_MODE ? 'application/json' : 'text/html'));
 $frontendDisplayClass->setCharset('utf-8');
 $frontendDisplayClass->setViewMode($VIEW_MODE, TRUE);
-$frontendDisplayClass->setPageTitle($SITE_TITLE . $page_title);
-$frontendDisplayClass->setPageURL($SITE_URL . join('/', $url_parts));
+$frontendDisplayClass->setPageTitle($SITE_TITLE);
+$frontendDisplayClass->setPageURL($SITE_URL);
 $frontendDisplayClass->setPageCopyright($SITE_COPYRIGHT);
 $frontendDisplayClass->setPageLicense($SITE_LICENSE);
 $frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
@@ -131,16 +97,7 @@ $frontendDisplayClass->setAdBanner($AMAZON_RECOMMENDATION);
 //**************************************************************************************//
 // Init the core content and set the header and footer items..
 
-// Set the core content.
 $frontendDisplayClass->initCoreContent();
-
-// Set the header.
-// $navigation = $frontendDisplayClass->setNavigation();
-// $frontendDisplayClass->setBodyHeader($navigation);
-
-// Set the footer.
-// $ad_banner = $frontendDisplayClass->setAdBannerFinal();
-// $frontendDisplayClass->setBodyFooter($ad_banner);
 
 //**************************************************************************************//
 // Init and display the final content.
