@@ -15,8 +15,10 @@
  * Created: 2015-11-10, js
  * Version: 2015-11-10, js: creation
  *          2015-11-10, js: development
+ *          2016-07-26, js: refactoring and cleanup
  *
  */
+
 
 //**************************************************************************************//
 // Require the basics.
@@ -24,6 +26,7 @@
 require_once BASE_FILEPATH . '/lib/colorspace_conversions.class.php';
 require_once BASE_FILEPATH . '/lib/colorspace_helpers.class.php';
 require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
+
 
 //**************************************************************************************//
 // The beginnings of a front end display helper class.
@@ -34,57 +37,120 @@ class frontendDisplayHelper {
   private $controller_select = '';
   private $page_base = '';
   private $page_base_suffix = '';
+  private $page_title = '';
+  private $count = 1;
 
   private $url_parts = array();
-  private $VIEW_MODE = '';
+  private $VIEW_MODE = null;
   private $DEBUG_MODE = FALSE;
   private $html_content = '';
   private $json_content = '';
 
+
   //**************************************************************************************//
   // Set the default controller.
   public function setDefaultController ($value) {
+
     if (!empty($value)) {
       $this->controller_default = $value;
     }
+
   } // setDefaultController
 
 
- //**************************************************************************************//
+  //**************************************************************************************//
   // Set the selected controller.
   public function setSelectedController ($value) {
+
     if (!empty($value)) {
       $this->controller_select = $value;
     }
+
   } // setSelectedController
+
 
   //**************************************************************************************//
   // Set the page base.
   public function setPageBase ($value) {
+
     if (!empty($value)) {
       $this->page_base = $value;
     }
+
   } // setPageBase
 
 
   //**************************************************************************************//
-  // Set the page base.
+  // Set the page base suffix.
   public function setPageBaseSuffix ($value) {
+
     if (!empty($value)) {
       $this->page_base_suffix = $value;
     }
+
   } // setPageBaseSuffix
 
 
   //**************************************************************************************//
   // Set the count.
   public function setCount ($value) {
+
     if (!empty($value)) {
       $this->count = $value;
     }
+
   } // setCount
 
 
+  //**************************************************************************************//
+  //**************************************************************************************//
+  //**************************************************************************************//
+  // Get the view mode.
+  public function getViewMode () {
+
+    return $this->VIEW_MODE;
+
+  } // getViewMode
+
+
+  //**************************************************************************************//
+  // Get the page title.
+  public function getPageTitle () {
+
+    return $this->page_title;
+
+  } // getPageTitle
+
+
+  //**************************************************************************************//
+  // Get the URL parts.
+  public function getURLParts () {
+
+    return $this->url_parts;
+
+  } // getURLParts
+
+
+  //**************************************************************************************//
+  // Get the HTML content.
+  public function getHTMLContent () {
+
+    return $this->html_content;
+
+  } // getHTMLContent
+
+
+  //**************************************************************************************//
+  // Get the JSON content.
+  public function getJSONContent () {
+
+    return $this->json_content;
+
+  } // getJSONContent
+
+
+  //**************************************************************************************//
+  //**************************************************************************************//
   //**************************************************************************************//
   // Filter the view mode.
   public function filterViewMode ($mode = null, $mode_options) {
@@ -169,41 +235,6 @@ class frontendDisplayHelper {
 
 
   //**************************************************************************************//
-  // Get the view mode.
-  public function getViewMode () {
-    return $this->VIEW_MODE;
-  } // getViewMode
-
-
-  //**************************************************************************************//
-  // Get the page title.
-  public function getPageTitle () {
-    return $this->page_title;
-  } // getPageTitle
-
-
-  //**************************************************************************************//
-  // Get the URL parts.
-  public function getURLParts () {
-    return $this->url_parts;
-  } // getURLParts
-
-
-  //**************************************************************************************//
-  // Get the HTML content.
-  public function getHTMLContent () {
-    return $this->html_content;
-  } // getHTMLContent
-
-
-  //**************************************************************************************//
-  // Get the JSON content.
-  public function getJSONContent () {
-    return $this->json_content;
-  } // getJSONContent
-
-
-  //**************************************************************************************//
   // Here is the function to parse the parameters.
   private function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
 
@@ -241,6 +272,7 @@ class frontendDisplayHelper {
     return array($colorspace, $page_title, $url_parts);
 
   } // parse_parameters
+
 
 } // frontendDisplayHelper
 
