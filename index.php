@@ -52,8 +52,7 @@ $page_base = $requestFilteringClass->process_page_base($controller);
 // Now deal with the front end display helper class related stuff.
 
 $frontendDisplayHelperClass = new frontendDisplayHelper();
-$frontendDisplayHelperClass->setDefaultController($SITE_DEFAULT_CONTROLLER);
-$frontendDisplayHelperClass->setSelectedController($controller);
+$frontendDisplayHelperClass->setController($controller);
 $frontendDisplayHelperClass->setPageBase($page_base);
 $frontendDisplayHelperClass->setPageBaseSuffix($page_base_suffix);
 $frontendDisplayHelperClass->setCount(array_key_exists('count', $params) ? $params['count'] : 1);
