@@ -98,12 +98,12 @@ class requestFiltering {
   //**************************************************************************************//
   // Process the URL parts.
   function process_url_parts ($params = array()) {
+    global $VALID_CONTROLLERS;
 
-	$controller_parts = array('parent', 'child', 'grandchild', 'greatgrandchild');
     $url_parts = array();
-	foreach ($controller_parts as $part) {
-	  if (array_key_exists($part, $params) && !empty($params[$part]) && $params[$part] != 'index') {
-		$url_parts[$part] = rawurlencode($params[$part]);
+	foreach ($VALID_CONTROLLERS as $controller) {
+	  if (array_key_exists($controller, $params) && !empty($params[$controller]) && $params[$controller] != 'index') {
+		$url_parts[$controller] = rawurlencode($params[$controller]);
 	  }
 	}
 
