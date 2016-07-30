@@ -75,7 +75,6 @@ class frontendDisplay {
   private $page_viewport = NULL;
   private $page_robots = NULL;
 
-  private $payment_info = array();
   private $social_media_info = array();
 
   private $ad_banner = NULL;
@@ -295,13 +294,6 @@ class frontendDisplay {
     $this->page_depth = count($markdown_parts);
     $this->markdown_parts = $markdown_parts;
   } // setPageURLParts
-
-
-  //**************************************************************************************//
-  // Set the payment info.
-  function setPaymentInfo($payment_info = null) {
-    $this->payment_info = $payment_info;
-  } // setPaymentInfo
 
 
   //**************************************************************************************//
@@ -765,16 +757,6 @@ class frontendDisplay {
     }
 
     $li_items_r = array();
-
-    // Set the payment stuff.
-    if (!empty($this->payment_info)) {
-      foreach ($this->payment_info as $payment_key => $payment_value) {
-        $li_items_r[] = sprintf('<li id="%s">', $payment_key)
-                      . sprintf('<a href="%s" title="%s">%s %s</a>', $payment_value['url'], $payment_value['description'], $payment_value['short_name'], $payment_value['emoji'])
-                      . '</li>'
-                      ;
-      }
-    }
 
     // Set the social media stuff.
     if (!empty($this->social_media_info)) {
