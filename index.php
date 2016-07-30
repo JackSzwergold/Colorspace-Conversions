@@ -93,7 +93,7 @@ $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
 // $frontendDisplayClass->setJavaScriptItems($JAVASCRIPTS_ITEMS);
 $frontendDisplayClass->setLinkItems($LINK_ITEMS);
 $frontendDisplayClass->setFaviconItems($FAVICONS);
-$frontendDisplayClass->setPageBase($page_base . $page_query_string_append);
+$frontendDisplayClass->setPageBase(BASE_URL);
 $frontendDisplayClass->setPageURLParts($params);
 // $frontendDisplayClass->setPaymentInfo($PAYMENT_INFO);
 $frontendDisplayClass->setSocialMediaInfo($SOCIAL_MEDIA_INFO);
