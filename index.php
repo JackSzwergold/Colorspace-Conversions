@@ -87,15 +87,13 @@ $frontendDisplayClass->setPageLicense($SITE_LICENSE);
 $frontendDisplayClass->setPageDescription($SITE_DESCRIPTION);
 $frontendDisplayClass->setPageContent($html_content);
 $frontendDisplayClass->setPageDivs($PAGE_DIVS_ARRAY);
-$frontendDisplayClass->setPageDivWrapper('PixelBoxWrapper');
+$frontendDisplayClass->setPageDivWrapper($PAGE_DIV_WRAPPER);
 $frontendDisplayClass->setPageViewport($SITE_VIEWPORT);
 $frontendDisplayClass->setPageRobots($SITE_ROBOTS);
-// $frontendDisplayClass->setJavaScriptItems($JAVASCRIPTS_ITEMS);
 $frontendDisplayClass->setLinkItems($LINK_ITEMS);
 $frontendDisplayClass->setFaviconItems($FAVICONS);
 $frontendDisplayClass->setPageBase(BASE_URL);
 $frontendDisplayClass->setPageURLParts($params);
-// $frontendDisplayClass->setPaymentInfo($PAYMENT_INFO);
 $frontendDisplayClass->setSocialMediaInfo($SOCIAL_MEDIA_INFO);
 $frontendDisplayClass->setAdBanner($AMAZON_RECOMMENDATION);
 
