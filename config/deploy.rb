@@ -62,7 +62,7 @@ namespace :deploy do
     on roles(:app) do
 
       # info "If there is no directory & no symbolic link to 'site/#{fetch(:projects_path)}' then create a directory named 'site/#{fetch(:projects_path)}'."
-      execute "cd #{fetch(:live_root)} && if [ ! -d site/#{fetch(:projects_path)} ]; then if [ ! -h site/#{fetch(:projects_path)} ]; then mkdir ./site/#{fetch(:projects_path)}; fi; fi"
+      execute "cd #{fetch(:live_root)} && if [ ! -d site/#{fetch(:projects_path)} ]; then if [ ! -h site/#{fetch(:projects_path)} ]; then mkdir -p ./site/#{fetch(:projects_path)}; fi; fi"
 
       # info "If there is a symbolic link to 'site/#{fetch(:projects_path)}' then create a symbolic link called 'site/#{fetch(:projects_path)}'."
       execute "cd #{fetch(:live_root)} && if [ ! -h site/#{fetch(:projects_path)} ]; then if [ ! -d site/#{fetch(:projects_path)} ]; then ln -sf #{current_path} ./site/#{fetch(:projects_path)}; fi; fi"
