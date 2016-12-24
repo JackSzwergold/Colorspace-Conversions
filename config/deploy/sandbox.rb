@@ -8,7 +8,7 @@ server 'sandbox.local', user: ENV["CAP_USER"] || 'vagrant', roles: %w{app db web
 set :deployment_type, "production"
 
 # The live, web root directory which the current version will be linked to.
-set :live_root, "#{deploy_to}/sandbox.local"
+set :live_root, "#{deploy_to}/html/sandbox.local"
 
 # Set the 'deploy_to' directory for this task.
 set :deploy_to, "/var/www/builds/#{fetch(:application)}/#{fetch(:deployment_type)}"
