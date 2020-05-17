@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.11.0'
+lock '3.13.0'
 
 set :application, 'colorspace_conversions'
 set :short_name, 'colorspace'
