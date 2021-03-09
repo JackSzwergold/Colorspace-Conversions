@@ -225,7 +225,7 @@ class Display extends Helpers {
 
   public function build_url ($params) {
 
-    return implode($params, '/');
+    return implode('/', $params);
 
   } // build_url
 
