@@ -692,7 +692,7 @@ class frontendDisplay {
               . $author
               . (!empty($date) ? ' • <span>' . $date . '</span>' : '')
               ;
- 
+
       // Parse the header values.
       $header = Parsedown::instance()->parse($header);
 
@@ -845,7 +845,7 @@ class frontendDisplay {
     $div_opening = $div_closing = '';
     if (!empty($this->page_div_wrappper_array)) {
       $div_opening = '<div class="' . implode($this->page_div_wrappper_array, '">' . "\n" . '<div class="') . '">';
-      $div_closing = '</div><!-- .' . implode(array_reverse($this->page_div_wrappper_array), '-->' . "\n" . '</div><!-- .') . ' -->';
+      $div_closing = '</div><!-- .' . implode('-->' . "\n" . '</div><!-- .', array_reverse($this->page_div_wrappper_array)) . ' -->';
     }
 
     $ret = (!empty($nameplate) ? $nameplate : '')
