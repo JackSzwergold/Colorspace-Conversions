@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.17.0'
 
-set :application, 'colorspace_conversions'
+set :application, 'colorspace'
 set :short_name, 'colorspace'
 set :repo_url, 'git@github.com:JackSzwergold/Colorspace-Conversions.git'
 
