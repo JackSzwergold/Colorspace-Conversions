@@ -43,7 +43,7 @@ set :web_builds, "#{deploy_to}/builds"
 set :content_data_path, "#{deploy_to}/content"
 
 # The path where projects get deployed.
-set :projects_path, "projects"
+set :projects_path, "projects_base"
 
 namespace :deploy do
 
