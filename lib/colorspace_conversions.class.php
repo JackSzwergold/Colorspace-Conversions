@@ -38,6 +38,9 @@ class Conversions {
   public $cmy_components = array();
   public $cmyk_components = array();
 
+  public $hsl_components = array();
+  public $hsv_components = array();
+
   public $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
 
   public $max_rgb_value = 0;

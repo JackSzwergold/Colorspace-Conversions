@@ -39,6 +39,7 @@ class frontendDisplay {
   private $content_type = 'text/html';
   private $charset = 'utf-8';
   private $doctype = 'html5';
+  private $favicons = FALSE;
 
   private $json_encode = FALSE;
   private $json_via_header = FALSE;
@@ -403,10 +404,10 @@ class frontendDisplay {
 
       $header = '';
       if (!empty($this->header_content)) {
-		  $header = '<div class="Header">'
-				  . $this->header_content
-				  . '</div>'
-				  ;
+      $header = '<div class="Header">'
+          . $this->header_content
+          . '</div>'
+          ;
       }
 
       //**********************************************************************************//
@@ -414,10 +415,10 @@ class frontendDisplay {
 
       $footer = '';
       if (!empty($this->footer_content)) {
-		  $footer = '<div class="Footer">'
-				  . $this->footer_content
-				  . '</div>'
-				  ;
+      $footer = '<div class="Footer">'
+          . $this->footer_content
+          . '</div>'
+          ;
       }
 
       //**********************************************************************************//
@@ -492,7 +493,7 @@ class frontendDisplay {
     // Roll through the JavaScripts array.
     $ret = array();
     foreach ($this->javascripts as $javascript) {
-      $ret[] = sprintf('<script src="' . BASE_URL . '%s" type="%s"></script>', $javascript, 'text/javascript');
+      $ret[] = sprintf('<script src="' . BASE_URL . '%s" defer="defer"></script>', $javascript);
     }
 
     return $ret;
