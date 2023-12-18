@@ -1,5 +1,5 @@
 # Set the github branch that will be used for this deployment.
-set :branch, "master"
+set :branch, "main"
 
 # The details of the destination server you will be deploying to.
 server 'prod0.preworn.com', user: ENV["CAP_USER"] || 'sysop', roles: %w{app db web}, my_property: :my_value
