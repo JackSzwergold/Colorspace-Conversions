@@ -5,9 +5,6 @@ set :application, 'colorspace'
 set :short_name, 'colorspace'
 set :repo_url, 'git@github.com:JackSzwergold/Colorspace-Conversions.git'
 
-# Set the 'deploy_to' directory.
-set :deploy_to, '/var/www'
-
 # Default value for :scm is :git
 # set :scm, :git
 
@@ -25,7 +22,7 @@ set :pty, false
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-# set :linked_dirs, fetch(:linked_dirs, []).push('cache')
+set :linked_dirs, fetch(:linked_dirs, []).push('cache')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -36,14 +33,23 @@ set :keep_releases, 3
 # Disable warnings about the absence of the styleseheets, javscripts & images directories.
 set :normalize_asset_timestamps, false
 
+# Set the root deployment path.
+set :root_deploy_path, "/home/jackgold"
+
 # The directory on the server into which the actual source code will deployed.
-set :web_builds, "#{deploy_to}/builds"
+set :web_builds, "#{fetch(:root_deploy_path)}/builds"
 
 # The directory on the server that stores content related data.
-set :content_data_path, "#{deploy_to}/content"
+set :content_data_path, "#{fetch(:root_deploy_path)}/content"
+
+# Set the site short name.
+set :parent_site_path, 'szwergold.com'
 
 # The path where projects get deployed.
 set :projects_path, "projects_base"
+
+# The path where markdown items get deployed.
+set :markdown_path, "markdown"
 
 namespace :deploy do
 
@@ -61,14 +67,14 @@ namespace :deploy do
   task :create_symlink do
     on roles(:app) do
 
-      # info "If there is no directory & no symbolic link to 'site/#{fetch(:projects_path)}' then create a directory named 'site/#{fetch(:projects_path)}'."
-      execute "cd #{fetch(:live_root)} && if [ ! -d site/#{fetch(:projects_path)} ]; then if [ ! -h site/#{fetch(:projects_path)} ]; then mkdir -p ./site/#{fetch(:projects_path)}; fi; fi"
+      # info "If there is no directory & no symbolic link to '#{fetch(:parent_site_path)}/#{fetch(:projects_path)}' then create a directory named '#{fetch(:parent_site_path)}/#{fetch(:projects_path)}'."
+      execute "cd #{fetch(:live_root)} && if [ ! -d #{fetch(:parent_site_path)}/#{fetch(:projects_path)} ]; then if [ ! -h #{fetch(:parent_site_path)}/#{fetch(:projects_path)} ]; then mkdir -p ./#{fetch(:parent_site_path)}/#{fetch(:projects_path)}; fi; fi"
 
-      # info "If there is a symbolic link to 'site/#{fetch(:projects_path)}' then create a symbolic link called 'site/#{fetch(:projects_path)}'."
-      execute "cd #{fetch(:live_root)} && if [ ! -h site/#{fetch(:projects_path)} ]; then if [ ! -d site/#{fetch(:projects_path)} ]; then ln -sf #{current_path} ./site/#{fetch(:projects_path)}; fi; fi"
+      # info "If there is a symbolic link to '#{fetch(:parent_site_path)}/#{fetch(:projects_path)}' then create a symbolic link called '#{fetch(:parent_site_path)}/#{fetch(:projects_path)}'."
+      execute "cd #{fetch(:live_root)} && if [ ! -h #{fetch(:parent_site_path)}/#{fetch(:projects_path)} ]; then if [ ! -d #{fetch(:parent_site_path)}/#{fetch(:projects_path)} ]; then ln -sf #{current_path} ./#{fetch(:parent_site_path)}/#{fetch(:projects_path)}; fi; fi"
 
-      # info "If there is a symbolic link to 'site/#{fetch(:projects_path)}/#{fetch(:short_name)}', delete it. Irregardless, create a new symbolic link to 'site/#{fetch(:projects_path)}/#{fetch(:short_name)}'."
-      execute "cd #{fetch(:live_root)} && if [ -h site/#{fetch(:projects_path)}/#{fetch(:short_name)} ]; then rm site/#{fetch(:projects_path)}/#{fetch(:short_name)}; fi && ln -sf #{current_path} ./site/#{fetch(:projects_path)}/#{fetch(:short_name)}"
+      # info "If there is a symbolic link to '#{fetch(:parent_site_path)}/#{fetch(:projects_path)}/#{fetch(:short_name)}', delete it. Irregardless, create a new symbolic link to '#{fetch(:parent_site_path)}/#{fetch(:projects_path)}/#{fetch(:short_name)}'."
+      execute "cd #{fetch(:live_root)} && if [ -h #{fetch(:parent_site_path)}/#{fetch(:projects_path)}/#{fetch(:short_name)} ]; then rm #{fetch(:parent_site_path)}/#{fetch(:projects_path)}/#{fetch(:short_name)}; fi && ln -sf #{current_path} ./#{fetch(:parent_site_path)}/#{fetch(:projects_path)}/#{fetch(:short_name)}"
 
     end
   end
@@ -76,3 +82,4 @@ namespace :deploy do
 end
 
 after "deploy:published", "deploy:create_symlink"
+
