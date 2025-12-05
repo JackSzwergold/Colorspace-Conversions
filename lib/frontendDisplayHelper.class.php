@@ -23,7 +23,9 @@
 //**************************************************************************************//
 // Require the basics.
 
-require_once BASE_FILEPATH . '/lib/Mosaic.class.php';
+require_once BASE_FILEPATH . '/lib/colorspace_conversions.class.php';
+require_once BASE_FILEPATH . '/lib/colorspace_helpers.class.php';
+require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
 
 
 //**************************************************************************************//
@@ -157,6 +159,7 @@ class frontendDisplayHelper {
 
 
   public function initContent ($DEBUG_MODE = FALSE) {
+    global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
   //**************************************************************************************//
   // Set the view mode.
@@ -167,164 +170,97 @@ class frontendDisplayHelper {
   $this->DEBUG_MODE = $DEBUG_MODE;
 
   //**************************************************************************************//
-  // Set an array of mode options.
+  // Get the URL param & set the markdown file as well as the page title.
 
-    $mode_options = array();
+  // Init the arrays.
+  $url_parts = array();
+  $markdown_parts = array();
+  $title_parts = array($SITE_TITLE);
 
-    $mode_options['micro']['width'] = 6;
-    $mode_options['micro']['height'] = 6;
-    $mode_options['micro']['block_size'] = 10;
-    $mode_options['micro']['how_many'] = 40;
-    $mode_options['micro']['block_display'] = 10;
-    $mode_options['micro']['json_display'] = 40;
-
-    $mode_options['tiny']['width'] = 12;
-    $mode_options['tiny']['height'] = 12;
-    $mode_options['tiny']['block_size'] = 10;
-    $mode_options['tiny']['how_many'] = 24;
-    $mode_options['tiny']['block_display'] = 8;
-    $mode_options['tiny']['json_display'] = 24;
-
-    $mode_options['small']['width'] = 23;
-    $mode_options['small']['height'] = 23;
-    $mode_options['small']['block_size'] = 10;
-    $mode_options['small']['how_many'] = 9;
-    $mode_options['small']['block_display'] = 3;
-    $mode_options['small']['json_display'] = 9;
-
-    $mode_options['large']['width'] = 46;
-    $mode_options['large']['height'] = 46;
-    $mode_options['large']['block_size'] = 10;
-    $mode_options['large']['how_many'] = 3;
-    $mode_options['large']['block_display'] = 1;
-    $mode_options['large']['json_display'] = 3;
-
-    $mode_options['mega']['width'] = 72;
-    $mode_options['mega']['height'] = 72;
-    $mode_options['mega']['block_size'] = 10;
-    $mode_options['mega']['how_many'] = 1;
-    $mode_options['mega']['block_display'] = 1;
-    $mode_options['mega']['json_display'] = 1;
-
-    //**************************************************************************************//
-    // Set the view mode.
-
-    $this->VIEW_MODE = $this->filterViewMode($this->VIEW_MODE, $mode_options);
-
-    //**************************************************************************************//
-    // Set the image directory.
-
-    $image_dir = 'images/';
-
-    //**************************************************************************************//
-    // Check if there is an image directory. If not? Exit.
-
-    if (!is_dir($image_dir)) {
-      die('Sorry. Image directory not found.');
+  // Parse the '$_GET' parameters.
+  foreach($VALID_GET_PARAMETERS as $get_parameter) {
+    $$get_parameter = '';
+    if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+    if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+      $$get_parameter = $_GET[$get_parameter];
     }
-
-    //**************************************************************************************//
-    // Process the images in the directory.
-
-    $skip_files = array('..', '.', '.DS_Store', 'ignore');
-    $image_files = scandir($image_dir);
-    $image_files = array_diff($image_files, $skip_files);
-
-    if (empty($image_files)) {
-      die('Sorry. No images found.');
     }
+  }
 
-    $raw_image_files = array();
-    foreach ($image_files as $image_file_key => $image_file_value) {
-      $raw_image_files[$image_file_key] = $image_dir . $image_file_value;
-    }
+  // Set the controller.
+  if (!empty($colorspace)) {
+    $url_parts[] = $colorspace;
+    $title_parts[] = strtoupper($colorspace);
+  }
 
-    //**************************************************************************************//
-    // Shuffle the image files.
+  // Set the page.
+  if (!empty($colorspace) && !empty($value)) {
+    $url_parts[] = $value;
+    $title_parts[] = $value;
+  }
 
-    shuffle($raw_image_files);
+  // Set the page title.
+  $this->page_title = join(' / ', $title_parts);
+  $this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
 
-    //**************************************************************************************//
-    // Slice off a subset of the image files.
+  // Set the URL parts.
+  $this->url_parts = $url_parts;
 
-    $image_files = array_slice($raw_image_files, 0, $mode_options[$this->VIEW_MODE]['how_many']);
+  //**************************************************************************************//
+  // Run the actual function and get the parts.
 
-    //**************************************************************************************//
-    // Init the class and roll through the images.
+  list($colorspace, $page_title, $url_parts) = $this->parse_parameters($SITE_TITLE, $VALID_GET_PARAMETERS);
 
-    $ProcessingClass = new imageMosaic();
+  //**************************************************************************************//
+  // Init the display class and get the values.
 
-    // Init the items array.
-    $items = array();
-
-    // Loop through the image files array.
-    foreach ($image_files as $image_file) {
-
-      // Set the options for the image processing.
-      $ProcessingClass->set_image($image_file, $mode_options[$this->VIEW_MODE]['width'], $mode_options[$this->VIEW_MODE]['height'], $mode_options[$this->VIEW_MODE]['block_size']);
-      $ProcessingClass->debug_mode(FALSE);
-      $ProcessingClass->row_flip_horizontal(FALSE);
-      $ProcessingClass->set_row_delimiter(NULL);
-      $ProcessingClass->set_generate_images(TRUE);
-      $ProcessingClass->set_overlay_image(TRUE);
-
-      // Process the image and add it to the items array.
-      $processed_image = $ProcessingClass->process_image();
-      $items[$image_file]['blocks'] = $processed_image['blocks'];
-      $items[$image_file]['json'] = $processed_image['json'];
-
-    } // foreach
-
-    //**************************************************************************************//
-    // Use 'array_filter' to filter out the empty images.
-
-    $items = array_filter($items);
-
-    //**************************************************************************************//
-    // Place the images in <li> tags.
-
-    // Init the image item and related json array.
-    $image_item_array = $image_json_array = array();
-
-    // Init the counter value.
-    $count = 0;
-
-    // Loop through the artworks array.
-    foreach ($items as $file => $image) {
-
-      // Set the image item array value.
-      if ($count < $mode_options[$this->VIEW_MODE]['block_display']) {
-        $image_item_array[$file] = sprintf('<li><div class="Padding">%s</div><!-- .Padding --></li>', $image['blocks']);
-      }
-
-      // Set the image json array value.
-      if ($count < $mode_options[$this->VIEW_MODE]['json_display']) {
-        $image_json_array[$file] = $image['json'];
-      }
-
-      // Increment the counter.
-      $count++;
-
-    } // foreach
-
-    // Set the body content.
-    $this->html_content = sprintf('<ul>%s</ul>', implode('', $image_item_array));
-
-    // Convert the JSON back to an object.
-    $json_data_array = array();
-    foreach ($image_json_array as  $image_json_value) {
-      $json_data_array['content'][] = json_decode($image_json_value);
-    }
-    $json_data_array['count'] = count($json_data_array['content']);
-    $json_data_array['total'] = count($image_json_array);
-
-    // Now merge the JSON data object back into the parent image object.
-    $image_object = $ProcessingClass->build_content_object($json_data_array, $this->page_base, $this->page_base_suffix, array_keys($mode_options), 'images');
-
-    // Process the JSON content.
-    $this->json_content = $ProcessingClass->json_encode_helper($image_object, $DEBUG_MODE);
+  $DisplayClass = new Display();
+  $DisplayClass->show_rgb_grid = true;
+  // $DisplayClass->show_cmyk_grid = true;
+  $DisplayClass->show_pms_grid = true;
+  $this->html_content = $DisplayClass->init($colorspace, $value);
 
   } // initContent
+
+
+  //**************************************************************************************//
+  // Here is the function to parse the parameters.
+  private function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
+
+    // Init the arrays.
+    $url_parts = array();
+    $title_parts = array($SITE_TITLE);
+
+    // Parse the '$_GET' parameters.
+    foreach($VALID_GET_PARAMETERS as $get_parameter) {
+      $$get_parameter = '';
+      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+        $$get_parameter = $_GET[$get_parameter];
+        }
+      }
+    }
+
+    // Set the controller.
+    if (!empty($colorspace)) {
+      $url_parts[] = $colorspace;
+      $title_parts[] = strtoupper($colorspace);
+    }
+
+    // Set the page.
+    if (!empty($colorspace) && !empty($value)) {
+      $url_parts[] = $value;
+      $title_parts[] = $value;
+    }
+
+    // Set the page title.
+    $page_title = join(' / ', $title_parts);
+    $page_title = preg_replace('/_/', ' ', $page_title);
+    // $page_title = ucwords($page_title);
+
+    return array($colorspace, $page_title, $url_parts);
+
+  } // parse_parameters
 
 
 } // frontendDisplayHelper
