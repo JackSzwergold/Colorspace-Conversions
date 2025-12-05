@@ -428,23 +428,17 @@ class frontendDisplay {
   //**************************************************************************************//
   // Set the JavaScript stuff.
   function setJavaScriptArray() {
-
-    // Roll through the JavaScripts array.
     $ret = array();
     foreach ($this->javascripts as $javascript) {
       $ret[] = sprintf('<script src="' . BASE_URL . '%s" defer="defer"></script>', $javascript);
-    }
-
+    } // foreach
     return $ret;
-
   } // setJavaScriptArray
 
 
   //**************************************************************************************//
   // Set the header link stuff.
   function setHeaderLinkArray($array = array()) {
-
-    // Roll through the generic 'link' stuffarray.
     $ret = array();
     foreach ($array as $array_type => $array_parts) {
       $parts = array();
@@ -452,21 +446,18 @@ class frontendDisplay {
         if ($key == 'href') {
           if (!filter_var($value, FILTER_VALIDATE_URL)) {
             $value = BASE_URL . $value;
-          }
-        }
+          } // if
+        } // if
         $parts[] = $key . '="' . $value . '"';
-      }
+      } // foreach
       // $ret[$array_type] = sprintf('<!-- %s link_items -->', $type);
       $ret[$array_type] = sprintf('<link %s />', join(' ', $parts));
-    }
-
+    } // foreach
     return $ret;
-
   } // setHeaderLinkArray
 
   //**************************************************************************************//
   // Set the meta content.
-
   function setMetaTags($description = null, $viewport = null, $robots = null) {
 
     // Set the meta property values.
