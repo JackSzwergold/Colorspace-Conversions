@@ -29,13 +29,13 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
   define('BASE_PATH', '/Colorspace-Conversions/');
 }
 else {
-  define('BASE_PATH', '/projects_base/colorspace/');
+  define('BASE_PATH', '/projects/colorspace/');
 }
 
 // Site descriptive info.
 $SITE_TITLE = 'Colorspace Conversions';
 $SITE_DESCRIPTION = 'Some PHP classes to handle colorspace conversions.';
-$SITE_URL = 'http://www.preworn.com/projects_base/colorspace/';
+$SITE_URL = 'http://www.preworn.com/projects/colorspace/';
 $SITE_COPYRIGHT = '(c) Copyright ' . date('Y') . ' Jack Szwergold. Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.';
 $SITE_LICENSE_CODE = 'CC-BY-NC-SA-4.0';
 $SITE_LICENSE = 'This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC-BY-NC-SA-4.0)';
