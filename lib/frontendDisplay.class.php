@@ -318,22 +318,18 @@ class frontendDisplay {
 
       //**********************************************************************************//
       // Set the meta tags
-
       $meta_content_array = $this->setMetaTags($this->page_description, $this->page_viewport, $this->page_robots);
 
       //**********************************************************************************//
       // Set the favicons.
-
       $favicon_array = $this->setHeaderLinkArray($this->favicons);
 
       //**********************************************************************************//
       // Set the HTML/XHTML doctype.
-
       $doctype = $this->setDoctype();
 
       //**********************************************************************************//
       // Set the JavaScript.
-
       $javascript_array = $this->setJavaScriptArray();
 
       //**********************************************************************************//
@@ -343,65 +339,64 @@ class frontendDisplay {
 
       //**********************************************************************************//
       // Set the body header.
-
       $header = '';
       if (!empty($this->header_content)) {
-      $header = '<div class="Header">'
+        $header =
+            '<div class="Header">'
           . $this->header_content
           . '</div>'
           ;
-      }
+      } // if
 
       //**********************************************************************************//
       // Set the body footer.
-
       $footer = '';
       if (!empty($this->footer_content)) {
-      $footer = '<div class="Footer">'
+        $footer =
+            '<div class="Footer">'
           . $this->footer_content
           . '</div>'
           ;
-      }
+      } // if
 
       //**********************************************************************************//
       // Set the view wrapper.
-
       if (!empty($this->view_mode) && $this->view_div) {
-        $body = sprintf('<div class="%sView">', $this->view_mode)
-              . $this->setWrapper($this->html_content)
-              . sprintf('</div><!-- .%sView -->', $this->view_mode)
-              ;
-      }
+        $body =
+            sprintf('<div class="%sView">', $this->view_mode)
+          . $this->setWrapper($this->html_content)
+          . sprintf('</div><!-- .%sView -->', $this->view_mode)
+          ;
+      } // if
       else {
         $body = $this->setWrapper($this->html_content);
-      }
+      } // else
 
       //**********************************************************************************//
       // Set the final HTML content.
-
-      $ret = $doctype
-           . '<head>'
-           . '<title>' . $this->page_title . '</title>'
-           . join('', $meta_content_array)
-           . join('', $css_array)
-           . join('', $favicon_array)
-           . join('', $javascript_array)
-           . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
-           . '</head>'
-           . '<body>'
-           . $header
-           . $body
-           . $footer
-           . '</body>'
-           . '</html>'
-           ;
+      $ret =
+          $doctype
+        . '<head>'
+        . '<title>' . $this->page_title . '</title>'
+        . join('', $meta_content_array)
+        . join('', $css_array)
+        . join('', $favicon_array)
+        . join('', $javascript_array)
+        . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
+        . '</head>'
+        . '<body>'
+        . $header
+        . $body
+        . $footer
+        . '</body>'
+        . '</html>'
+        ;
 
       //**********************************************************************************//
       // Set the HTML content class.
-
       $this->html_content = $ret;
 
-    }
+    } // if
 
   } // buildHTMLContent
 
@@ -413,15 +408,17 @@ class frontendDisplay {
     $ret = '';
 
     if ($this->doctype == 'xhtml') {
-      $ret = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
-           . '<html xmlns="http://www.w3.org/1999/xhtml">'
-           ;
-    }
+      $ret =
+          '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+        . '<html xmlns="http://www.w3.org/1999/xhtml">'
+        ;
+    } // if
     else if ($this->doctype == 'html5') {
-      $ret = '<!DOCTYPE html>'
-           . '<html lang="en">'
-           ;
-    }
+      $ret =
+          '<!DOCTYPE html>'
+        . '<html lang="en">'
+        ;
+    } // else if
 
     return $ret;
 
