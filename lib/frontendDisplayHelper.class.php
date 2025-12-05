@@ -26,7 +26,7 @@ require_once(BASE_FILEPATH . '/lib/colorspace_helpers.class.php');
 require_once(BASE_FILEPATH . '/lib/colorspace_display.class.php');
 
 //**************************************************************************************//
-// The beginnings of a front end display helper class.\
+// The beginnings of a front end display helper class.
 class frontendDisplayHelper {
 
   private $controller = '';
@@ -41,103 +41,75 @@ class frontendDisplayHelper {
   private $html_content = '';
   private $json_content = '';
 
-
   //**************************************************************************************//
   // Set the selected controller.
-  public function setController ($value) {
-
+  public function setController($value = null) {
     if (!empty($value)) {
       $this->controller = $value;
-    }
-
+    } // if
   } // setController
-
 
   //**************************************************************************************//
   // Set the page base.
-  public function setPageBase ($value) {
-
+  public function setPageBase($value = null) {
     if (!empty($value)) {
       $this->page_base = $value;
-    }
-
+    } // if
   } // setPageBase
-
 
   //**************************************************************************************//
   // Set the page base suffix.
-  public function setPageBaseSuffix ($value) {
-
+  public function setPageBaseSuffix($value = null) {
     if (!empty($value)) {
       $this->page_base_suffix = $value;
-    }
-
+    } // if
   } // setPageBaseSuffix
-
 
   //**************************************************************************************//
   // Set the count.
-  public function setCount ($value) {
-
+  public function setCount($value = null) {
     if (!empty($value)) {
       $this->count = $value;
-    }
-
+    } // if
   } // setCount
-
 
   //**************************************************************************************//
   //**************************************************************************************//
   //**************************************************************************************//
   // Get the view mode.
-  public function getViewMode () {
-
+  public function getViewMode() {
     return $this->VIEW_MODE;
-
   } // getViewMode
-
 
   //**************************************************************************************//
   // Get the page title.
-  public function getPageTitle () {
-
+  public function getPageTitle() {
     return $this->page_title;
-
   } // getPageTitle
-
 
   //**************************************************************************************//
   // Get the URL parts.
-  public function getURLParts () {
-
+  public function getURLParts() {
     return $this->url_parts;
-
   } // getURLParts
-
 
   //**************************************************************************************//
   // Get the HTML content.
-  public function getHTMLContent () {
-
+  public function getHTMLContent() {
     return $this->html_content;
-
   } // getHTMLContent
-
 
   //**************************************************************************************//
   // Get the JSON content.
-  public function getJSONContent () {
-
+  public function getJSONContent() {
     return $this->json_content;
-
   } // getJSONContent
-
 
   //**************************************************************************************//
   //**************************************************************************************//
   //**************************************************************************************//
   // Filter the view mode.
-  private function filterViewMode ($mode = null, $mode_options = null) {
+  private function filterViewMode($mode = null, $mode_options = null) {
     global $SITE_DEFAULT_CONTROLLER;
 
     if (!empty($mode) && $mode == 'random') {
