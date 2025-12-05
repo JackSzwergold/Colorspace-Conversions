@@ -49,7 +49,7 @@ class frontendDisplay {
 
   private $base = NULL;
   private $page_depth = 0;
-  private $markdown_parts = array();
+  private $param_parts = array();
 
   private $view_mode = NULL;
   private $view_div = NULL;
@@ -79,8 +79,6 @@ class frontendDisplay {
   private $social_media_info = array();
 
   private $ad_banner = NULL;
-
-  private $page_markdown_file = NULL;
 
   public function __construct() {
 
@@ -212,14 +210,7 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the page content markdown file.
-  function setPageContentMarkdown($md_file = null) {
-    $this->page_markdown_file = $md_file;
-  } // setPageContentMarkdown
-
-
-  //**************************************************************************************//
-  // Set the page content markdown file.
+  // Set the page content JSON content.
   function setPageJSONContent($json_content = null) {
     $this->json_content = $json_content;
   } // setPageJSONContent
@@ -290,10 +281,10 @@ class frontendDisplay {
 
 
   //**************************************************************************************//
-  // Set the page depth and markdown part.
-  function setPageURLParts($markdown_parts = array()) {
-    $this->page_depth = count($markdown_parts);
-    $this->markdown_parts = $markdown_parts;
+  // Set the page depth and param parts.
+  function setPageURLParts($param_parts = array()) {
+    $this->page_depth = count($param_parts);
+    $this->param_parts = $param_parts;
   } // setPageURLParts
 
 
@@ -356,13 +347,10 @@ class frontendDisplay {
   function buildCoreContent() {
 
     //**************************************************************************************//
-    // Set the HTML content or load the markdown content as HTML content.
+    // Set the HTML content.
 
     if (!empty($this->html_content)) {
       $this->html_content = $this->html_content;
-    }
-    else if (!empty($this->page_markdown_file)) {
-      $this->html_content = $this->loadMarkdown($this->page_markdown_file);
     }
 
   } // buildCoreContent
@@ -627,127 +615,14 @@ class frontendDisplay {
 
   } // setMetaTags
 
-
-  //**************************************************************************************//
-  // Load the markdown file.
-  function loadMarkdown($markdown_file = null) {
-
-    $ret = '';
-
-    // If the markdown file exists and is not empty, do something.
-    if (file_exists($markdown_file) && !empty($markdown_file)) {
-
-      // Define BASE_FILEPATH
-      $markdown_file_parts = pathinfo($markdown_file);
-      $metadata_file = $markdown_file_parts['dirname'] . "/" . $markdown_file_parts['filename'] . '.yml';
-
-      // If the metadata YAML file exists and is not empty, do something.
-      if (file_exists($metadata_file) && !empty($metadata_file)) {
-        $yaml_data = Spyc::YAMLLoad($metadata_file);
-        $metadata_items = array('title', 'title_short', 'description', 'robots', 'copyright', 'license', 'keyword', 'date', 'author');
-        foreach ($metadata_items as $metadata_item) {
-          if (array_key_exists($metadata_item, $yaml_data)) {
-            $page_variable_name = "page_" . $metadata_item;
-            $this->$page_variable_name = $yaml_data[$metadata_item];
-          }
-        }
-      }
-
-      // Get the markdown file contents.
-      $markdown_file_contents = file_get_contents($markdown_file);
-
-      // Split the content between the header and body by splitting on the author name.
-      $split_file_contents = explode('By ' . $this->page_author, $markdown_file_contents);
-
-      $title = '';
-      $BYLINE_PRESENT = FALSE;
-      if (count($split_file_contents) == 1) {
-        $content = $split_file_contents[0];
-      }
-      else {
-        $BYLINE_PRESENT = TRUE;
-        $title = $split_file_contents[0];
-        $content = $split_file_contents[1];
-      }
-
-      // Split and check the markdown contents for the copyright/license line and remove it if it’s there.
-      $split_core_content = explode('***', $content);
-      $COPYRIGHT_PRESENT = FALSE;
-      if (count($split_core_content) > 1) {
-        $last_paragraph = $split_core_content[count($split_core_content) - 1];
-        if (!empty($this->page_license)) {
-          if (strpos($last_paragraph, $this->page_license)) {
-            $COPYRIGHT_PRESENT = TRUE;
-            array_pop($split_core_content);
-          }
-        }
-      }
-
-      // Build the header values.
-      $title = ($BYLINE_PRESENT && !empty($title) ? $title : '');
-      $author = ($BYLINE_PRESENT && !empty($this->page_author) ? 'By ' . $this->page_author : '');
-      $date = ($BYLINE_PRESENT && !empty($this->page_date) ? date("F j, Y", strtotime($this->page_date)) : '');
-
-      // Set the header values.
-      $header = $title
-              . $author
-              . (!empty($date) ? ' • <span>' . $date . '</span>' : '')
-              ;
-
-      // Parse the header values.
-      $header = Parsedown::instance()->parse($header);
-
-      // Set the header content.
-      if (!empty($header)) {
-        $header = '<header>'
-                . $header
-                . '</header>'
-                ;
-      }
-
-      // Parse the body content.
-      $body = Parsedown::instance()->parse(join('***', $split_core_content));
-
-      // Append the copyright box to the bottom of the body.
-      $footer = '';
-      if ($COPYRIGHT_PRESENT) {
-        $footer = '<div class="Copyright">'
-                . '<p>'
-                . (!empty($this->page_title_short) ? '“' . $this->page_title_short . ',” ' : '')
-                . (!empty($this->page_copyright) ? $this->page_copyright : '')
-                . (!empty($this->page_date) ? '; written on ' . date("F j, Y", strtotime($this->page_date)) . '. ' : '. ')
-                . (!empty($this->page_license) ? $this->page_license . '.' : '')
-                . '</p>'
-                . '</div>'
-                ;
-      }
-      if (!empty($footer)) {
-        $footer = '<footer>'
-                . $footer
-                . '</footer>'
-                ;
-      }
-
-    }
-
-    return '<article>'
-         . $header
-         . $body
-         . $footer
-         . '</article>'
-         ;
-
-  } // loadMarkdown
-
-
   //**************************************************************************************//
   // Set the navigation stuff.
   function setNavigation() {
 
     $li_items_l = array();
     if ($this->page_depth > 0) {
-      $markdown_sliced = array_slice(array_values($this->markdown_parts), 0, -1);
-      $back_url = BASE_PATH . join('/', $markdown_sliced);
+      $params_sliced = array_slice(array_values($this->param_parts), 0, -1);
+      $back_url = BASE_PATH . join('/', $params_sliced);
       $li_items_l[] = '<li id="back">'
                     . sprintf('<a href="%s" title="back">«</a>', $back_url)
                     . '</li>'
