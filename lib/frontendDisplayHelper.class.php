@@ -237,7 +237,6 @@ class frontendDisplayHelper {
 
   } // parse_parameters
 
-
 } // frontendDisplayHelper
 
 ?>
