@@ -19,18 +19,14 @@
  *
  */
 
-
 //**************************************************************************************//
 // Require the basics.
-
-require_once BASE_FILEPATH . '/lib/colorspace_conversions.class.php';
-require_once BASE_FILEPATH . '/lib/colorspace_helpers.class.php';
-require_once BASE_FILEPATH . '/lib/colorspace_display.class.php';
-
+require_once(BASE_FILEPATH . '/lib/colorspace_conversions.class.php');
+require_once(BASE_FILEPATH . '/lib/colorspace_helpers.class.php');
+require_once(BASE_FILEPATH . '/lib/colorspace_display.class.php');
 
 //**************************************************************************************//
-// The beginnings of a front end display helper class.
-
+// The beginnings of a front end display helper class.\
 class frontendDisplayHelper {
 
   private $controller = '';
