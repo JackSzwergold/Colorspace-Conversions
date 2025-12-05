@@ -272,13 +272,11 @@ class frontendDisplay {
     $this->ad_banner = $ad_banner;
   } // setAdBanner
 
-
   //**************************************************************************************//
   // Set the body header.
   function setBodyHeader($header_content = null) {
     $this->header_content = $header_content;
   } // setBodyHeader
-
 
   //**************************************************************************************//
   // Set the body footer.
@@ -286,44 +284,29 @@ class frontendDisplay {
     $this->footer_content = $footer_content;
   } // setBodyFooter
 
-
   //**************************************************************************************//
   // Init the core content.
-  function initCoreContent($response_header = NULL) {
-
-    // If we are not in JSON mode, then build the HTML content.
+  function initCoreContent($response_header = null) {
     if (!$this->JSON_MODE) {
       $this->buildCoreContent();
-    }
-
+    } // if
   } // initCoreContent
-
 
   //**************************************************************************************//
   // Init the content.
-  function initHTMLContent($response_header = NULL) {
-
-    // If we are not in JSON mode, then build the HTML content.
+  function initHTMLContent($response_header = null) {
     if (!$this->JSON_MODE) {
       $this->buildHTMLContent();
-    }
-
+    } // if
     $this->renderContent($response_header);
-
   } // initHTMLContent
-
 
   //**************************************************************************************//
   // Build the core content.
   function buildCoreContent() {
-
-    //**************************************************************************************//
-    // Set the HTML content.
-
     if (!empty($this->html_content)) {
       $this->html_content = $this->html_content;
-    }
-
+    } // if
   } // buildCoreContent
 
 
