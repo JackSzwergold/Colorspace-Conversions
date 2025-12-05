@@ -180,7 +180,7 @@ class frontendDisplayHelper {
 
     //**************************************************************************************//
     // Run the actual function and get the parts.
-    list($colorspace, $page_title, $url_parts) = $this->parse_parameters($SITE_TITLE, $VALID_GET_PARAMETERS);
+    list($colorspace, $page_title, $url_parts) = $this->parse_parameters();
 
     //**************************************************************************************//
     // Init the display class and get the values.
@@ -192,10 +192,10 @@ class frontendDisplayHelper {
 
   } // initContent
 
-
   //**************************************************************************************//
   // Here is the function to parse the parameters.
-  private function parse_parameters ($SITE_TITLE, $VALID_GET_PARAMETERS) {
+  private function parse_parameters() {
+    global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     // Init the arrays.
     $url_parts = array();
