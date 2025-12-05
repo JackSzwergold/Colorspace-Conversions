@@ -209,22 +209,25 @@ class frontendDisplayHelper {
       if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
         if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
           $$get_parameter = $_GET[$get_parameter];
-        }
-      }
-    }
+        } // if
+      } // if
+    } // foreach
 
+    //************************************************************************************//
     // Set the controller.
     if (!empty($colorspace)) {
       $url_parts[] = $colorspace;
       $title_parts[] = strtoupper($colorspace);
-    }
+    } // if
 
+    //************************************************************************************//
     // Set the page.
     if (!empty($colorspace) && !empty($value)) {
       $url_parts[] = $value;
       $title_parts[] = $value;
-    }
+    } // if
 
+    //************************************************************************************//
     // Set the page title.
     $page_title = join(' / ', $title_parts);
     $page_title = preg_replace('/_/', ' ', $page_title);
