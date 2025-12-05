@@ -197,16 +197,18 @@ class frontendDisplayHelper {
   private function parse_parameters() {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
+    //************************************************************************************//
     // Init the arrays.
     $url_parts = array();
     $title_parts = array($SITE_TITLE);
 
+    //************************************************************************************//
     // Parse the '$_GET' parameters.
     foreach($VALID_GET_PARAMETERS as $get_parameter) {
       $$get_parameter = '';
       if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
         if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-        $$get_parameter = $_GET[$get_parameter];
+          $$get_parameter = $_GET[$get_parameter];
         }
       }
     }
