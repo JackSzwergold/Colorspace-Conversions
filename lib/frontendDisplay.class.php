@@ -80,36 +80,32 @@ class frontendDisplay {
 
   private $ad_banner = NULL;
 
+  //**************************************************************************************//
+  // Set the constructor.
   public function __construct() {
-
     if (!defined('BASE_PATH')) {
       define('BASE_PATH', '/');
-    }
-
+    } // if
     if (!defined('BASE_URL')) {
       define('BASE_URL', '');
-    }
-
+    } // if
   } // __construct
-
 
   //**************************************************************************************//
   // Set the debug mode.
   function setDebugMode($DEBUG_MODE = null) {
     if (!empty($DEBUG_MODE)) {
       $this->DEBUG_MODE = $DEBUG_MODE;
-    }
+    } // if
   } // setDebugMode
-
 
   //**************************************************************************************//
   // Set the JSON mode.
   function setJSONMode($JSON_MODE = null) {
     if (!empty($JSON_MODE)) {
       $this->JSON_MODE = $JSON_MODE;
-    }
+    } // if
   } // setJSONMode
-
 
   //**************************************************************************************//
   // Set the character set.
@@ -117,9 +113,8 @@ class frontendDisplay {
     global $VALID_CONTENT_TYPES;
     if (!empty($content_type) && in_array($content_type, $VALID_CONTENT_TYPES)) {
       $this->content_type = $content_type;
-    }
+    } // if
   } // setContentType
-
 
   //**************************************************************************************//
   // Set the character set.
@@ -127,9 +122,8 @@ class frontendDisplay {
     global $VALID_CHARSETS;
     if (!empty($charset) && in_array(strtolower($charset), $VALID_CHARSETS)) {
       $this->charset = $charset;
-    }
+    } // if
   } // setCharset
-
 
   //**************************************************************************************//
   // Set the page mode.
@@ -138,13 +132,11 @@ class frontendDisplay {
     $this->view_div = $view_div;
   } // setViewMode
 
-
   //**************************************************************************************//
   // Set the page URL.
   function setPageURL($page_url = null) {
     $this->page_url = $page_url;
   } // setPageURL
-
 
   //**************************************************************************************//
   // Set the page copyright.
@@ -152,13 +144,11 @@ class frontendDisplay {
     $this->page_copyright = $page_copyright;
   } // setPageCopyright
 
-
   //**************************************************************************************//
   // Set the page license.
   function setPageLicense($page_license = null) {
     $this->page_license = $page_license;
   } // setPageLicense
-
 
   //**************************************************************************************//
   // Set the page title.
@@ -166,13 +156,11 @@ class frontendDisplay {
     $this->page_title = $page_title;
   } // setPageTitle
 
-
   //**************************************************************************************//
   // Set the page description.
   function setPageDescription($page_description = null) {
     $this->page_description = $page_description;
   } // setPageDescription
-
 
   //**************************************************************************************//
   // Set the page image.
@@ -180,13 +168,11 @@ class frontendDisplay {
     $this->page_image = $page_image;
   } // setPageImage
 
-
   //**************************************************************************************//
   // Set the page keyword.
   function setPageKeyword($page_keyword = null) {
     $this->page_keyword = $page_keyword;
   } // setPageKeyword
-
 
   //**************************************************************************************//
   // Set the page date.
@@ -194,13 +180,11 @@ class frontendDisplay {
     $this->page_date = $page_date;
   } // setPageDate
 
-
   //**************************************************************************************//
   // Set the page author.
   function setPageAuthor($page_author = null) {
     $this->page_author = $page_author;
   } // setPageAuthor
-
 
   //**************************************************************************************//
   // Set the Facebook admin stuff.
@@ -208,13 +192,11 @@ class frontendDisplay {
     $this->page_fb_admins = $page_fb_admins;
   } // setPageFBAdmins
 
-
   //**************************************************************************************//
   // Set the page content JSON content.
   function setPageJSONContent($json_content = null) {
     $this->json_content = $json_content;
   } // setPageJSONContent
-
 
   //**************************************************************************************//
   // Set the page html content.
@@ -222,13 +204,11 @@ class frontendDisplay {
     $this->html_content = $html_content;
   } // setPageContent
 
-
   //**************************************************************************************//
   // Set the page DIVs.
   function setPageDivs($page_div_wrappper_array = array()) {
     $this->page_div_wrappper_array = $page_div_wrappper_array;
   } // setPageDivs
-
 
   //**************************************************************************************//
   // Set the page DIV wrapper.
@@ -237,13 +217,11 @@ class frontendDisplay {
     $this->page_div_wrapper_id = $page_div_wrapper_id;
   } // setPageDivWrapper
 
-
   //**************************************************************************************//
   // Set the page viewport.
   function setPageViewport($page_viewport = null) {
     $this->page_viewport = $page_viewport;
   } // setPageViewport
-
 
   //**************************************************************************************//
   // Set the page robots.
@@ -251,13 +229,11 @@ class frontendDisplay {
     $this->page_robots = $page_robots;
   } // setPageRobots
 
-
   //**************************************************************************************//
   // Set the JavaScript stuff.
   function setJavaScriptItems($javascripts = array()) {
     $this->javascripts = $javascripts;
   } // setJavaScriptItems
-
 
   //**************************************************************************************//
   // Set the link items stuff.
@@ -265,20 +241,17 @@ class frontendDisplay {
     $this->link_items = $link_items;
   } // setLinkItems
 
-
   //**************************************************************************************//
   // Set the Favicon stuff.
   function setFaviconItems($favicons = array()) {
     $this->favicons = $favicons;
   } // setFaviconItems
 
-
   //**************************************************************************************//
   // Set the HTML base.
   function setPageBase($page_base = null) {
     $this->base = $page_base;
   } // setPageBase
-
 
   //**************************************************************************************//
   // Set the page depth and param parts.
@@ -287,13 +260,11 @@ class frontendDisplay {
     $this->param_parts = $param_parts;
   } // setPageURLParts
 
-
   //**************************************************************************************//
   // Set the social media info.
   function setSocialMediaInfo($social_media_info = null) {
     $this->social_media_info = $social_media_info;
   } // setSocialMediaInfo
-
 
   //**************************************************************************************//
   // Set the ad banner stuff.
@@ -301,13 +272,11 @@ class frontendDisplay {
     $this->ad_banner = $ad_banner;
   } // setAdBanner
 
-
   //**************************************************************************************//
   // Set the body header.
   function setBodyHeader($header_content = null) {
     $this->header_content = $header_content;
   } // setBodyHeader
-
 
   //**************************************************************************************//
   // Set the body footer.
@@ -315,44 +284,29 @@ class frontendDisplay {
     $this->footer_content = $footer_content;
   } // setBodyFooter
 
-
   //**************************************************************************************//
   // Init the core content.
-  function initCoreContent($response_header = NULL) {
-
-    // If we are not in JSON mode, then build the HTML content.
+  function initCoreContent($response_header = null) {
     if (!$this->JSON_MODE) {
       $this->buildCoreContent();
-    }
-
+    } // if
   } // initCoreContent
-
 
   //**************************************************************************************//
   // Init the content.
-  function initHTMLContent($response_header = NULL) {
-
-    // If we are not in JSON mode, then build the HTML content.
+  function initHTMLContent($response_header = null) {
     if (!$this->JSON_MODE) {
       $this->buildHTMLContent();
-    }
-
+    } // if
     $this->renderContent($response_header);
-
   } // initHTMLContent
-
 
   //**************************************************************************************//
   // Build the core content.
   function buildCoreContent() {
-
-    //**************************************************************************************//
-    // Set the HTML content.
-
     if (!empty($this->html_content)) {
       $this->html_content = $this->html_content;
-    }
-
+    } // if
   } // buildCoreContent
 
 
@@ -364,22 +318,18 @@ class frontendDisplay {
 
       //**********************************************************************************//
       // Set the meta tags
-
       $meta_content_array = $this->setMetaTags($this->page_description, $this->page_viewport, $this->page_robots);
 
       //**********************************************************************************//
       // Set the favicons.
-
       $favicon_array = $this->setHeaderLinkArray($this->favicons);
 
       //**********************************************************************************//
       // Set the HTML/XHTML doctype.
-
       $doctype = $this->setDoctype();
 
       //**********************************************************************************//
       // Set the JavaScript.
-
       $javascript_array = $this->setJavaScriptArray();
 
       //**********************************************************************************//
@@ -389,65 +339,64 @@ class frontendDisplay {
 
       //**********************************************************************************//
       // Set the body header.
-
       $header = '';
       if (!empty($this->header_content)) {
-      $header = '<div class="Header">'
+        $header =
+            '<div class="Header">'
           . $this->header_content
           . '</div>'
           ;
-      }
+      } // if
 
       //**********************************************************************************//
       // Set the body footer.
-
       $footer = '';
       if (!empty($this->footer_content)) {
-      $footer = '<div class="Footer">'
+        $footer =
+            '<div class="Footer">'
           . $this->footer_content
           . '</div>'
           ;
-      }
+      } // if
 
       //**********************************************************************************//
       // Set the view wrapper.
-
       if (!empty($this->view_mode) && $this->view_div) {
-        $body = sprintf('<div class="%sView">', $this->view_mode)
-              . $this->setWrapper($this->html_content)
-              . sprintf('</div><!-- .%sView -->', $this->view_mode)
-              ;
-      }
+        $body =
+            sprintf('<div class="%sView">', $this->view_mode)
+          . $this->setWrapper($this->html_content)
+          . sprintf('</div><!-- .%sView -->', $this->view_mode)
+          ;
+      } // if
       else {
         $body = $this->setWrapper($this->html_content);
-      }
+      } // else
 
       //**********************************************************************************//
       // Set the final HTML content.
-
-      $ret = $doctype
-           . '<head>'
-           . '<title>' . $this->page_title . '</title>'
-           . join('', $meta_content_array)
-           . join('', $css_array)
-           . join('', $favicon_array)
-           . join('', $javascript_array)
-           . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
-           . '</head>'
-           . '<body>'
-           . $header
-           . $body
-           . $footer
-           . '</body>'
-           . '</html>'
-           ;
+      $ret =
+          $doctype
+        . '<head>'
+        . '<title>' . $this->page_title . '</title>'
+        . join('', $meta_content_array)
+        . join('', $css_array)
+        . join('', $favicon_array)
+        . join('', $javascript_array)
+        . (!empty($this->base) ? '<base href="' . $this->base . '" />' : '')
+        . '</head>'
+        . '<body>'
+        . $header
+        . $body
+        . $footer
+        . '</body>'
+        . '</html>'
+        ;
 
       //**********************************************************************************//
       // Set the HTML content class.
-
       $this->html_content = $ret;
 
-    }
+    } // if
 
   } // buildHTMLContent
 
@@ -459,15 +408,17 @@ class frontendDisplay {
     $ret = '';
 
     if ($this->doctype == 'xhtml') {
-      $ret = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
-           . '<html xmlns="http://www.w3.org/1999/xhtml">'
-           ;
-    }
+      $ret =
+          '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+        . '<html xmlns="http://www.w3.org/1999/xhtml">'
+        ;
+    } // if
     else if ($this->doctype == 'html5') {
-      $ret = '<!DOCTYPE html>'
-           . '<html lang="en">'
-           ;
-    }
+      $ret =
+          '<!DOCTYPE html>'
+        . '<html lang="en">'
+        ;
+    } // else if
 
     return $ret;
 
@@ -477,23 +428,17 @@ class frontendDisplay {
   //**************************************************************************************//
   // Set the JavaScript stuff.
   function setJavaScriptArray() {
-
-    // Roll through the JavaScripts array.
     $ret = array();
     foreach ($this->javascripts as $javascript) {
       $ret[] = sprintf('<script src="' . BASE_URL . '%s" defer="defer"></script>', $javascript);
-    }
-
+    } // foreach
     return $ret;
-
   } // setJavaScriptArray
 
 
   //**************************************************************************************//
   // Set the header link stuff.
   function setHeaderLinkArray($array = array()) {
-
-    // Roll through the generic 'link' stuffarray.
     $ret = array();
     foreach ($array as $array_type => $array_parts) {
       $parts = array();
@@ -501,21 +446,18 @@ class frontendDisplay {
         if ($key == 'href') {
           if (!filter_var($value, FILTER_VALIDATE_URL)) {
             $value = BASE_URL . $value;
-          }
-        }
+          } // if
+        } // if
         $parts[] = $key . '="' . $value . '"';
-      }
+      } // foreach
       // $ret[$array_type] = sprintf('<!-- %s link_items -->', $type);
       $ret[$array_type] = sprintf('<link %s />', join(' ', $parts));
-    }
-
+    } // foreach
     return $ret;
-
   } // setHeaderLinkArray
 
   //**************************************************************************************//
   // Set the meta content.
-
   function setMetaTags($description = null, $viewport = null, $robots = null) {
 
     // Set the meta property values.
@@ -681,18 +623,14 @@ class frontendDisplay {
 
   } // setNavigation
 
-
   //**************************************************************************************//
   // Set the ad banner stuff.
   function setAdBannerFinal() {
-
     return '<div class="Ad">'
          . sprintf($this->ad_banner, $this->page_keyword)
          . '</div>'
          ;
-
   } // setAdBannerFinal
-
 
   //**************************************************************************************//
   // Set the wrapper.
@@ -734,10 +672,9 @@ class frontendDisplay {
 
   } // setWrapper
 
-
   //**************************************************************************************//
   // Function to send content to output.
-  private function renderContent ($response_header = NULL) {
+  private function renderContent ($response_header = null) {
     global $VALID_CONTENT_TYPES, $VALID_CHARSETS, $DEBUG_OUTPUT_JSON;
 
     // If we are in debugging mode, just dump the content array & exit.
