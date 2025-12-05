@@ -623,18 +623,14 @@ class frontendDisplay {
 
   } // setNavigation
 
-
   //**************************************************************************************//
   // Set the ad banner stuff.
   function setAdBannerFinal() {
-
     return '<div class="Ad">'
          . sprintf($this->ad_banner, $this->page_keyword)
          . '</div>'
          ;
-
   } // setAdBannerFinal
-
 
   //**************************************************************************************//
   // Set the wrapper.
@@ -676,10 +672,9 @@ class frontendDisplay {
 
   } // setWrapper
 
-
   //**************************************************************************************//
   // Function to send content to output.
-  private function renderContent ($response_header = NULL) {
+  private function renderContent ($response_header = null) {
     global $VALID_CONTENT_TYPES, $VALID_CHARSETS, $DEBUG_OUTPUT_JSON;
 
     // If we are in debugging mode, just dump the content array & exit.
