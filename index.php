@@ -24,18 +24,14 @@
 
 //**************************************************************************************//
 // Require the basic configuration settings & functions.
-
-require_once 'conf/conf.inc.php';
-require_once BASE_FILEPATH . '/common/functions.inc.php';
-require_once BASE_FILEPATH . '/lib/frontendDisplay.class.php';
-require_once BASE_FILEPATH . '/lib/frontendDisplayHelper.class.php';
-require_once BASE_FILEPATH . '/lib/requestFiltering.class.php';
-require_once BASE_FILEPATH . '/lib/markdownHelper.class.php';
-require_once BASE_FILEPATH . '/lib/Spyc.php';
+require_once('conf/conf.inc.php');
+require_once(BASE_FILEPATH . '/common/functions.inc.php');
+require_once(BASE_FILEPATH . '/lib/frontendDisplay.class.php');
+require_once(BASE_FILEPATH . '/lib/frontendDisplayHelper.class.php');
+require_once(BASE_FILEPATH . '/lib/requestFiltering.class.php');
 
 //**************************************************************************************//
 // Manage the request filering stuff.
-
 $requestFilteringClass = new requestFiltering();
 $params = $requestFilteringClass->process_parameters();
 
@@ -48,15 +44,7 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 $page_base = $requestFilteringClass->process_page_base($controller);
 
 //**************************************************************************************//
-// Now move onto the markdown helper stuff.
-
-$markdownHelperClass = new markdownHelper();
-$markdown_file = $markdownHelperClass->process_markdown_file($params);
-$page_title = $markdownHelperClass->process_page_title($params);
-
-//**************************************************************************************//
 // Now deal with the front end display helper class related stuff.
-
 $frontendDisplayHelperClass = new frontendDisplayHelper();
 $frontendDisplayHelperClass->setController($controller);
 $frontendDisplayHelperClass->setPageBase($page_base);
@@ -72,7 +60,6 @@ $json_content = $frontendDisplayHelperClass->getJSONContent();
 
 //**************************************************************************************//
 // Init the front end display class and set other things.
-
 $frontendDisplayClass = new frontendDisplay();
 $frontendDisplayClass->setPageJSONContent($json_content);
 $frontendDisplayClass->setJSONMode($JSON_MODE);
@@ -99,12 +86,10 @@ $frontendDisplayClass->setAdBanner($AMAZON_RECOMMENDATION);
 
 //**************************************************************************************//
 // Init the core content and set the header and footer items.
-
 $frontendDisplayClass->initCoreContent();
 
 //**************************************************************************************//
 // Init and display the final content.
-
 $frontendDisplayClass->initHTMLContent();
 
 ?>

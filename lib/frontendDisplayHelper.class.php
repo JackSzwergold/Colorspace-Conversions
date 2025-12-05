@@ -161,64 +161,64 @@ class frontendDisplayHelper {
   public function initContent ($DEBUG_MODE = FALSE) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
- 	//**************************************************************************************//
-	// Set the view mode.
-	$this->VIEW_MODE = $this->controller;
+  //**************************************************************************************//
+  // Set the view mode.
+  $this->VIEW_MODE = $this->controller;
 
-	//**************************************************************************************//
-	// Set the debug mode.
-	$this->DEBUG_MODE = $DEBUG_MODE;
+  //**************************************************************************************//
+  // Set the debug mode.
+  $this->DEBUG_MODE = $DEBUG_MODE;
 
-	//**************************************************************************************//
-	// Get the URL param & set the markdown file as well as the page title.
+  //**************************************************************************************//
+  // Get the URL param & set the markdown file as well as the page title.
 
-	// Init the arrays.
-	$url_parts = array();
-	$markdown_parts = array();
-	$title_parts = array($SITE_TITLE);
+  // Init the arrays.
+  $url_parts = array();
+  $markdown_parts = array();
+  $title_parts = array($SITE_TITLE);
 
-	// Parse the '$_GET' parameters.
-	foreach($VALID_GET_PARAMETERS as $get_parameter) {
-	  $$get_parameter = '';
-	  if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-		if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-		  $$get_parameter = $_GET[$get_parameter];
-		}
-	  }
-	}
+  // Parse the '$_GET' parameters.
+  foreach($VALID_GET_PARAMETERS as $get_parameter) {
+    $$get_parameter = '';
+    if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+    if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+      $$get_parameter = $_GET[$get_parameter];
+    }
+    }
+  }
 
-	// Set the controller.
-	if (!empty($colorspace)) {
-	  $url_parts[] = $colorspace;
-	  $title_parts[] = strtoupper($colorspace);
-	}
+  // Set the controller.
+  if (!empty($colorspace)) {
+    $url_parts[] = $colorspace;
+    $title_parts[] = strtoupper($colorspace);
+  }
 
-	// Set the page.
-	if (!empty($colorspace) && !empty($value)) {
-	  $url_parts[] = $value;
-	  $title_parts[] = $value;
-	}
+  // Set the page.
+  if (!empty($colorspace) && !empty($value)) {
+    $url_parts[] = $value;
+    $title_parts[] = $value;
+  }
 
-	// Set the page title.
-	$this->page_title = join(' / ', $title_parts);
-	$this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
+  // Set the page title.
+  $this->page_title = join(' / ', $title_parts);
+  $this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
 
-	// Set the URL parts.
-	$this->url_parts = $url_parts;
+  // Set the URL parts.
+  $this->url_parts = $url_parts;
 
-	//**************************************************************************************//
-	// Run the actual function and get the parts.
+  //**************************************************************************************//
+  // Run the actual function and get the parts.
 
-	list($colorspace, $page_title, $url_parts) = $this->parse_parameters($SITE_TITLE, $VALID_GET_PARAMETERS);
+  list($colorspace, $page_title, $url_parts) = $this->parse_parameters($SITE_TITLE, $VALID_GET_PARAMETERS);
 
-	//**************************************************************************************//
-	// Init the display class and get the values.
+  //**************************************************************************************//
+  // Init the display class and get the values.
 
-	$DisplayClass = new Display();
-	$DisplayClass->show_rgb_grid = true;
-	// $DisplayClass->show_cmyk_grid = true;
-	$DisplayClass->show_pms_grid = true;
-	$this->html_content = $DisplayClass->init($colorspace, $value);
+  $DisplayClass = new Display();
+  $DisplayClass->show_rgb_grid = true;
+  // $DisplayClass->show_cmyk_grid = true;
+  $DisplayClass->show_pms_grid = true;
+  $this->html_content = $DisplayClass->init($colorspace, $value);
 
   } // initContent
 
@@ -233,24 +233,24 @@ class frontendDisplayHelper {
 
     // Parse the '$_GET' parameters.
     foreach($VALID_GET_PARAMETERS as $get_parameter) {
-  	  $$get_parameter = '';
-  	  if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-  	    if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-  		  $$get_parameter = $_GET[$get_parameter];
-  	    }
-  	  }
+      $$get_parameter = '';
+      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+        $$get_parameter = $_GET[$get_parameter];
+        }
+      }
     }
 
     // Set the controller.
     if (!empty($colorspace)) {
-  	  $url_parts[] = $colorspace;
-  	  $title_parts[] = strtoupper($colorspace);
+      $url_parts[] = $colorspace;
+      $title_parts[] = strtoupper($colorspace);
     }
 
     // Set the page.
     if (!empty($colorspace) && !empty($value)) {
-  	  $url_parts[] = $value;
-  	  $title_parts[] = $value;
+      $url_parts[] = $value;
+      $title_parts[] = $value;
     }
 
     // Set the page title.
