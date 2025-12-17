@@ -61,7 +61,7 @@ class colorspaceHelper {
 
   //**************************************************************************************//
   // Get the init content.
-  public function initContent($DEBUG_MODE = FALSE) {
+  public function renderContent($DEBUG_MODE = FALSE) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     //************************************************************************************//
@@ -124,7 +124,7 @@ class colorspaceHelper {
     $DisplayClass->show_pms_grid = true;
     $this->html_content = $DisplayClass->init($colorspace, $value);
 
-  } // initContent
+  } // renderContent
 
   //**************************************************************************************//
   // Here is the function to parse the parameters.
