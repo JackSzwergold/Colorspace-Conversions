@@ -59,8 +59,8 @@ class Display extends Helpers {
   public $cmyk_step = 20;
 
   /**************************************************************************************/
-
-  public function init ($colorspace = NULL, $value = NULL) {
+  // The init method.
+  public function init($colorspace = NULL, $value = NULL) {
 
     $rgb_array = array();
 
@@ -87,15 +87,18 @@ class Display extends Helpers {
   } // init
 
   /**************************************************************************************/
+  // The get RGB values method.
+  private function get_rgb_values ($rgb_get = NULL) {
 
-  public function get_rgb_values ($rgb_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $rgb_array = array();
 
+    /************************************************************************************/
     // Get the RGB component names from the passed $_GET string.
     list($rgb_array['red'], $rgb_array['green'], $rgb_array['blue']) = explode('_', $rgb_get);
 
+    /************************************************************************************/
     // Loop through the RGB components.
     foreach ($this->rgb_components as $rgb_component) {
       $rgb_array[$rgb_component] = intval($rgb_array[$rgb_component]) > 255 ? 255 : $rgb_array[$rgb_component];
@@ -107,15 +110,18 @@ class Display extends Helpers {
   } // get_rgb_values
 
   /**************************************************************************************/
+  // The get CMYK values method.
+  private function get_cmyk_values ($cmyk_get = NULL) {
 
-  public function get_cmyk_values ($cmyk_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $cmyk_array = array();
 
+    /************************************************************************************/
     // Get the CMYK component names from the passed $_GET string.
     list($cmyk_array['cyan'], $cmyk_array['magenta'], $cmyk_array['yellow'], $cmyk_array['black']) = explode('_', $cmyk_get);
 
+    /************************************************************************************/
     // Loop through the CMYK components.
     foreach ($this->cmyk_components as $cmyk_component) {
       $cmyk_array[$cmyk_component] = intval($cmyk_array[$cmyk_component]) > 100 ? 100 : $cmyk_array[$cmyk_component];
@@ -127,80 +133,97 @@ class Display extends Helpers {
   } // get_cmyk_values
 
   /**************************************************************************************/
+  // The get PMS values method.
+  private function get_hex_values($hex_get = null) {
 
-  public function get_hex_values ($hex_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $ret = '';
 
+    /************************************************************************************/
     // Check if the hex is valid.
     if (!empty($hex_get) && ctype_xdigit($hex_get)){
       $ret = $hex_get;
-    }
+    } // if
     else {
       $ret = '000000';
-    }
+    } // else
 
     return $ret;
 
   } // get_hex_values
 
   /**************************************************************************************/
+  // The get PMS values method.
+  private function get_pms_values($pms_get = null) {
 
-  public function get_pms_values ($pms_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $ret = '';
 
+    /************************************************************************************/
     // Check if the hex is valid.
     if (!empty($pms_get)){
       $ret = $pms_get;
-    }
+    } // if
 
     return $ret;
 
   } // get_pms_values
 
   /**************************************************************************************/
+  // The build URL method.
+  private function get_color_values($rgb_array = array()) {
 
-  public function get_color_values ($rgb_array = array()) {
-
+    /************************************************************************************/
     // Sanitize the RGB array.
     $rgb_array = empty($rgb_array) ? array('red' => 0, 'green' => 0, 'blue' => 0) :  $rgb_array;
 
+    /************************************************************************************/
     // Convert the RGB value to gray.
     $this->gray = $this->rgb_to_gray($rgb_array, 'standard');
 
+    /************************************************************************************/
     // Convert the gray value to a percentage.
     $this->gray_percentage = $this->gray_percentage($this->gray);
 
+    /************************************************************************************/
     // Convert the RGB value to hexadecimal.
     $this->hex = $this->rgb_to_hex($rgb_array);
 
+    /************************************************************************************/
     // Invert the RGB and set it as a hexadecimal value for layout purposes.
     $this->hex_inverted = $this->rgb_to_hex($this->rgb_invert($rgb_array));
 
+    /************************************************************************************/
     // Covert the RGB to gray and set it as a hexadecimal value for layout purposes.
     $this->hex_gray = $this->rgb_to_hex($this->gray);
 
+    /************************************************************************************/
     // Invert the RGB to gray and set it as a hexadecimal value for layout purposes.
     $this->hex_gray_inverted = $this->rgb_to_hex($this->rgb_invert($this->gray));
 
+    /************************************************************************************/
     // Convert the RGB value to CMYK.
     $cmyk_array = $this->rgb_to_cmyk($rgb_array);
 
+    /************************************************************************************/
     // Convert the RGB value to HSL.
     $hsl = $this->rgb_to_hsl($rgb_array);
 
+    /************************************************************************************/
     // Convert the HSL value to RGB.
     $hsl_back_to_rgb = $this->hsl_to_rgb($hsl);
 
+    /************************************************************************************/
     // Convert the RGB value to HSV.
     $hsv = $this->rgb_to_hsv($rgb_array);
 
+    /************************************************************************************/
     // Convert the HSV value to RGB.
     $hsv_back_to_rgb = $this->hsv_to_rgb($hsv);
 
+    /************************************************************************************/
     // Set all of the different values.
     $ret = array();
     $ret['hex'] = sprintf('<a href="hex/%s">%s</a>', ltrim($this->hex, '#'), $this->hex);
@@ -222,21 +245,19 @@ class Display extends Helpers {
   } // get_color_values
 
   /**************************************************************************************/
-
-  public function build_url ($params) {
-
-    return implode('/', $params);
-
+  // The build URL method.
+  private function build_url($params = array()) {
+    return BASE_URL . implode('/', $params);
   } // build_url
 
   /**************************************************************************************/
-
-  public function build_pixel_box ($url, $hex, $text, $css = null) {
+  // The build pixel box method.
+  private function build_pixel_box($url = null, $hex = null, $text = null, $css = null) {
 
     $ret = sprintf('<a href="%s">', $url)
          . sprintf('<div class="PixelBox %s" style="background-color: %s;">', $css, $hex)
          . '<div class="Padding">'
-         . sprintf('<p>%s</p>', $text)
+         . sprintf('<p class="m-0 p-0">%s</p>', $text)
          . '</div><!-- .Padding -->'
          . '</div><!-- .PixelBox -->'
          . '</a>'
@@ -247,8 +268,8 @@ class Display extends Helpers {
   } // build_pixel_box
 
   /**************************************************************************************/
-
-  public function rgb_grid () {
+  // The RGB grid method.
+  private function rgb_grid() {
 
     $ret = '';
 
@@ -261,7 +282,7 @@ class Display extends Helpers {
       rsort($rgb_test['red']);
       rsort($rgb_test['green']);
       rsort($rgb_test['blue']);
-    }
+    } // if
 
     foreach ($rgb_test['red'] as $red) {
       foreach ($rgb_test['green'] as $green) {
@@ -272,17 +293,17 @@ class Display extends Helpers {
           $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
           $text = '<!-- -->';
           $ret .= $this->build_pixel_box($url, $hex, $text);
-        }
-      }
-    }
+        } // for
+      } // for
+    } // for
 
     return $ret;
 
   } // rgb_grid
 
   /**************************************************************************************/
-
-  public function cmyk_grid () {
+  // The CMYK grid method.
+  private function cmyk_grid() {
 
     $ret = '';
 
@@ -299,65 +320,73 @@ class Display extends Helpers {
             $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
             $text = '<!-- -->';
             $ret .= $this->build_pixel_box($url, $hex, $text);
-          }
-        }
-      }
-    }
+          } // for
+        } // for
+      } // for
+    } // for
 
     return $ret;
 
   } // cmyk_grid
 
   /**************************************************************************************/
-
-  public function pms_grid () {
+  // The PMS grid method.
+  private function pms_grid() {
 
     $ret = '';
 
+    /************************************************************************************/
     // Get the PMS data.
     $pms_data = $this->read_pms_data();
 
+    /************************************************************************************/
+    // Do something.
     if (!empty($pms_data)) {
 
+      /**********************************************************************************/
       // Sort the PMS to hex array.
       ksort($pms_data);
 
       foreach ($pms_data as $pms_key => $pms_value) {
 
+        /********************************************************************************/
         // Set the CSS based on the gray percentage.
         $css =  $pms_value['gray_percentage'] > $this->gray_text_cutoff ? $this->text_class_dark : $this->text_class_light;
 
+        /********************************************************************************/
         // Set the RGB URL param.
         $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
 
+        /********************************************************************************/
         // Set the URL.
-        // $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb_param));
         $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
 
+        /********************************************************************************/
         // Set the text to be passed back into the pixel box.
         $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
 
+        /********************************************************************************/
         // Set the pixel box.
         $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
 
       } // foreach
 
-    }
+    } // if
 
     return $ret;
 
   } // pms_grid
 
   /**************************************************************************************/
-
-  public function set_body_content ($final) {
+  // The set body content method.
+  private function set_body_content($final = array()) {
 
     $ret = '<div class="InfoBox">'
          . '<div class="Padding">'
-         . '<p><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
-         . '<p><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
-         . '<p><b>HEX URL Format:</b> /hex/hhhhhh (000000)</p>'
-         . '<p><b>PMS URL Format:</b> /pms/xxxxxx (000_ABC)</p>'
+         . '<p class="m-0 p-0"><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
+         . '<p class="m-0 p-0"><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
+         . '<p class="m-0 p-0"><b>HEX URL Format:</b> /hex/hhhhhh (000000)</p>'
+         . '<p class="m-0 p-0"><b>PMS URL Format:</b> /pms/xxxxxx (000_ABC)</p>'
          . '</div><!-- .Padding -->'
          . '</div><!-- .InfoBox -->'
          ;
@@ -371,13 +400,14 @@ class Display extends Helpers {
             . '<div class="Padding">'
             ;
       foreach ($final as $key => $value) {
-        $ret .= sprintf('<p><b>%s</b>: %s</p>', strtoupper($key), $value);
+        $ret .= sprintf('<p class="m-0 p-0"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
       $ret .= '</div><!-- .Padding -->'
             . '</div><!-- .InfoBox -->'
             ;
     }
 
+    /************************************************************************************/
     // RGB grid.
     if ($this->show_rgb_grid) {
       $ret .= '<div class="RGB">'
@@ -390,6 +420,7 @@ class Display extends Helpers {
             ;
     }
 
+    /************************************************************************************/
     // CMYK grid.
     if ($this->show_cmyk_grid) {
       $ret .= '<div class="CMYK">'
@@ -402,6 +433,7 @@ class Display extends Helpers {
             ;
     }
 
+    /************************************************************************************/
     // PMS grid.
     if ($this->show_pms_grid) {
       $ret .= '<div class="PMS">'
