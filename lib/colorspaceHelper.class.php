@@ -122,7 +122,11 @@ class colorspaceHelper {
     $DisplayClass->show_rgb_grid = true;
     // $DisplayClass->show_cmyk_grid = true;
     $DisplayClass->show_pms_grid = true;
-    $this->html_content = $DisplayClass->init($colorspace, $value);
+    $ret = $DisplayClass->init($colorspace, $value);
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $ret;
 
   } // renderContent
 
