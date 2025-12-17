@@ -236,7 +236,7 @@ class Display extends Helpers {
     $ret = sprintf('<a href="%s">', $url)
          . sprintf('<div class="PixelBox %s" style="background-color: %s;">', $css, $hex)
          . '<div class="Padding">'
-         . sprintf('<p>%s</p>', $text)
+         . sprintf('<p class="m-0 p-0">%s</p>', $text)
          . '</div><!-- .Padding -->'
          . '</div><!-- .PixelBox -->'
          . '</a>'
@@ -354,10 +354,10 @@ class Display extends Helpers {
 
     $ret = '<div class="InfoBox">'
          . '<div class="Padding">'
-         . '<p><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
-         . '<p><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
-         . '<p><b>HEX URL Format:</b> /hex/hhhhhh (000000)</p>'
-         . '<p><b>PMS URL Format:</b> /pms/xxxxxx (000_ABC)</p>'
+         . '<p class="m-0 p-0"><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
+         . '<p class="m-0 p-0"><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
+         . '<p class="m-0 p-0"><b>HEX URL Format:</b> /hex/hhhhhh (000000)</p>'
+         . '<p class="m-0 p-0"><b>PMS URL Format:</b> /pms/xxxxxx (000_ABC)</p>'
          . '</div><!-- .Padding -->'
          . '</div><!-- .InfoBox -->'
          ;
@@ -371,7 +371,7 @@ class Display extends Helpers {
             . '<div class="Padding">'
             ;
       foreach ($final as $key => $value) {
-        $ret .= sprintf('<p><b>%s</b>: %s</p>', strtoupper($key), $value);
+        $ret .= sprintf('<p class="m-0 p-0"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
       $ret .= '</div><!-- .Padding -->'
             . '</div><!-- .InfoBox -->'
