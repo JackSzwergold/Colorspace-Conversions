@@ -40,32 +40,7 @@ $DEBUG_MODE = FALSE;
 $SITE_KEYWORD = 'colorspace';
 $SITE_DEFAULT_CONTROLLER = 'large';
 
-// Favicon info.
-$FAVICONS = array();
-$FAVICONS['standard']['rel'] = 'icon';
-$FAVICONS['standard']['type'] = 'image/png';
-$FAVICONS['standard']['href'] = 'favicons/favicon.ico';
-$FAVICONS['opera']['rel'] = 'icon';
-$FAVICONS['opera']['type'] = 'image/png';
-$FAVICONS['opera']['href'] = 'favicons/speeddial-160px.png';
-$FAVICONS['iphone']['rel'] = 'apple-touch-icon-precomposed';
-$FAVICONS['iphone']['href'] = 'favicons/apple-touch-icon-57x57-precomposed.png';
-$FAVICONS['iphone4_retina']['rel'] = 'apple-touch-icon-precomposed';
-$FAVICONS['iphone4_retina']['sizes'] = '114x114';
-$FAVICONS['iphone4_retina']['href'] = 'favicons/apple-touch-icon-114x114-precomposed.png';
-$FAVICONS['ipad']['rel'] = 'apple-touch-icon-precomposed';
-$FAVICONS['ipad']['sizes'] = '72x72';
-$FAVICONS['ipad']['href'] = 'favicons/apple-touch-icon-72x72-precomposed.png';
 
-// Social media info.
-$SOCIAL_MEDIA_INFO = array();
-$SOCIAL_MEDIA_INFO['instagram']['short_name'] = 'Instagram';
-$SOCIAL_MEDIA_INFO['instagram']['emoji'] = '📸';
-$SOCIAL_MEDIA_INFO['instagram']['url'] = 'https://www.instagram.com/jackszwergold/';
-$SOCIAL_MEDIA_INFO['instagram']['description'] = 'Check me out on Instagram.';
-
-// Amazon recommendation banner.
-$AMAZON_RECOMMENDATION = '';
 
 // Set the page DIVs array.
 $PAGE_DIVS_ARRAY = array();
@@ -81,21 +56,5 @@ $PAGE_DIVS_ARRAY[] = 'Padding';
 
 // Set the page DIV wrapper.
 $PAGE_DIV_WRAPPER = 'PixelBoxWrapper';
-
-// Set the javascript values.
-$JAVASCRIPTS_ITEMS = array();
-
-// Set the link items array.
-$LINK_ITEMS = array();
-$LINK_ITEMS['style_css']['rel'] = 'stylesheet';
-$LINK_ITEMS['style_css']['type'] = 'text/css';
-$LINK_ITEMS['style_css']['href'] = 'css/style.css';
-$LINK_ITEMS['author']['rel'] = 'author';
-$LINK_ITEMS['author']['href'] = 'https://plus.google.com/+JackSzwergold';
-
-// Set the controller and parameter stuff.
-$VALID_CONTROLLERS = array('parent', 'colorspace', 'value');
-$DISPLAY_CONTROLLERS = array('parent', 'colorspace', 'value');
-$VALID_GET_PARAMETERS = array('_debug', 'json', 'offset', 'count', 'colorspace', 'value', 'parent', 'child', 'grandchild', 'greatgrandchild');
 
 ?>
