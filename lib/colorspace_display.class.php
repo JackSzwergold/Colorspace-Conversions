@@ -165,42 +165,56 @@ class Display extends Helpers {
 
   public function get_color_values ($rgb_array = array()) {
 
+
+    /************************************************************************************/
     // Sanitize the RGB array.
     $rgb_array = empty($rgb_array) ? array('red' => 0, 'green' => 0, 'blue' => 0) :  $rgb_array;
 
+    /************************************************************************************/
     // Convert the RGB value to gray.
     $this->gray = $this->rgb_to_gray($rgb_array, 'standard');
 
+    /************************************************************************************/
     // Convert the gray value to a percentage.
     $this->gray_percentage = $this->gray_percentage($this->gray);
 
+    /************************************************************************************/
     // Convert the RGB value to hexadecimal.
     $this->hex = $this->rgb_to_hex($rgb_array);
 
+    /************************************************************************************/
     // Invert the RGB and set it as a hexadecimal value for layout purposes.
     $this->hex_inverted = $this->rgb_to_hex($this->rgb_invert($rgb_array));
 
+    /************************************************************************************/
     // Covert the RGB to gray and set it as a hexadecimal value for layout purposes.
     $this->hex_gray = $this->rgb_to_hex($this->gray);
 
+    /************************************************************************************/
     // Invert the RGB to gray and set it as a hexadecimal value for layout purposes.
     $this->hex_gray_inverted = $this->rgb_to_hex($this->rgb_invert($this->gray));
 
+    /************************************************************************************/
     // Convert the RGB value to CMYK.
     $cmyk_array = $this->rgb_to_cmyk($rgb_array);
 
+    /************************************************************************************/
     // Convert the RGB value to HSL.
     $hsl = $this->rgb_to_hsl($rgb_array);
 
+    /************************************************************************************/
     // Convert the HSL value to RGB.
     $hsl_back_to_rgb = $this->hsl_to_rgb($hsl);
 
+    /************************************************************************************/
     // Convert the RGB value to HSV.
     $hsv = $this->rgb_to_hsv($rgb_array);
 
+    /************************************************************************************/
     // Convert the HSV value to RGB.
     $hsv_back_to_rgb = $this->hsv_to_rgb($hsv);
 
+    /************************************************************************************/
     // Set all of the different values.
     $ret = array();
     $ret['hex'] = sprintf('<a href="hex/%s">%s</a>', ltrim($this->hex, '#'), $this->hex);
