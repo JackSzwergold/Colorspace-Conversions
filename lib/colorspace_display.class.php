@@ -225,7 +225,7 @@ class Display extends Helpers {
 
   public function build_url ($params) {
 
-    return implode('/', $params);
+    return BASE_URL . implode('/', $params);
 
   } // build_url
 
@@ -261,7 +261,7 @@ class Display extends Helpers {
       rsort($rgb_test['red']);
       rsort($rgb_test['green']);
       rsort($rgb_test['blue']);
-    }
+    } // if
 
     foreach ($rgb_test['red'] as $red) {
       foreach ($rgb_test['green'] as $green) {
@@ -272,9 +272,9 @@ class Display extends Helpers {
           $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
           $text = '<!-- -->';
           $ret .= $this->build_pixel_box($url, $hex, $text);
-        }
-      }
-    }
+        } // for
+      } // for
+    } // for
 
     return $ret;
 
@@ -299,10 +299,10 @@ class Display extends Helpers {
             $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
             $text = '<!-- -->';
             $ret .= $this->build_pixel_box($url, $hex, $text);
-          }
-        }
-      }
-    }
+          } // for
+        } // for
+      } // for
+    } // for
 
     return $ret;
 
@@ -331,7 +331,6 @@ class Display extends Helpers {
         $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
 
         // Set the URL.
-        // $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb_param));
         $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
 
         // Set the text to be passed back into the pixel box.
