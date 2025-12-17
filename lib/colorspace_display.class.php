@@ -222,16 +222,14 @@ class Display extends Helpers {
   } // get_color_values
 
   /**************************************************************************************/
-
-  public function build_url ($params) {
-
+  // The build URL method.
+  private function build_url($params = array()) {
     return BASE_URL . implode('/', $params);
-
   } // build_url
 
   /**************************************************************************************/
-
-  public function build_pixel_box ($url, $hex, $text, $css = null) {
+  // The build pixel box method.
+  private function build_pixel_box($url = null, $hex = null, $text = null, $css = null) {
 
     $ret = sprintf('<a href="%s">', $url)
          . sprintf('<div class="PixelBox %s" style="background-color: %s;">', $css, $hex)
@@ -247,8 +245,8 @@ class Display extends Helpers {
   } // build_pixel_box
 
   /**************************************************************************************/
-
-  public function rgb_grid () {
+  // The RGB grid method.
+  private function rgb_grid() {
 
     $ret = '';
 
@@ -281,8 +279,8 @@ class Display extends Helpers {
   } // rgb_grid
 
   /**************************************************************************************/
-
-  public function cmyk_grid () {
+  // The CMYK grid method.
+  private function cmyk_grid() {
 
     $ret = '';
 
@@ -309,47 +307,56 @@ class Display extends Helpers {
   } // cmyk_grid
 
   /**************************************************************************************/
-
-  public function pms_grid () {
+  // The PMS grid method.
+  private function pms_grid() {
 
     $ret = '';
 
+    /************************************************************************************/
     // Get the PMS data.
     $pms_data = $this->read_pms_data();
 
+    /************************************************************************************/
+    // Do something.
     if (!empty($pms_data)) {
 
+      /**********************************************************************************/
       // Sort the PMS to hex array.
       ksort($pms_data);
 
       foreach ($pms_data as $pms_key => $pms_value) {
 
+        /********************************************************************************/
         // Set the CSS based on the gray percentage.
         $css =  $pms_value['gray_percentage'] > $this->gray_text_cutoff ? $this->text_class_dark : $this->text_class_light;
 
+        /********************************************************************************/
         // Set the RGB URL param.
         $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
 
+        /********************************************************************************/
         // Set the URL.
         $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
 
+        /********************************************************************************/
         // Set the text to be passed back into the pixel box.
         $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
 
+        /********************************************************************************/
         // Set the pixel box.
         $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
 
       } // foreach
 
-    }
+    } // if
 
     return $ret;
 
   } // pms_grid
 
   /**************************************************************************************/
-
-  public function set_body_content ($final) {
+  // The set body content method.
+  private function set_body_content($final = array()) {
 
     $ret = '<div class="InfoBox">'
          . '<div class="Padding">'
@@ -377,6 +384,7 @@ class Display extends Helpers {
             ;
     }
 
+    /************************************************************************************/
     // RGB grid.
     if ($this->show_rgb_grid) {
       $ret .= '<div class="RGB">'
@@ -389,6 +397,7 @@ class Display extends Helpers {
             ;
     }
 
+    /************************************************************************************/
     // CMYK grid.
     if ($this->show_cmyk_grid) {
       $ret .= '<div class="CMYK">'
@@ -401,6 +410,7 @@ class Display extends Helpers {
             ;
     }
 
+    /************************************************************************************/
     // PMS grid.
     if ($this->show_pms_grid) {
       $ret .= '<div class="PMS">'
