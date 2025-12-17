@@ -31,8 +31,8 @@ $SITE_DEFAULT_CONTROLLER = 'small';
 
 /**************************************************************************************************/
 // Set the controller and parameter stuff.
-$VALID_CONTROLLERS = array('parent', 'child', 'grandchild', 'greatgrandchild');
-$DISPLAY_CONTROLLERS = array('parent');
-$VALID_GET_PARAMETERS = array('parent', 'child', 'grandchild', 'greatgrandchild', '_debug', 'json', 'offset', 'count');
+$VALID_CONTROLLERS = array('parent', 'colorspace', 'value');
+$DISPLAY_CONTROLLERS = array('parent', 'colorspace', 'value');
+$VALID_GET_PARAMETERS = array('_debug', 'json', 'offset', 'count', 'colorspace', 'value', 'parent', 'child', 'grandchild', 'greatgrandchild');
 
 ?>
