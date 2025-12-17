@@ -7,7 +7,7 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
- * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>. 
+ * work. If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
  *
  * w: https://www.szwergold.com
  * e: jackszwergold@icloud.com
@@ -18,19 +18,13 @@
  *
  */
 
-/**************************************************************************************************/
-// Define localized defaults.
+/******************************************************************************/
+// Set the debugging mode.
+$DEBUG_MODE = FALSE;
 
-// Enable or disable JSON debugging output.
-$DEBUG_OUTPUT_JSON = false;
+?>
 
-// Set the base URL path.
-if ($_SERVER['SERVER_NAME'] == 'localhost') {
-  define('BASE_PATH', '/Colorspace-Conversions/');
-}
-else {
-  define('BASE_PATH', '/projects/colorspace/');
-}
+<?php
 
 // Site descriptive info.
 $SITE_TITLE = 'Colorspace Conversions';
