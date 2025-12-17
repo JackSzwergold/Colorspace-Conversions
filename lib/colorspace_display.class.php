@@ -59,8 +59,8 @@ class Display extends Helpers {
   public $cmyk_step = 20;
 
   /**************************************************************************************/
-
-  public function init ($colorspace = NULL, $value = NULL) {
+  // The init method.
+  public function init($colorspace = NULL, $value = NULL) {
 
     $rgb_array = array();
 
