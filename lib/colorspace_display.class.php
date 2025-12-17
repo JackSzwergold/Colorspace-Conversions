@@ -87,15 +87,18 @@ class Display extends Helpers {
   } // init
 
   /**************************************************************************************/
+  // The get RGB values method.
+  private function get_rgb_values ($rgb_get = NULL) {
 
-  public function get_rgb_values ($rgb_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $rgb_array = array();
 
+    /************************************************************************************/
     // Get the RGB component names from the passed $_GET string.
     list($rgb_array['red'], $rgb_array['green'], $rgb_array['blue']) = explode('_', $rgb_get);
 
+    /************************************************************************************/
     // Loop through the RGB components.
     foreach ($this->rgb_components as $rgb_component) {
       $rgb_array[$rgb_component] = intval($rgb_array[$rgb_component]) > 255 ? 255 : $rgb_array[$rgb_component];
@@ -107,15 +110,18 @@ class Display extends Helpers {
   } // get_rgb_values
 
   /**************************************************************************************/
+  // The get CMYK values method.
+  private function get_cmyk_values ($cmyk_get = NULL) {
 
-  public function get_cmyk_values ($cmyk_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $cmyk_array = array();
 
+    /************************************************************************************/
     // Get the CMYK component names from the passed $_GET string.
     list($cmyk_array['cyan'], $cmyk_array['magenta'], $cmyk_array['yellow'], $cmyk_array['black']) = explode('_', $cmyk_get);
 
+    /************************************************************************************/
     // Loop through the CMYK components.
     foreach ($this->cmyk_components as $cmyk_component) {
       $cmyk_array[$cmyk_component] = intval($cmyk_array[$cmyk_component]) > 100 ? 100 : $cmyk_array[$cmyk_component];
@@ -127,44 +133,47 @@ class Display extends Helpers {
   } // get_cmyk_values
 
   /**************************************************************************************/
+  // The get PMS values method.
+  private function get_hex_values($hex_get = null) {
 
-  public function get_hex_values ($hex_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $ret = '';
 
+    /************************************************************************************/
     // Check if the hex is valid.
     if (!empty($hex_get) && ctype_xdigit($hex_get)){
       $ret = $hex_get;
-    }
+    } // if
     else {
       $ret = '000000';
-    }
+    } // else
 
     return $ret;
 
   } // get_hex_values
 
   /**************************************************************************************/
+  // The get PMS values method.
+  private function get_pms_values($pms_get = null) {
 
-  public function get_pms_values ($pms_get = NULL) {
-
+    /************************************************************************************/
     // Init the basics.
     $ret = '';
 
+    /************************************************************************************/
     // Check if the hex is valid.
     if (!empty($pms_get)){
       $ret = $pms_get;
-    }
+    } // if
 
     return $ret;
 
   } // get_pms_values
 
   /**************************************************************************************/
-
-  public function get_color_values ($rgb_array = array()) {
-
+  // The build URL method.
+  private function get_color_values($rgb_array = array()) {
 
     /************************************************************************************/
     // Sanitize the RGB array.
