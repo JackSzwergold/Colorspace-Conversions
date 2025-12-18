@@ -83,10 +83,16 @@ class Display extends Helpers {
     }
 
     /************************************************************************************/
-    // Set the final return values.
+    // Get the final return values.
     $final_values = $this->get_color_values($rgb_array);
 
-    return $this->set_body_content($final_values);
+    /************************************************************************************/
+    // Set the final return values.
+    $ret = $this->set_body_content($final_values);
+
+    /************************************************************************************/
+    // Return the final return values.
+    return $ret;
 
   } // init
 
