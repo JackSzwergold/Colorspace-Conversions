@@ -59,9 +59,9 @@ class Display extends Helpers {
   // The init method.
   public function init($colorspace = NULL, $value = NULL) {
 
-
     /************************************************************************************/
     // Init the basics.
+    $ret = null;
     $rgb_array = array();
 
     /************************************************************************************/
