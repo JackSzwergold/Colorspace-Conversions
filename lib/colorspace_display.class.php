@@ -264,6 +264,8 @@ class Display extends Helpers {
          . '</a>'
          ;
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // build_pixel_box
@@ -279,11 +281,6 @@ class Display extends Helpers {
 
     $rgb_test = array('red' => $step, 'green' => $step, 'blue' => $step);
 
-    if (FALSE) {
-      rsort($rgb_test['red']);
-      rsort($rgb_test['green']);
-      rsort($rgb_test['blue']);
-    } // if
 
     foreach ($rgb_test['red'] as $red) {
       foreach ($rgb_test['green'] as $green) {
@@ -298,6 +295,8 @@ class Display extends Helpers {
       } // for
     } // for
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // rgb_grid
@@ -326,6 +325,8 @@ class Display extends Helpers {
       } // for
     } // for
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // cmyk_grid
@@ -374,6 +375,8 @@ class Display extends Helpers {
 
     } // if
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // pms_grid
