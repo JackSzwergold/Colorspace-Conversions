@@ -272,7 +272,7 @@ class Display extends Helpers {
   // The RGB grid method.
   private function rgb_grid() {
 
-    $ret = '';
+    $ret = null;
 
     $span = array_fill(1, $this->rgb_span, NULL);
     $step = range(1, $this->rgb_span, $this->rgb_step);
@@ -306,7 +306,7 @@ class Display extends Helpers {
   // The CMYK grid method.
   private function cmyk_grid() {
 
-    $ret = '';
+    $ret = null;
 
     $cmky_span = array_fill(1, $this->cmyk_span, NULL);
     $cmky_step = range(1, $this->cmyk_span, $cmky_span);
@@ -334,7 +334,7 @@ class Display extends Helpers {
   // The PMS grid method.
   private function pms_grid() {
 
-    $ret = '';
+    $ret = null;
 
     /************************************************************************************/
     // Get the PMS data.
