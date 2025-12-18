@@ -138,12 +138,9 @@ ul, li
 .PMS .Grid .PixelBox .Padding { padding: 10px 0 0 10px; }
 
 /**************************************************************************************************/
-/*.Core .light p,
-.Core .light p a, .Core .light p a:visited,
-.Core .light p a:hover, .Core .light p a:active { color: #ffffff; }
-.Core .dark p,
-.Core .dark p a, .Core .dark p a:visited,
-.Core .dark p a:hover, .Core .dark p a:active { color: #000000; }*/
-
-/**************************************************************************************************/
-/*.ClearDiv { clear: both; }*/
+.light p,
+.light p a, .Core .light p a:visited,
+.light p a:hover, .Core .light p a:active { color: #ffffff; }
+.dark p,
+.dark p a, .Core .dark p a:visited,
+.dark p a:hover, .Core .dark p a:active { color: #000000; }
