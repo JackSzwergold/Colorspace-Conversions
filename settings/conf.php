@@ -27,7 +27,7 @@ $TEMPLATE_FRAMEWORK = 'bootstrap-5.3';
 
 /**************************************************************************************************/
 // Site descriptive info.
-$SITE_DEFAULT_CONTROLLER = 'small';
+$SITE_DEFAULT_CONTROLLER = 'large';
 
 /**************************************************************************************************/
 // Set the controller and parameter stuff.
