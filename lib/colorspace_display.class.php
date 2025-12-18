@@ -274,24 +274,25 @@ class Display extends Helpers {
   // The RGB grid method.
   private function rgb_grid() {
 
+    /************************************************************************************/
+    // Init the basics.
     $ret = null;
 
     $span = array_fill(1, $this->rgb_span, NULL);
     $step = range(1, $this->rgb_span, $this->rgb_step);
 
-    $rgb_test = array('red' => $step, 'green' => $step, 'blue' => $step);
+    $rgb_array = array('red' => $step, 'green' => $step, 'blue' => $step);
 
     /************************************************************************************/
     // Roll through the RGB items and do something.
-    foreach ($rgb_test['red'] as $red) {
-      foreach ($rgb_test['green'] as $green) {
-        foreach ($rgb_test['blue'] as $blue) {
+    foreach ($rgb_array['red'] as $red) {
+      foreach ($rgb_array['green'] as $green) {
+        foreach ($rgb_array['blue'] as $blue) {
           $color = array('red' => $red, 'green' => $green, 'blue' => $blue);
           $hex = $this->rgb_to_hex($color);
           $rgb = sprintf('%s_%s_%s', $red, $green, $blue);
           $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
-          $text = '<!-- -->';
-          $ret .= $this->build_pixel_box($url, $hex, $text);
+          $ret .= $this->build_pixel_box($url, $hex);
         } // for
       } // for
     } // for
@@ -306,12 +307,14 @@ class Display extends Helpers {
   // The CMYK grid method.
   private function cmyk_grid() {
 
+    /************************************************************************************/
+    // Init the basics.
     $ret = null;
 
     $cmky_span = array_fill(1, $this->cmyk_span, NULL);
     $cmky_step = range(1, $this->cmyk_span, $cmky_span);
 
-    /**********************************************************************************/
+    /************************************************************************************/
     // Roll through the CMYK items and do something.
     for ($black = 0; $black <= ($this->cmyk_span - 20); $black += $this->cmyk_step) {
       for ($magenta = 0; $magenta <= $this->cmyk_span; $magenta += $this->cmyk_step) {
