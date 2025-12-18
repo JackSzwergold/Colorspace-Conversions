@@ -59,8 +59,13 @@ class Display extends Helpers {
   // The init method.
   public function init($colorspace = NULL, $value = NULL) {
 
+
+    /************************************************************************************/
+    // Init the basics.
     $rgb_array = array();
 
+    /************************************************************************************/
+    // Do something.
     if ($colorspace == 'rgb') {
       $rgb_array = $this->get_rgb_values($value);
     }
@@ -77,6 +82,8 @@ class Display extends Helpers {
       $rgb_array = $this->pms_to_rgb($pms_value);
     }
 
+    /************************************************************************************/
+    // Set the final return values.
     $final_values = $this->get_color_values($rgb_array);
 
     return $this->set_body_content($final_values);
@@ -85,7 +92,7 @@ class Display extends Helpers {
 
   /**************************************************************************************/
   // The get RGB values method.
-  private function get_rgb_values ($rgb_get = NULL) {
+  private function get_rgb_values($rgb_get = null) {
 
     /************************************************************************************/
     // Init the basics.
