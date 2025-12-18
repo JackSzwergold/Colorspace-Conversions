@@ -350,7 +350,7 @@ class Display extends Helpers {
 
   /**************************************************************************************/
   // The RGB grid method.
-  private function rgb_grid() {
+  public function rgb_grid() {
 
     /************************************************************************************/
     // Init the basics.
@@ -385,7 +385,7 @@ class Display extends Helpers {
 
   /**************************************************************************************/
   // The CMYK grid method.
-  private function cmyk_grid() {
+  public function cmyk_grid() {
 
     /************************************************************************************/
     // Init the basics.
@@ -420,7 +420,7 @@ class Display extends Helpers {
 
   /**************************************************************************************/
   // The PMS grid method.
-  private function pms_grid() {
+  public function pms_grid() {
 
     /************************************************************************************/
     // Init the basics.
