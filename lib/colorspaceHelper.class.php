@@ -30,16 +30,12 @@ require_once(BASE_FILEPATH . '/lib/colorspace_display.class.php');
 class colorspaceHelper {
 
   public $controller = '';
-  public $page_base = '';
-  public $page_base_suffix = '';
-  public $page_title = '';
-  public $count = 1;
-
   public $url_parts = array();
+
+  public $page_title = '';
+
   public $VIEW_MODE = null;
   public $DEBUG_MODE = FALSE;
-  public $html_content = '';
-  public $json_content = '';
 
   //**************************************************************************************//
   // Filter the view mode.
