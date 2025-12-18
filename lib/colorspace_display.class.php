@@ -94,7 +94,6 @@ class Display extends Helpers {
 
   } // init
 
-
   /**************************************************************************************/
   // The set body content method.
   private function set_body_content($final = array()) {
@@ -128,7 +127,7 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // CMYK grid.
-    $cmyk_grid = $this->cmyk_grid();
+    // $cmyk_grid = $this->cmyk_grid();
 
     /************************************************************************************/
     // PMS grid.
@@ -199,6 +198,8 @@ class Display extends Helpers {
       $ret[$cmyk_component] = intval($ret[$cmyk_component]) < 0 ? 0 : $ret[$cmyk_component];
     } // foreach
 
+    /************************************************************************************/
+    // Return the final return values.
     return $ret;
 
   } // get_cmyk_values
