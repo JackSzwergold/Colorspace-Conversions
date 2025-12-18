@@ -23,28 +23,30 @@
       <script src="[[BASE_URL]]script/bootstrap-5.3.8/bootstrap.bundle.min.js" defer="defer"></script>
    </head>
    <body>
-      <div class="[[VIEW_MODE]]View">
-         <div class="Wrapper">
-            <div class="Padding">
-               <div class="Content">
-                  <div class="Padding">
-                     <div class="Section">
-                        <div class="Padding">
-                           <div class="Middle">
-                              <div class="Core">
-                                 <div class="Padding">
-                                    <div class="PixelBoxWrapper">
-                                       [[HTML_CONTENT]]
-                                    </div><!-- .PixelBoxWrapper -->
-                                 </div><!-- .Padding-->
-                              </div><!-- .Core-->
-                           </div><!-- .Middle-->
-                        </div><!-- .Padding-->
-                     </div><!-- .Section-->
-                  </div><!-- .Padding-->
-               </div><!-- .Content-->
-            </div><!-- .Padding-->
-         </div><!-- .Wrapper -->
+
+   <!-- Core Wrapper BEGIN -->
+   <div class="container-fluid bg-white">
+      <div class="row">
+         <div class="col col-12">
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col col-12 m-0 p-0 py-2 bg-white">
+
+                        <div class="[[VIEW_MODE]]View">
+                           <div class="Padding">
+                              <div class="PixelBoxWrapper">
+                                 [[HTML_CONTENT]]
+                              </div><!-- .PixelBoxWrapper -->
+                           </div><!-- .Padding-->
+                        </div><!-- .[VIEW_MODE]]View-->
+                  </div>
+               </div>
+            </div>
+
+         </div>
       </div>
+   </div><!-- Core Wrapper END -->
+
    </body>
 </html>
