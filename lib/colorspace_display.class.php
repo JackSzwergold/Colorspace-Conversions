@@ -427,7 +427,8 @@ class Display extends Helpers {
         $ret .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
       $ret .= '</div><!-- .InfoBox -->';
-    }
+
+    } // if
 
     /************************************************************************************/
     // RGB grid.
@@ -437,7 +438,7 @@ class Display extends Helpers {
         . $this->rgb_grid()
         . '</div><!-- .RGB -->'
         ;
-    }
+    } // if
 
     /************************************************************************************/
     // CMYK grid.
@@ -447,7 +448,7 @@ class Display extends Helpers {
         . $this->cmyk_grid()
         . '</div><!-- .CMYK -->'
         ;
-    }
+    } // if
 
     /************************************************************************************/
     // PMS grid.
@@ -457,7 +458,7 @@ class Display extends Helpers {
         . $this->pms_grid()
         . '</div><!-- .PMS -->'
         ;
-    }
+    } // if
 
     /************************************************************************************/
     // Return the final return value.
