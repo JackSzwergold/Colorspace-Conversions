@@ -38,9 +38,6 @@ class Display extends Helpers {
 
   public $gray_text_cutoff = 32;
 
-  public $text_class_light = 'light';
-  public $text_class_dark = 'dark';
-
   public $hex = NULL;
   public $hex_inverted = NULL;
   public $hex_gray = NULL;
@@ -351,7 +348,7 @@ class Display extends Helpers {
 
         /********************************************************************************/
         // Set the CSS based on the gray percentage.
-        $css =  $pms_value['gray_percentage'] > $this->gray_text_cutoff ? $this->text_class_dark : $this->text_class_light;
+        $css =  $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
         /********************************************************************************/
         // Set the RGB URL param.
@@ -392,7 +389,7 @@ class Display extends Helpers {
     if (isset($this->hex)) {
 
       // Set the text hex color based on the gray percentage.
-      $css =  $this->gray_percentage > $this->gray_text_cutoff ? $this->text_class_dark : $this->text_class_light;
+      $css =  $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
       $ret .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
       foreach ($final as $key => $value) {
