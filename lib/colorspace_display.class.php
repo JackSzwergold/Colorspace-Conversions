@@ -381,14 +381,12 @@ class Display extends Helpers {
   // The set body content method.
   private function set_body_content($final = array()) {
 
-    $ret = '<div class="InfoBox">'
-         . '<div class="Padding">'
+    $ret = '<div class="col col-12">'
          . '<p class="m-0 p-0"><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
          . '<p class="m-0 p-0"><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
          . '<p class="m-0 p-0"><b>HEX URL Format:</b> /hex/hhhhhh (000000)</p>'
          . '<p class="m-0 p-0"><b>PMS URL Format:</b> /pms/xxxxxx (000_ABC)</p>'
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .InfoBox -->'
+         . '</div>'
          ;
 
     if (isset($this->hex)) {
@@ -396,28 +394,23 @@ class Display extends Helpers {
       // Set the text hex color based on the gray percentage.
       $css =  $this->gray_percentage > $this->gray_text_cutoff ? $this->text_class_dark : $this->text_class_light;
 
-      $ret .= sprintf('<div class="InfoBox %s" style="background-color: %s">', $css, $this->hex)
-            . '<div class="Padding">'
-            ;
+      $ret .= sprintf('<div class="InfoBox col col-12 %s" style="background-color: %s">', $css, $this->hex);
       foreach ($final as $key => $value) {
         $ret .= sprintf('<p class="m-0 p-0"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
-      $ret .= '</div><!-- .Padding -->'
-            . '</div><!-- .InfoBox -->'
-            ;
+      $ret .= '</div><!-- .InfoBox -->';
     }
 
     /************************************************************************************/
     // RGB grid.
     if ($this->show_rgb_grid) {
-      $ret .= '<div class="RGB">'
-            . '<div class="Grid">'
-            . '<div class="Padding">'
-            . $this->rgb_grid()
-            . '</div><!-- .Padding -->'
-            . '</div><!-- .Grid -->'
-            . '</div><!-- .RGB -->'
-            ;
+      $ret .=
+          '<div class="RGB">'
+        . '<div class="Grid">'
+        . $this->rgb_grid()
+        . '</div><!-- .Grid -->'
+        . '</div><!-- .RGB -->'
+        ;
     }
 
     /************************************************************************************/
@@ -425,9 +418,7 @@ class Display extends Helpers {
     if ($this->show_cmyk_grid) {
       $ret .= '<div class="CMYK">'
             . '<div class="Grid">'
-            . '<div class="Padding">'
             . $this->cmyk_grid()
-            . '</div><!-- .Padding -->'
             . '</div><!-- .Grid -->'
             . '</div><!-- .CMYK -->'
             ;
@@ -438,20 +429,13 @@ class Display extends Helpers {
     if ($this->show_pms_grid) {
       $ret .= '<div class="PMS">'
             . '<div class="Grid">'
-            . '<div class="Padding">'
             . $this->pms_grid()
-            . '</div><!-- .Padding -->'
             . '</div><!-- .Grid -->'
             . '</div><!-- .PMS -->'
             ;
     }
 
-    return '<div class="PixelBoxContainer">'
-         . '<div class="Padding">'
-         . $ret
-         . '</div><!-- .Padding -->'
-         . '</div><!-- .PixelBoxContainer -->'
-         ;
+    return $ret;
 
   } // set_body_content
 
