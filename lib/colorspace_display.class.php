@@ -258,7 +258,7 @@ class Display extends Helpers {
   private function build_pixel_box($url = null, $hex = null, $text = null, $css = null) {
 
     $ret = sprintf('<a href="%s">', $url)
-         . sprintf('<div class="PixelBox %s" style="background-color: %s;">', $css, $hex)
+         . sprintf('<div class="PixelBox d-inline-block m-0 p-0 %s" style="background-color: %s;">', $css, $hex)
          . '<div class="Padding">'
          . sprintf('<p class="m-0 p-0">%s</p>', $text)
          . '</div><!-- .Padding -->'
