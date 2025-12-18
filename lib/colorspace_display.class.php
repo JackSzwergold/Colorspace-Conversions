@@ -94,6 +94,68 @@ class Display extends Helpers {
 
   } // init
 
+
+  /**************************************************************************************/
+  // The set body content method.
+  private function set_body_content($final = array()) {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Set the hex infobox.
+    $infobox = null;
+    if (isset($this->hex)) {
+
+      /**********************************************************************************/
+      // Set the text hex color based on the gray percentage.
+      $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+      /**********************************************************************************/
+      // Build the infobox.
+      $infobox .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
+      foreach ($final as $key => $value) {
+        $infobox .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
+      }
+      $infobox .= '</div><!-- .InfoBox -->';
+
+    } // if
+
+    /************************************************************************************/
+    // RGB grid.
+    $rgb_grid =
+        '<div class="RGB col col-12">'
+      . $this->rgb_grid()
+      . '</div><!-- .RGB -->'
+      ;
+
+    /************************************************************************************/
+    // CMYK grid.
+    // $ret .=
+    //     '<div class="CMYK col col-12">'
+    //   . $this->cmyk_grid()
+    //   . '</div><!-- .CMYK -->'
+    //   ;
+
+    /************************************************************************************/
+    // PMS grid.
+    $pms_grid =
+        '<div class="PMS col col-12">'
+      . $this->pms_grid()
+      . '</div><!-- .PMS -->'
+      ;
+
+    /************************************************************************************/
+    // Set the final return value.
+    $ret = $infobox . $rgb_grid . $pms_grid;
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // set_body_content
+
   /**************************************************************************************/
   // The get RGB values method.
   private function get_rgb_values($rgb_get = null) {
@@ -407,67 +469,6 @@ class Display extends Helpers {
     return $ret;
 
   } // pms_grid
-
-  /**************************************************************************************/
-  // The set body content method.
-  private function set_body_content($final = array()) {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Set the hex infobox.
-    $infobox = null;
-    if (isset($this->hex)) {
-
-      /**********************************************************************************/
-      // Set the text hex color based on the gray percentage.
-      $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-      /**********************************************************************************/
-      // Build the infobox.
-      $infobox .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
-      foreach ($final as $key => $value) {
-        $infobox .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
-      }
-      $infobox .= '</div><!-- .InfoBox -->';
-
-    } // if
-
-    /************************************************************************************/
-    // Set the infobox.
-    $ret .= $infobox;
-
-    /************************************************************************************/
-    // RGB grid.
-    $ret .=
-        '<div class="RGB col col-12">'
-      . $this->rgb_grid()
-      . '</div><!-- .RGB -->'
-      ;
-
-    /************************************************************************************/
-    // CMYK grid.
-    // $ret .=
-    //     '<div class="CMYK col col-12">'
-    //   . $this->cmyk_grid()
-    //   . '</div><!-- .CMYK -->'
-    //   ;
-
-    /************************************************************************************/
-    // PMS grid.
-    $ret .=
-        '<div class="PMS col col-12">'
-      . $this->pms_grid()
-      . '</div><!-- .PMS -->'
-      ;
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // set_body_content
 
 } // Display
 
