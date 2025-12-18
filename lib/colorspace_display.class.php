@@ -381,7 +381,7 @@ class Display extends Helpers {
   // The set body content method.
   private function set_body_content($final = array()) {
 
-    $ret = '<div class="col col-12">'
+    $ret = '<div class="col col-12 m-0 p-0 px-2 py-1">'
          . '<p class="m-0 p-0"><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
          . '<p class="m-0 p-0"><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
          . '<p class="m-0 p-0"><b>HEX URL Format:</b> /hex/hhhhhh (000000)</p>'
@@ -394,9 +394,9 @@ class Display extends Helpers {
       // Set the text hex color based on the gray percentage.
       $css =  $this->gray_percentage > $this->gray_text_cutoff ? $this->text_class_dark : $this->text_class_light;
 
-      $ret .= sprintf('<div class="InfoBox col col-12 %s" style="background-color: %s">', $css, $this->hex);
+      $ret .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
       foreach ($final as $key => $value) {
-        $ret .= sprintf('<p class="m-0 p-0"><b>%s</b>: %s</p>', strtoupper($key), $value);
+        $ret .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
       $ret .= '</div><!-- .InfoBox -->';
     }
@@ -406,7 +406,7 @@ class Display extends Helpers {
     if ($this->show_rgb_grid) {
       $ret .=
           '<div class="RGB">'
-        . '<div class="Grid">'
+        . '<div class="Grid p-0 m-0">'
         . $this->rgb_grid()
         . '</div><!-- .Grid -->'
         . '</div><!-- .RGB -->'
@@ -417,7 +417,7 @@ class Display extends Helpers {
     // CMYK grid.
     if ($this->show_cmyk_grid) {
       $ret .= '<div class="CMYK">'
-            . '<div class="Grid">'
+            . '<div class="Grid p-0 m-0">'
             . $this->cmyk_grid()
             . '</div><!-- .Grid -->'
             . '</div><!-- .CMYK -->'
@@ -428,7 +428,7 @@ class Display extends Helpers {
     // PMS grid.
     if ($this->show_pms_grid) {
       $ret .= '<div class="PMS">'
-            . '<div class="Grid">'
+            . '<div class="Grid p-0 m-0">'
             . $this->pms_grid()
             . '</div><!-- .Grid -->'
             . '</div><!-- .PMS -->'
