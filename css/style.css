@@ -40,7 +40,7 @@ ul, li
 }
 
 /**************************************************************************************************/
-.Wrapper
+/*.Wrapper
 {
 	height: 100%;
 	margin: 0 auto 0 auto;
@@ -53,7 +53,7 @@ ul, li
 {
 	padding: 0 0 0 0;
 	clear: both;
-}
+}*/
 
 .microView .Wrapper { width: 186px; }
 .tinyView .Wrapper { width: 326px; }
@@ -92,7 +92,7 @@ ul, li
 .Core .InfoBox .Padding { padding: 20px 20px 20px 20px; }
 
 /**************************************************************************************************/
-.Core .Grid
+/*.Core .Grid
 {
 	position: relative;
 	display: block;
@@ -101,25 +101,23 @@ ul, li
 	padding: 0;
 }
 
-.Core .Grid .Padding { padding: 0 0 20px 0; }
+.Core .Grid .Padding { padding: 0 0 20px 0; }*/
 
 /**************************************************************************************************/
-.PixelBoxContainer
+/*.PixelBoxContainer
 {
 	color: #ffffff;
 	background-color: #333333;
 }
 
-.PixelBoxContainer .Padding { padding: 20px 20px 0 20px; }
+.PixelBoxContainer .Padding { padding: 20px 20px 0 20px; }*/
 
 /**************************************************************************************************/
 .Grid .PixelBox
 {
-	height: 20px;
-	width: 20px;
-	margin: 0;
-	padding: 0;
-	border: 0;
+	height: 2.625em;
+	width: 2.625em;
+
 	background-color: transparent;
 }
 
