@@ -446,6 +446,8 @@ class Display extends Helpers {
         ;
     }
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // set_body_content
