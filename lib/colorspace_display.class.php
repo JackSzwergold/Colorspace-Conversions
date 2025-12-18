@@ -86,7 +86,7 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // Set the final return values.
-    $ret = $this->set_body_content($final_values);
+    $ret = $this->set_infobox_content($final_values);
 
     /************************************************************************************/
     // Return the final return values.
@@ -95,8 +95,8 @@ class Display extends Helpers {
   } // init
 
   /**************************************************************************************/
-  // The set body content method.
-  private function set_body_content($final = array()) {
+  // The set infobox content method.
+  private function set_infobox_content($final = array()) {
 
     /************************************************************************************/
     // Init the basics.
@@ -152,7 +152,7 @@ class Display extends Helpers {
     // Return the final return value.
     return $ret;
 
-  } // set_body_content
+  } // set_infobox_content
 
   /**************************************************************************************/
   // The get RGB values method.
