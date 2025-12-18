@@ -104,7 +104,6 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // Set the hex infobox.
-    $infobox = null;
     if (isset($this->hex)) {
 
       /**********************************************************************************/
@@ -113,40 +112,13 @@ class Display extends Helpers {
 
       /**********************************************************************************/
       // Build the infobox.
-      $infobox .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
+      $ret .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
       foreach ($final as $key => $value) {
-        $infobox .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
+        $ret .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
-      $infobox .= '</div><!-- .InfoBox -->';
+      $ret .= '</div><!-- .InfoBox -->';
 
     } // if
-
-    /************************************************************************************/
-    // RGB grid.
-    $rgb_grid = $this->rgb_grid();
-
-    /************************************************************************************/
-    // CMYK grid.
-    // $cmyk_grid = $this->cmyk_grid();
-
-    /************************************************************************************/
-    // PMS grid.
-    $pms_grid = $this->pms_grid();
-
-    /************************************************************************************/
-    // Set the final return value.
-    $ret =
-        $infobox
-      . '<div class="RGB col col-12">'
-      . $rgb_grid
-      . '</div><!-- .RGB -->'
-      // . '<div class="CMYK col col-12">'
-      // . $cmyk_grid
-      // . '</div><!-- .CMYK -->'
-      . '<div class="PMS col col-12">'
-      . $pms_grid
-      . '</div><!-- .PMS -->'
-      ;
 
     /************************************************************************************/
     // Return the final return value.

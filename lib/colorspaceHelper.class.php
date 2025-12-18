@@ -116,6 +116,21 @@ class colorspaceHelper {
     // Init the display class and get the values.
     $DisplayClass = new Display();
     $ret = $DisplayClass->init($colorspace, $value);
+    $ret .=
+        '<div class="RGB col col-12">'
+      . $DisplayClass->rgb_grid()
+      . '</div><!-- .RGB -->'
+      ;
+    // $ret .=
+    //     '<div class="CMYK col col-12">'
+    //   . $DisplayClass->cmyk_grid()
+    //   . '</div><!-- .CMYK -->'
+    //   ;
+    $ret .= 
+        '<div class="PMS col col-12">'
+      . $DisplayClass->pms_grid()
+      . '</div><!-- .PMS -->'
+      ;
 
     //**************************************************************************************//
     // Return the final return value.
