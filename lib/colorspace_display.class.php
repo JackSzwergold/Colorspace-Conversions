@@ -100,20 +100,22 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // Init the basics.
-    $rgb_array = array();
+    $ret = array();
 
     /************************************************************************************/
     // Get the RGB component names from the passed $_GET string.
-    list($rgb_array['red'], $rgb_array['green'], $rgb_array['blue']) = explode('_', $rgb_get);
+    list($ret['red'], $ret['green'], $ret['blue']) = explode('_', $rgb_get);
 
     /************************************************************************************/
     // Loop through the RGB components.
     foreach ($this->rgb_components as $rgb_component) {
-      $rgb_array[$rgb_component] = intval($rgb_array[$rgb_component]) > 255 ? 255 : $rgb_array[$rgb_component];
-      $rgb_array[$rgb_component] = intval($rgb_array[$rgb_component]) < 0 ? 0 : $rgb_array[$rgb_component];
+      $ret[$rgb_component] = intval($ret[$rgb_component]) > 255 ? 255 : $ret[$rgb_component];
+      $ret[$rgb_component] = intval($ret[$rgb_component]) < 0 ? 0 : $ret[$rgb_component];
     } // foreach
 
-    return $rgb_array;
+    /************************************************************************************/
+    // Return the final return values.
+    return $ret;
 
   } // get_rgb_values
 
@@ -123,20 +125,20 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // Init the basics.
-    $cmyk_array = array();
+    $ret = array();
 
     /************************************************************************************/
     // Get the CMYK component names from the passed $_GET string.
-    list($cmyk_array['cyan'], $cmyk_array['magenta'], $cmyk_array['yellow'], $cmyk_array['black']) = explode('_', $cmyk_get);
+    list($ret['cyan'], $ret['magenta'], $ret['yellow'], $ret['black']) = explode('_', $cmyk_get);
 
     /************************************************************************************/
     // Loop through the CMYK components.
     foreach ($this->cmyk_components as $cmyk_component) {
-      $cmyk_array[$cmyk_component] = intval($cmyk_array[$cmyk_component]) > 100 ? 100 : $cmyk_array[$cmyk_component];
-      $cmyk_array[$cmyk_component] = intval($cmyk_array[$cmyk_component]) < 0 ? 0 : $cmyk_array[$cmyk_component];
+      $ret[$cmyk_component] = intval($ret[$cmyk_component]) > 100 ? 100 : $ret[$cmyk_component];
+      $ret[$cmyk_component] = intval($ret[$cmyk_component]) < 0 ? 0 : $ret[$cmyk_component];
     } // foreach
 
-    return $cmyk_array;
+    return $ret;
 
   } // get_cmyk_values
 
