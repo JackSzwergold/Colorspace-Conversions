@@ -408,6 +408,8 @@ class Display extends Helpers {
   // The set body content method.
   private function set_body_content($final = array()) {
 
+    /************************************************************************************/
+    // Set the URL hints.
     $ret = '<div class="col col-12 m-0 p-0 px-2 py-1">'
          . '<p class="m-0 p-0"><b>CMYK URL Format:</b> /cmyk/ccc_mmm_yyy_kkk (100_100_100_0)</p>'
          . '<p class="m-0 p-0"><b>RGB URL Format:</b> /rgb/rrr_ggg_bbb (255_255_255)</p>'
@@ -416,6 +418,8 @@ class Display extends Helpers {
          . '</div>'
          ;
 
+    /************************************************************************************/
+    // Set the hex infobox.
     if (isset($this->hex)) {
 
       /**********************************************************************************/
