@@ -66,19 +66,19 @@ class Display extends Helpers {
     // Do something.
     if ($colorspace == 'rgb') {
       $rgb_array = $this->get_rgb_values($value);
-    }
-    elseif ($colorspace == 'cmyk') {
+    } // if
+    else if ($colorspace == 'cmyk') {
       $cmyk_array = $this->get_cmyk_values($value);
       $rgb_array = $this->cmyk_to_rgb($cmyk_array);
-    }
-    elseif ($colorspace == 'hex') {
+    } // else if
+    else if ($colorspace == 'hex') {
       $hex_array = $this->get_hex_values($value);
       $rgb_array = $this->hex_to_rgb($hex_array);
-    }
-    elseif ($colorspace == 'pms') {
+    } // else if
+    else if ($colorspace == 'pms') {
       $pms_value = $this->get_pms_values($value);
       $rgb_array = $this->pms_to_rgb($pms_value);
-    }
+    } // else if
 
     /************************************************************************************/
     // Get the final return values.
@@ -412,23 +412,32 @@ class Display extends Helpers {
   // The set body content method.
   private function set_body_content($final = array()) {
 
+    /************************************************************************************/
+    // Init the basics.
     $ret = null;
 
     /************************************************************************************/
     // Set the hex infobox.
+    $infobox = null;
     if (isset($this->hex)) {
 
       /**********************************************************************************/
       // Set the text hex color based on the gray percentage.
       $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
-      $ret .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
+      /**********************************************************************************/
+      // Build the infobox.
+      $infobox .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
       foreach ($final as $key => $value) {
-        $ret .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
+        $infobox .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
       }
-      $ret .= '</div><!-- .InfoBox -->';
+      $infobox .= '</div><!-- .InfoBox -->';
 
     } // if
+
+    /************************************************************************************/
+    // Set the infobox.
+    $ret .= $infobox;
 
     /************************************************************************************/
     // RGB grid.

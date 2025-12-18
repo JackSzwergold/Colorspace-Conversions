@@ -115,9 +115,6 @@ class colorspaceHelper {
     //**************************************************************************************//
     // Init the display class and get the values.
     $DisplayClass = new Display();
-    $DisplayClass->show_rgb_grid = true;
-    // $DisplayClass->show_cmyk_grid = true;
-    $DisplayClass->show_pms_grid = true;
     $ret = $DisplayClass->init($colorspace, $value);
 
     //**************************************************************************************//
