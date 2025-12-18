@@ -281,7 +281,8 @@ class Display extends Helpers {
 
     $rgb_test = array('red' => $step, 'green' => $step, 'blue' => $step);
 
-
+    /************************************************************************************/
+    // Roll through the RGB items and do something.
     foreach ($rgb_test['red'] as $red) {
       foreach ($rgb_test['green'] as $green) {
         foreach ($rgb_test['blue'] as $blue) {
@@ -310,6 +311,8 @@ class Display extends Helpers {
     $cmky_span = array_fill(1, $this->cmyk_span, NULL);
     $cmky_step = range(1, $this->cmyk_span, $cmky_span);
 
+    /**********************************************************************************/
+    // Roll through the CMYK items and do something.
     for ($black = 0; $black <= ($this->cmyk_span - 20); $black += $this->cmyk_step) {
       for ($magenta = 0; $magenta <= $this->cmyk_span; $magenta += $this->cmyk_step) {
         for ($yellow = 0; $yellow <= $this->cmyk_span; $yellow += $this->cmyk_step) {
@@ -349,6 +352,8 @@ class Display extends Helpers {
       // Sort the PMS to hex array.
       ksort($pms_data);
 
+      /**********************************************************************************/
+      // Roll through the PMS items and do something.
       foreach ($pms_data as $pms_key => $pms_value) {
 
         /********************************************************************************/
