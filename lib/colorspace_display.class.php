@@ -221,12 +221,16 @@ class Display extends Helpers {
     $hsv_back_to_rgb = $this->hsv_to_rgb($hsv);
 
     /************************************************************************************/
+    // Set the CSS for text.
+    $css_for_text = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+    /************************************************************************************/
     // Set all of the different values.
     $ret = array();
-    $ret['hex'] = sprintf('<a href="hex/%s">%s</a>', ltrim($this->hex, '#'), $this->hex);
-    $ret['hex_inverted'] = sprintf('<a href="hex/%s">%s</a>', ltrim($this->hex_inverted, '#'), $this->hex_inverted);
-    $ret['hex_gray'] = sprintf('<a href="hex/%s">%s</a>', ltrim($this->hex_gray, '#'), $this->hex_gray);
-    $ret['hex_gray_inverted'] = sprintf('<a href="hex/%s">%s</a>', ltrim($this->hex_gray_inverted, '#'), $this->hex_gray_inverted);
+    $ret['hex'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="%s">%s</a>', ltrim($this->hex, '#'), $css_for_text, $this->hex);
+    $ret['hex_inverted'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="%s">%s</a>', ltrim($this->hex_inverted, '#'), $css_for_text, $this->hex_inverted);
+    $ret['hex_gray'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="%s">%s</a>', ltrim($this->hex_gray, '#'), $css_for_text, $this->hex_gray);
+    $ret['hex_gray_inverted'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="%s">%s</a>', ltrim($this->hex_gray_inverted, '#'), $css_for_text, $this->hex_gray_inverted);
     $ret['rgb'] = sprintf('R = %s, G = %s, B = %s', $rgb_array['red'], $rgb_array['green'], $rgb_array['blue']);
     $ret['gray'] = sprintf('R = %s, G = %s, B = %s', $this->gray['red'], $this->gray['green'], $this->gray['blue']);
     $ret['gray_percentage'] = sprintf('%s', $this->gray_percentage . '%');
