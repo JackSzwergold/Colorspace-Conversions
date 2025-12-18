@@ -432,33 +432,27 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // RGB grid.
-    if ($this->show_rgb_grid) {
-      $ret .=
-          '<div class="RGB col col-12">'
-        . $this->rgb_grid()
-        . '</div><!-- .RGB -->'
-        ;
-    } // if
+    $ret .=
+        '<div class="RGB col col-12">'
+      . $this->rgb_grid()
+      . '</div><!-- .RGB -->'
+      ;
 
     /************************************************************************************/
     // CMYK grid.
-    if ($this->show_cmyk_grid) {
-      $ret .=
-          '<div class="CMYK col col-12">'
-        . $this->cmyk_grid()
-        . '</div><!-- .CMYK -->'
-        ;
-    } // if
+    // $ret .=
+    //     '<div class="CMYK col col-12">'
+    //   . $this->cmyk_grid()
+    //   . '</div><!-- .CMYK -->'
+    //   ;
 
     /************************************************************************************/
     // PMS grid.
-    if ($this->show_pms_grid) {
-      $ret .=
-          '<div class="PMS col col-12">'
-        . $this->pms_grid()
-        . '</div><!-- .PMS -->'
-        ;
-    } // if
+    $ret .=
+        '<div class="PMS col col-12">'
+      . $this->pms_grid()
+      . '</div><!-- .PMS -->'
+      ;
 
     /************************************************************************************/
     // Return the final return value.
