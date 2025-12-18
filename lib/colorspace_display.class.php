@@ -355,6 +355,8 @@ class Display extends Helpers {
     // Init the basics.
     $ret = null;
 
+    /************************************************************************************/
+    // Prep the data.
     $span = array_fill(1, $this->rgb_span, NULL);
     $step = range(1, $this->rgb_span, $this->rgb_step);
 
@@ -391,7 +393,7 @@ class Display extends Helpers {
     /************************************************************************************/
     // Prep the data.
     $cmyk_span = array_fill(1, $this->cmyk_span, NULL);
-    $cmyk_step = range(1, $this->cmyk_span, $cmyk_span);
+    $cmyk_step = range(1, $this->cmyk_span, $this->cmyk_step);
 
     /************************************************************************************/
     // Roll through the CMYK items and do something.
