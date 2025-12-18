@@ -24,12 +24,10 @@
 
 //**************************************************************************************//
 // Require (once) the parent helpers class.
-
 require_once('colorspace_helpers.class.php');
 
 //**************************************************************************************//
 // Here is where the magic happens!
-
 class Display extends Helpers {
 
   public $rgb = NULL;
