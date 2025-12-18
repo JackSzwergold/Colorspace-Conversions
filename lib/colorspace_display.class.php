@@ -262,7 +262,7 @@ class Display extends Helpers {
     $ret =
         sprintf('<a href="%s">', $url)
       . sprintf('<span class="PixelBox d-inline-block m-0 p-0 %s" style="background-color: %s;">', $css, $hex)
-      . (!empty($text) ? sprintf('<p class="m-0 p-0 px-2 py-1">%s</p>', $text) : null)
+      . (!empty($text) ? sprintf('<p class="m-0 p-0 px-2 py-1"><small>%s</small></p>', $text) : null)
       . '</span><!-- .PixelBox -->'
       . '</a>'
       ;
