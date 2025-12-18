@@ -12,27 +12,14 @@ body
 }
 
 /**************************************************************************************************/
-.Core,
-.Padding,
-.PixelBoxWrapper, .PixelBox, .PixelBoxContainer,
-.InfoBox, .Grid,
-ul, li
+.PixelBox
 {
 	position: relative;
 	float: left;
 	display: inline;
 }
 
-/**************************************************************************************************/
-.Grid .PixelBox
-{
-	height: 2.625em;
-	width: 2.625em;
-
-	background-color: transparent;
-}
-
-.Grid .PixelBox p
+.PixelBox p
 {
 	font-size: 80%;
 	padding: 0;
@@ -40,14 +27,21 @@ ul, li
 }
 
 /**************************************************************************************************/
-.PMS .Grid .PixelBox
+.RGB .PixelBox
+{
+	height: 2.625em;
+	width: 2.625em;
+	background-color: transparent;
+}
+
+/**************************************************************************************************/
+.PMS .PixelBox
 {
 	width: 15.75em;
 	height: 5em;
 	margin: 0;
+	padding: 10px 0 0 10px;
 }
-
-.PMS .Grid .PixelBox .Padding { padding: 10px 0 0 10px; }
 
 /**************************************************************************************************/
 .light p,
