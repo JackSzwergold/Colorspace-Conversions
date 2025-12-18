@@ -420,10 +420,8 @@ class Display extends Helpers {
     // RGB grid.
     if ($this->show_rgb_grid) {
       $ret .=
-          '<div class="RGB">'
-        . '<div class="Grid p-0 m-0">'
+          '<div class="RGB col col-12">'
         . $this->rgb_grid()
-        . '</div><!-- .Grid -->'
         . '</div><!-- .RGB -->'
         ;
     }
@@ -431,23 +429,21 @@ class Display extends Helpers {
     /************************************************************************************/
     // CMYK grid.
     if ($this->show_cmyk_grid) {
-      $ret .= '<div class="CMYK">'
-            . '<div class="Grid p-0 m-0">'
-            . $this->cmyk_grid()
-            . '</div><!-- .Grid -->'
-            . '</div><!-- .CMYK -->'
-            ;
+      $ret .=
+          '<div class="CMYK col col-12">'
+        . $this->cmyk_grid()
+        . '</div><!-- .CMYK -->'
+        ;
     }
 
     /************************************************************************************/
     // PMS grid.
     if ($this->show_pms_grid) {
-      $ret .= '<div class="PMS">'
-            . '<div class="Grid p-0 m-0">'
-            . $this->pms_grid()
-            . '</div><!-- .Grid -->'
-            . '</div><!-- .PMS -->'
-            ;
+      $ret .=
+          '<div class="PMS col col-12">'
+        . $this->pms_grid()
+        . '</div><!-- .PMS -->'
+        ;
     }
 
     return $ret;
