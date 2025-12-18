@@ -257,12 +257,15 @@ class Display extends Helpers {
   // The build pixel box method.
   private function build_pixel_box($url = null, $hex = null, $text = null, $css = null) {
 
-    $ret = sprintf('<a href="%s">', $url)
-         . sprintf('<span class="PixelBox d-inline-block m-0 p-0 %s" style="background-color: %s;">', $css, $hex)
-         . (!empty($text) ? sprintf('<p class="m-0 p-0">%s</p>', $text) : null)
-         . '</span><!-- .PixelBox -->'
-         . '</a>'
-         ;
+    /************************************************************************************/
+    // Do something.
+    $ret =
+        sprintf('<a href="%s">', $url)
+      . sprintf('<span class="PixelBox d-inline-block m-0 p-0 %s" style="background-color: %s;">', $css, $hex)
+      . (!empty($text) ? sprintf('<p class="m-0 p-0">%s</p>', $text) : null)
+      . '</span><!-- .PixelBox -->'
+      . '</a>'
+      ;
 
     /************************************************************************************/
     // Return the final return value.
@@ -324,8 +327,7 @@ class Display extends Helpers {
             $hex = $this->rgb_to_hex($color);
             $cmyk = sprintf('%s_%s_%s_%s', $cyan, $magenta, $yellow, $black);
             $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
-            $text = '<!-- -->';
-            $ret .= $this->build_pixel_box($url, $hex, $text);
+            $ret .= $this->build_pixel_box($url, $hex);
           } // for
         } // for
       } // for
