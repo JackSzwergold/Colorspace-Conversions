@@ -390,8 +390,8 @@ class Display extends Helpers {
 
     /************************************************************************************/
     // Prep the data.
-    $cmky_span = array_fill(1, $this->cmyk_span, NULL);
-    $cmky_step = range(1, $this->cmyk_span, $cmky_span);
+    $cmyk_span = array_fill(1, $this->cmyk_span, NULL);
+    $cmyk_step = range(1, $this->cmyk_span, $cmyk_span);
 
     /************************************************************************************/
     // Roll through the CMYK items and do something.
