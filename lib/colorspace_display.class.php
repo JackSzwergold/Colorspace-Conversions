@@ -441,6 +441,6 @@ class Display extends Helpers {
 
   } // set_body_content
 
-} // Grids
+} // Display
 
 ?>
