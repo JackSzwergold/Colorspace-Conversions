@@ -115,7 +115,7 @@ class Display extends Helpers {
 
   /**************************************************************************************/
   // The get CMYK values method.
-  private function get_cmyk_values ($cmyk_get = NULL) {
+  private function get_cmyk_values($cmyk_get = null) {
 
     /************************************************************************************/
     // Init the basics.
