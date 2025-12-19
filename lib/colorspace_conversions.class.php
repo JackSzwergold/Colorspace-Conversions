@@ -223,37 +223,43 @@ class Conversions {
     // Calculate value.
     $value = $max_rgb;
 
+    /************************************************************************************/
     // If the chroma is 0, the max_rgb and min_rgb are the same, so then the hue and saturation is 0.
     if ($chroma == 0) {
 
+      /**********************************************************************************/
       // If the chroma is 0, the max_rgb and min_rgb are the same, so then the hue and saturation is 0.
       $hue = $saturation = 0;
 
     } // if
     else {
 
+      /**********************************************************************************/
       // If the chroma is not 0, then we calculate the saturation like this.
       $saturation = ($chroma / $max_rgb);
 
+      /**********************************************************************************/
       // Calculate hue.
       if ($red == $min_rgb) {
         $hue = 3 - (($green - $blue) / $chroma);
-      }
-      elseif ($blue == $min_rgb) {
+      } // if
+      else if ($blue == $min_rgb) {
         $hue = 1 - (($red - $green) / $chroma);
-      }
+      } // else if
       else { // $green == $min_rgb
         $hue = 5 - (($blue - $red) / $chroma);
-      }
+      } // else
 
     } // else
 
+    /************************************************************************************/
     // Round the final values and assign them to an array.
     $ret = array();
     $ret['hue'] = round($hue * 60, $round_to);
     $ret['saturation'] = round($saturation, $round_to) * 100;
     $ret['value'] = round($value, $round_to) * 100;
 
+    /************************************************************************************/
     // Return the final values.
     return $ret;
 
@@ -266,16 +272,19 @@ class Conversions {
     $gray_array = array();
     foreach ($this->rgb_components as $rgb_name) {
       $gray_array[$rgb_name] = $rgb_value[$rgb_name] * $this->rgb_to_gray_luma_map[$luma_type][$rgb_name];
-    }
+    } // foreach
 
     $gray = round(array_sum(array_values($gray_array)) / count($gray_array));
 
+    /************************************************************************************/
     // Roll through the RGB shift map values and assign accordingly.
     $ret = array();
     foreach ($this->rgb_components as $rgb_name) {
       $ret[$rgb_name] = $gray;
-    }
+    } // foreach
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // rgb_to_gray
@@ -284,17 +293,21 @@ class Conversions {
   // The RGB invert function.
   public function rgb_invert($rgb_value = array()) {
 
+    /************************************************************************************/
     // Invert the color by subtracting the value from the max RGB value.
     foreach ($this->rgb_components as $rgb_name) {
       $$rgb_name = $this->max_rgb_value - $rgb_value[$rgb_name];
-    }
+    } // foreach
 
+    /************************************************************************************/
     // Roll through the RGB shift map values and assign accordingly.
     $ret = array();
     foreach ($this->rgb_components as $rgb_name) {
       $ret[$rgb_name] = $$rgb_name;
-    }
+    } // foreach
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // rgb_invert
@@ -303,12 +316,15 @@ class Conversions {
   // The gray percentage function.
   public function gray_percentage ($gray_value = array()) {
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 6;
 
+    /************************************************************************************/
     // Calculate the gray percentage.
     $ret = round((array_sum(array_values($gray_value)) / count($gray_value)) / $this->max_rgb_value, $round_to);
 
+    /************************************************************************************/
     // Return the final percentage.
     return round($ret * 100, $round_to);
 
