@@ -29,10 +29,12 @@ require_once(BASE_FILEPATH . '/lib/colorspace_display.class.php');
 // The beginnings of a front end display helper class.
 class colorspaceHelper {
 
-  public $controller = '';
+  public $controller = null;
   public $url_parts = array();
 
-  public $page_title = '';
+  public $page_title = null;
+
+  public $DisplayClass = null;
 
   public $VIEW_MODE = null;
   public $DEBUG_MODE = FALSE;
@@ -42,6 +44,8 @@ class colorspaceHelper {
   private function filterViewMode($mode = null, $mode_options = null) {
     global $SITE_DEFAULT_CONTROLLER;
 
+    //************************************************************************************//
+    // Do something.
     if (!empty($mode) && $mode == 'random') {
       $mode_keys = array_keys($mode_options);
       shuffle($mode_keys);
@@ -51,13 +55,15 @@ class colorspaceHelper {
       $mode = $SITE_DEFAULT_CONTROLLER;
     } // else if
 
+    //**************************************************************************************//
+    // Return the final return value.
     return $mode;
 
   } // filterViewMode
 
   //**************************************************************************************//
-  // Get the init content.
-  public function renderContent($DEBUG_MODE = FALSE) {
+  // Init content.
+  public function initContent($DEBUG_MODE = false) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     //************************************************************************************//
@@ -114,20 +120,62 @@ class colorspaceHelper {
 
     //**************************************************************************************//
     // Init the display class and get the values.
-    $DisplayClass = new Display();
-    $DisplayClass->show_rgb_grid = true;
-    // $DisplayClass->show_cmyk_grid = true;
-    $DisplayClass->show_pms_grid = true;
-    $ret = $DisplayClass->init($colorspace, $value);
+    $this->DisplayClass = new Display();
+
+    //**************************************************************************************//
+    // Set the final return value.
+    $ret = array($colorspace, $value);
 
     //**************************************************************************************//
     // Return the final return value.
     return $ret;
 
-  } // renderContent
+  } // initContent
 
   //**************************************************************************************//
-  // Here is the function to parse the parameters.
+  // A function to render infobox content.
+  public function infoboxContent($colorspace, $value) {
+
+    //**************************************************************************************//
+    // Do something.
+    list($ret, $css, $hex) = $this->DisplayClass->init($colorspace, $value);
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return array($ret, $css, $hex);
+
+  } // infoboxContent
+
+  //**************************************************************************************//
+  // A function to render RGB grid content.
+  public function rgbGridContent() {
+
+    //**************************************************************************************//
+    // Do something.
+    $ret = $this->DisplayClass->rgb_grid();
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $ret;
+
+  } // rgbGridContent
+
+  //**************************************************************************************//
+  // A function to render PMS grid content.
+  public function pmsGridContent() {
+
+    //**************************************************************************************//
+    // Do something.
+    $ret = $this->DisplayClass->pms_grid();
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $ret;
+
+  } // pmsGridContent
+
+  //**************************************************************************************//
+  // A function to parse the parameters.
   private function parse_parameters() {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
