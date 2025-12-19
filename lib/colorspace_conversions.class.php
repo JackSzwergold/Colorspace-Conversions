@@ -108,24 +108,20 @@ class Conversions {
   } // init_values
 
   /**************************************************************************************/
-
-  public function rgb_to_hex ($rgb_value = array()) {
-
+  // The RGB to HEX function.
+  public function rgb_to_hex($rgb_value = array()) {
     return sprintf("#%02X%02X%02X", $rgb_value['red'], $rgb_value['green'], $rgb_value['blue']);
-
   } // rgb_to_hex
 
   /**************************************************************************************/
-
-  public function rgb_to_cmyk ($rgb_value = array()) {
-
+  // The RGB to CMYK function.
+  public function rgb_to_cmyk($rgb_value = array()) {
     return $this->cmy_to_cmyk($this->rgb_to_cmy($rgb_value));
-
   } // rgb_to_cmyk
 
   /**************************************************************************************/
-
-  public function rgb_to_cmy ($rgb_value = array()) {
+  // The RGB to CMY function.
+  public function rgb_to_cmy($rgb_value = array()) {
 
     // Init the basic values.
     $round_to = 6;
@@ -141,8 +137,8 @@ class Conversions {
   } // rgb_to_cmy
 
   /**************************************************************************************/
-
-  public function rgb_to_hsl ($rgb_value = array()) {
+  // The RGB to HSL function.
+  public function rgb_to_hsl($rgb_value = array()) {
 
     // Init the basic values.
     $round_to = 6;
@@ -205,8 +201,8 @@ class Conversions {
   } // rgb_to_hsl
 
   /**************************************************************************************/
-
-  public function rgb_to_hsv ($rgb_value = array()) {
+  // The RGB to HSV function.
+  public function rgb_to_hsv($rgb_value = array()) {
 
     // Init the basic values.
     $round_to = 6;
@@ -264,8 +260,8 @@ class Conversions {
   } // rgb_to_hsv
 
   /**************************************************************************************/
-
-  public function rgb_to_gray ($rgb_value = array(), $luma_type = 'standard') {
+  // The RGB to gray function.
+  public function rgb_to_gray($rgb_value = array(), $luma_type = 'standard') {
 
     $gray_array = array();
     foreach ($this->rgb_components as $rgb_name) {
@@ -285,8 +281,8 @@ class Conversions {
   } // rgb_to_gray
 
   /**************************************************************************************/
-
-  public function rgb_invert ($rgb_value = array()) {
+  // The RGB invert function.
+  public function rgb_invert($rgb_value = array()) {
 
     // Invert the color by subtracting the value from the max RGB value.
     foreach ($this->rgb_components as $rgb_name) {
@@ -304,7 +300,7 @@ class Conversions {
   } // rgb_invert
 
   /**************************************************************************************/
-
+  // The gray percentage function.
   public function gray_percentage ($gray_value = array()) {
 
     // Init the basic values.
@@ -319,7 +315,7 @@ class Conversions {
   } // gray_percentage
 
   /**************************************************************************************/
-
+  // The CMYK to RGB function.
   public function cmyk_to_rgb ($cmyk_value = array()) {
 
     // Calculate the X and Y coordinates on the image.
@@ -343,7 +339,7 @@ class Conversions {
   } // cmyk_to_rgb
 
   /**************************************************************************************/
-
+  // The CMY to CMYK function.
   public function cmy_to_cmyk ($cmy_value = array()) {
 
     // Init the basic values.
@@ -377,7 +373,7 @@ class Conversions {
   } // cmy_to_cmyk
 
   /**************************************************************************************/
-
+  // The HSL to RGB function.
   public function hsl_to_rgb ($hsl_value = array()) {
 
     // Init the basic values.
@@ -449,7 +445,7 @@ class Conversions {
   } // hsl_to_rgb
 
   /**************************************************************************************/
-
+  // The HSV to RGB function.
   public function hsv_to_rgb ($hsv_value) {
 
     // Extract the HSV values.
@@ -527,7 +523,7 @@ class Conversions {
   } // hsv_to_rgb
 
   /**************************************************************************************/
-
+  // The HEX to RGB function.
   public function hex_to_rgb ($hex_value) {
 
     // Convert the HEX value into an RGB array.
@@ -545,10 +541,10 @@ class Conversions {
     // Return the final values.
     return $ret;
 
-  } // rgb_to_hex
+  } // hex_to_rgb
 
   /**************************************************************************************/
-
+  // The PMS to RGB function.
   public function pms_to_rgb ($pms_value) {
 
     // Round the final values and assign them to an array.
