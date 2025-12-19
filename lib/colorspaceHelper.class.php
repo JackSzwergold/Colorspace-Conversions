@@ -138,11 +138,11 @@ class colorspaceHelper {
 
     //**************************************************************************************//
     // Do something.
-    $ret = $this->DisplayClass->init($colorspace, $value);
+    list($ret, $css, $hex) = $this->DisplayClass->init($colorspace, $value);
 
     //**************************************************************************************//
     // Return the final return value.
-    return $ret;
+    return array($ret, $css, $hex);
 
   } // infoboxContent
 

@@ -42,7 +42,7 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 $colorspaceHelper = new colorspaceHelper();
 $colorspaceHelper->controller = $controller;
 list($colorspace, $value) = $colorspaceHelper->initContent($DEBUG_MODE);
-$infobox = $colorspaceHelper->infoboxContent($colorspace, $value);
+list($infobox, $infobox_css, $infobox_hex) = $colorspaceHelper->infoboxContent($colorspace, $value);
 $rgb_grid = $colorspaceHelper->rgbGridContent();
 $pms_grid = $colorspaceHelper->pmsGridContent();
 
@@ -55,7 +55,8 @@ $substitution_map['[[NONCE]]'] = $NONCE;
 $substitution_map['[[YEAR]]'] = date('Y');
 $substitution_map['[[VIEW_MODE]]'] = $colorspaceHelper->VIEW_MODE;
 $substitution_map['[[INFOBOX]]'] = $infobox;
-$substitution_map['[[INFOBOX_CONTENT]]'] = $infobox;
+$substitution_map['[[INFOBOX_CSS]]'] = $infobox_css;
+$substitution_map['[[INFOBOX_HEX]]'] = $infobox_hex;
 $substitution_map['[[RGB_GRID]]'] = $rgb_grid;
 $substitution_map['[[PMS_GRID]]'] = $pms_grid;
 

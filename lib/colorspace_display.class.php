@@ -89,8 +89,12 @@ class Display extends Helpers {
     $ret = $this->set_infobox_content($final_values);
 
     /************************************************************************************/
+    // Set the CSS for the text.
+    $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+    /************************************************************************************/
     // Return the final return values.
-    return $ret;
+    return array($ret, $css, $this->hex);
 
   } // init
 
@@ -108,15 +112,13 @@ class Display extends Helpers {
 
       /**********************************************************************************/
       // Set the text hex color based on the gray percentage.
-      $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+      // $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
       /**********************************************************************************/
       // Build the infobox.
-      $ret .= sprintf('<div class="InfoBox col col-12 m-0 p-0 px-2 py-1 %s" style="background-color: %s">', $css, $this->hex);
       foreach ($final as $key => $value) {
         $ret .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
-      }
-      $ret .= '</div><!-- .InfoBox -->';
+      } // foreach
 
     } // if
 
