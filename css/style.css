@@ -32,6 +32,28 @@
 }
 
 /**************************************************************************************************/
+.Grid .PixelBox
+{
+	height: 20px;
+	width: 20px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+}
+
+
+/**************************************************************************************************/
+.PMS .Grid .PixelBox
+{
+	width: 120px;
+	height: 50px;
+	margin: 0;
+}
+
+.PMS .Grid .PixelBox .Padding { padding: 10px 0 0 10px; }
+
+/**************************************************************************************************/
 .light p,
 .light p a, .Core .light p a:visited,
 .light p a:hover, .Core .light p a:active { color: #ffffff; }
