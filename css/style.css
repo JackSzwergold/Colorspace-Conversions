@@ -1,11 +1,5 @@
 /**************************************************************************************************/
-/*.PixelBox
-{
-	position: relative;
-	float: left;
-	display: inline;
-}*/
-
+.Wrapper,
 .Grid {
 	width: 1080px;
 }
