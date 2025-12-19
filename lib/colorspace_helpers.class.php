@@ -22,16 +22,14 @@
 
 //**************************************************************************************//
 // Require (once) the parent conversions class.
-
 require_once('colorspace_conversions.class.php');
 
 //**************************************************************************************//
 // Here is where the magic happens!
-
 class Helpers extends Conversions {
 
   /**************************************************************************************/
-
+  // The read PMS data function.
   public function read_pms_data () {
 
     // Get the data from the JSON file.
@@ -53,7 +51,7 @@ class Helpers extends Conversions {
   } // read_pms_data
 
   /**************************************************************************************/
-
+  // The parse PMS HTML function.
   public function parse_pms_HTML ($extra_fields = array()) {
 
     // Load the raw PMS data HTML file.
@@ -99,7 +97,7 @@ class Helpers extends Conversions {
   } // parse_pms_HTML
 
   /**************************************************************************************/
-
+  // The parse PMS JSON function.
   public function fetch_pms_JSON ($filename, $data = array()) {
 
     $ret = FALSE;
