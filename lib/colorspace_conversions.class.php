@@ -140,44 +140,53 @@ class Conversions {
   // The RGB to HSL function.
   public function rgb_to_hsl($rgb_value = array()) {
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 6;
     $hue = $saturation = $lightness = 0;
 
+    /************************************************************************************/
     // Calculate percentages for all three colors.
     foreach ($this->rgb_components as $rgb_component) {
       $$rgb_component = $rgb_value[$rgb_component] / $this->max_rgb_value;
-    }
+    } // foreach
 
+    /************************************************************************************/
     // Get the max and min values of the RGB values.
     $max_rgb = max($red, $green, $blue);
     $min_rgb = min($red, $green, $blue);
 
+    /************************************************************************************/
     // Calculate lightness by adding max and min values and dividing by two.
     $lightness = ($max_rgb + $min_rgb) / 2;
 
+    /************************************************************************************/
     // Get the chroma which is the delta between max and min values.
     $chroma = $max_rgb - $min_rgb;
 
+    /************************************************************************************/
     // Calculate the hue and saturation.
     if ($chroma == 0) {
 
+      /**********************************************************************************/
       // If the chroma is 0, the max_rgb and min_rgb are the same, so then the hue and saturation is 0.
       $hue = $saturation = 0;
 
     } // if
     else {
 
+      /**********************************************************************************/
       // If the chroma is not 0, then we calculate the saturation like this.
       $saturation = $lightness > 0.5 ? ($chroma / (2 - $max_rgb - $min_rgb)) : ($chroma / ($max_rgb + $min_rgb));
 
+      /**********************************************************************************/
       // Calculate the hue.
       switch($max_rgb) {
         case $red:
           $hue = fmod((($green - $blue) / $chroma), 6) * 60;
           if ($blue > $green) {
             $hue += 360;
-          }
+          } // if
           break;
         case $green:
           $hue = (($blue - $red) / $chroma + 2) * 60;
@@ -185,16 +194,18 @@ class Conversions {
         case $blue:
           $hue = (($red - $green) / $chroma + 4) * 60;
           break;
-      }
+      } // switch
 
     } // else
 
+    /************************************************************************************/
     // Round the final values and assign them to an array.
     $ret = array();
     $ret['hue'] = round($hue, $round_to);
     $ret['saturation'] = round($saturation, $round_to) * 100;
     $ret['lightness'] = round($lightness, $round_to) * 100;
 
+    /************************************************************************************/
     // Return the final values.
     return $ret;
 
@@ -204,15 +215,18 @@ class Conversions {
   // The RGB to HSV function.
   public function rgb_to_hsv($rgb_value = array()) {
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 6;
     $hue = $saturation = $value = 0;
 
+    /************************************************************************************/
     // Calculate percentages for all three colors.
     foreach ($this->rgb_components as $rgb_component) {
       $$rgb_component = $rgb_value[$rgb_component] / $this->max_rgb_value;
     }
 
+    /************************************************************************************/
     // Get the max and min values of the RGB values.
     $max_rgb = max($red, $green, $blue);
     $min_rgb = min($red, $green, $blue);
@@ -220,6 +234,7 @@ class Conversions {
     // Get the chroma which is the delta between max and min values.
     $chroma = $max_rgb - $min_rgb;
 
+    /************************************************************************************/
     // Calculate value.
     $value = $max_rgb;
 
