@@ -575,8 +575,6 @@ class Conversions {
 
   } // pms_to_rgb
 
-
-
 } // Conversions
 
 ?>
