@@ -224,13 +224,14 @@ class Conversions {
     // Calculate percentages for all three colors.
     foreach ($this->rgb_components as $rgb_component) {
       $$rgb_component = $rgb_value[$rgb_component] / $this->max_rgb_value;
-    }
+    } // foreach
 
     /************************************************************************************/
     // Get the max and min values of the RGB values.
     $max_rgb = max($red, $green, $blue);
     $min_rgb = min($red, $green, $blue);
 
+    /************************************************************************************/
     // Get the chroma which is the delta between max and min values.
     $chroma = $max_rgb - $min_rgb;
 
