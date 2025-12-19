@@ -54,54 +54,67 @@ class Conversions {
   // The init values function.
   public function init_values() {
 
+    /************************************************************************************/
     // Init the max color value.
     $this->max_rgb_value = 255;
 
+    /************************************************************************************/
     // Init the RGB to CMY map array.
     $this->rgb_to_cmy_map['red'] = 'cyan';
     $this->rgb_to_cmy_map['green'] = 'magenta';
     $this->rgb_to_cmy_map['blue'] = 'yellow';
 
+    /************************************************************************************/
     // Init the RGB to shift map array.
     $this->rgb_to_shift_map['red'] = 16;
     $this->rgb_to_shift_map['green'] = 8;
     $this->rgb_to_shift_map['blue'] = 0;
 
-    // Init the RGB to gray luma generic map array.
+    /************************************************************************************/
+    // Init the RGB to gray luma standard map array.
     $this->rgb_to_gray_luma_map['standard'] = array();
     $this->rgb_to_gray_luma_map['standard']['red'] = 1;
     $this->rgb_to_gray_luma_map['standard']['green'] = 1;
     $this->rgb_to_gray_luma_map['standard']['blue'] = 1;
 
+    /************************************************************************************/
+    // Init the RGB to gray luma generic map array.
     $this->rgb_to_gray_luma_map['generic'] = array();
     $this->rgb_to_gray_luma_map['generic']['red'] = 0.3086;
     $this->rgb_to_gray_luma_map['generic']['green'] = 0.6094;
     $this->rgb_to_gray_luma_map['generic']['blue'] = 0.0820;
 
+    /************************************************************************************/
     // Init the RGB to gray luma rec601 map array.
     $this->rgb_to_gray_luma_map['rec601'] = array();
     $this->rgb_to_gray_luma_map['rec601']['red'] = 0.2989;
     $this->rgb_to_gray_luma_map['rec601']['green'] = 0.5870;
     $this->rgb_to_gray_luma_map['rec601']['blue'] = 0.1140;
 
+    /************************************************************************************/
     // Init the RGB to gray luma rec709 map array.
     $this->rgb_to_gray_luma_map['rec709'] = array();
     $this->rgb_to_gray_luma_map['rec709']['red'] = 0.2126;
     $this->rgb_to_gray_luma_map['rec709']['green'] = 0.7152;
     $this->rgb_to_gray_luma_map['rec709']['blue'] = 0.0722;
 
+    /************************************************************************************/
     // Init the RGB component names.
     $this->rgb_components = array('red', 'green', 'blue');
 
+    /************************************************************************************/
     // Init the CMY component names.
     $this->cmy_components = array('cyan', 'magenta', 'yellow');
 
+    /************************************************************************************/
     // Init the CMYK component names.
     $this->cmyk_components = array('cyan', 'magenta', 'yellow', 'black');
 
+    /************************************************************************************/
     // Init the HSL component names.
     $this->hsl_components = array('hue', 'saturation', 'lightness');
 
+    /************************************************************************************/
     // Init the HSV component names.
     $this->hsv_components = array('hue', 'saturation', 'value');
 
@@ -123,15 +136,19 @@ class Conversions {
   // The RGB to CMY function.
   public function rgb_to_cmy($rgb_value = array()) {
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 6;
 
+    /************************************************************************************/
     // Roll through the RGB to CMY values and assign accordingly.
     $ret = array();
     foreach ($this->rgb_to_cmy_map as $rgb_name => $cmy_name) {
       $ret[$cmy_name] = round((1 - ($rgb_value[$rgb_name] / $this->max_rgb_value)), $round_to) / 100;
     }
 
+    /************************************************************************************/
+    // Return the final values.
     return $ret;
 
   } // rgb_to_cmy
