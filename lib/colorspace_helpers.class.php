@@ -20,18 +20,16 @@
  *
  */
 
-//**************************************************************************************//
+/****************************************************************************************/
 // Require (once) the parent conversions class.
-
 require_once('colorspace_conversions.class.php');
 
-//**************************************************************************************//
+/****************************************************************************************/
 // Here is where the magic happens!
-
 class Helpers extends Conversions {
 
   /**************************************************************************************/
-
+  // The read PMS data function.
   public function read_pms_data () {
 
     // Get the data from the JSON file.
@@ -53,7 +51,7 @@ class Helpers extends Conversions {
   } // read_pms_data
 
   /**************************************************************************************/
-
+  // The parse PMS HTML function.
   public function parse_pms_HTML ($extra_fields = array()) {
 
     // Load the raw PMS data HTML file.
@@ -99,26 +97,31 @@ class Helpers extends Conversions {
   } // parse_pms_HTML
 
   /**************************************************************************************/
-
+  // The parse PMS JSON function.
   public function fetch_pms_JSON ($filename, $data = array()) {
 
     $ret = FALSE;
 
+    /************************************************************************************/
     // If the '$filename' value is empty.
     if (empty($filename)) {
       return $ret;
     }
 
+    /************************************************************************************/
     // Set the boolean for file exists.
     $file_exists = file_exists($filename);
 
+    /************************************************************************************/
     // Set the basic time values.
     $modified_time = $file_exists ? filemtime($filename) : 0;
     $current_time = time();
 
+    /************************************************************************************/
     // Calculate the time difference in minutes.
     $diff_time_minutes = (($current_time - $modified_time) / 60);
 
+    /************************************************************************************/
     // Set the boolean for file expired.
     $file_expired = ($diff_time_minutes > 60);
 
@@ -140,18 +143,21 @@ class Helpers extends Conversions {
 
       $ret = $data;
 
-    }
+    } // if
     else if ($file_exists) {
 
+      /**********************************************************************************/
       // Return the JSON from the file.
       $ret = json_decode(file_get_contents($filename), TRUE);
 
-    }
+    } // else if
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // fetch_pms_JSON
 
-} // Display
+} // Helpers
 
 ?>

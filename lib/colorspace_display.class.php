@@ -22,11 +22,11 @@
  *
  */
 
-//**************************************************************************************//
+/****************************************************************************************/
 // Require (once) the parent helpers class.
 require_once('colorspace_helpers.class.php');
 
-//**************************************************************************************//
+/****************************************************************************************/
 // Here is where the magic happens!
 class Display extends Helpers {
 
@@ -117,7 +117,16 @@ class Display extends Helpers {
       /**********************************************************************************/
       // Build the infobox.
       foreach ($final as $key => $value) {
-        $ret .= sprintf('<p class="m-0 p-0 text"><b>%s</b>: %s</p>', strtoupper($key), $value);
+        $ret .=
+            '<p class="m-0 p-0 text font-monospace">'
+          . '<small>'
+          . '<b>'
+          . strtoupper($key)
+          . '</b>: '
+          . $value
+          . '</small>'
+          . '</p>'
+          ;
       } // foreach
 
     } // if
