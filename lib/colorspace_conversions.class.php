@@ -27,7 +27,6 @@
 
 //**************************************************************************************//
 // Here is where the magic happens!
-
 class Conversions {
 
   public $rgb_to_cmy_map = array();
@@ -46,15 +45,13 @@ class Conversions {
   public $max_rgb_value = 0;
 
   /**************************************************************************************/
-
+  // The constructor.
   public function __construct() {
-
     $this->init_values();
-
   } // __construct
 
   /**************************************************************************************/
-
+  // The init values function.
   public function init_values() {
 
     // Init the max color value.
