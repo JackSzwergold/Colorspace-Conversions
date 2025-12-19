@@ -113,10 +113,6 @@ class colorspaceHelper {
     list($colorspace, $page_title, $url_parts) = $this->parse_parameters();
 
     //**************************************************************************************//
-    // Init the display class and get the values.
-    // $this->DisplayClass = new Display();
-
-    //**************************************************************************************//
     // Set the final return value.
     $ret = array($colorspace, $value);
 
@@ -220,7 +216,6 @@ class colorspaceHelper {
 
 /****************************************************************************************/
 // Here is where the magic happens!
-// class Conversions {
 
   public $rgb_to_cmy_map = array();
   public $rgb_to_shift_map = array();
@@ -850,15 +845,9 @@ class colorspaceHelper {
 
   } // pms_to_rgb
 
-// } // Conversions
-
 /****************************************************************************************/
 /****************************************************************************************/
 /****************************************************************************************/
-
-/****************************************************************************************/
-// Here is where the magic happens!
-// class Helpers extends Conversions {
 
   /**************************************************************************************/
   // The read PMS data function.
@@ -990,15 +979,9 @@ class colorspaceHelper {
 
   } // fetch_pms_JSON
 
-// } // Helpers
-
 /****************************************************************************************/
 /****************************************************************************************/
 /****************************************************************************************/
-
-/****************************************************************************************/
-// Here is where the magic happens!
-// class Display extends Helpers {
 
   public $rgb = NULL;
   public $gray = NULL;
@@ -1437,9 +1420,6 @@ class colorspaceHelper {
 
   } // pms_grid
 
-// } // Display
-
 } // colorspaceHelper
-
 
 ?>
