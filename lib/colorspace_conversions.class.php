@@ -348,28 +348,32 @@ class Conversions {
   // The CMY to CMYK function.
   public function cmy_to_cmyk ($cmy_value = array()) {
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 6;
 
+    /************************************************************************************/
     // Init the default black level to 1.
     $cmy_value['black'] = 1;
 
+    /************************************************************************************/
     // Roll through all of the CMY components to see if they are pure black (1) or not.
     foreach ($this->cmy_components as $cmy_component) {
       $cmy_value['black'] = ($cmy_value[$cmy_component] < $cmy_value['black']) ? $cmy_value[$cmy_component] : $cmy_value['black'];
-    }
+    } // foreach
 
+    /************************************************************************************/
     // If the CMY black value is pure black do this.
     if ($cmy_value['black'] == 1) {
       foreach ($this->cmy_components as $cmy_component) {
         $cmy_value[$cmy_component] = 0;
-      }
-    }
+      } // foreach
+    } // if
     else {
       foreach ($this->cmy_components as $cmy_component) {
         $cmy_value[$cmy_component] = round(((($cmy_value[$cmy_component] - $cmy_value['black']) / (1 - $cmy_value['black']) * 100)), $round_to);
-      }
-    }
+      } // foreach
+    } // else
 
     /************************************************************************************/
     // Set the final CMY black value.
