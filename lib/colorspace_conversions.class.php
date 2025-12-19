@@ -376,69 +376,79 @@ class Conversions {
   // The HSL to RGB function.
   public function hsl_to_rgb ($hsl_value = array()) {
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 2;
     $red = $green = $blue = 0;
 
+    /************************************************************************************/
     // Extract the HSL values.
     list($hue, $saturation, $lightness) = array_values($hsl_value);
 
+    /************************************************************************************/
     // Convert degrees and percentages back to decimals.
     $hue_degrees = $hue / 360;
     $saturation = $saturation / 100;
     $lightness = $lightness / 100;
 
+    /************************************************************************************/
     // Six sides in a hexagon HSL model, so multiply hue value by 6.
     $hue_degrees = $hue_degrees * 6;
 
+    /************************************************************************************/
     // Round to the floor of the value to determine what side of the hexagon the value is on.
     $hue_floor = floor($hue_degrees);
 
+    /************************************************************************************/
     // Set the chroma.
     $chroma = (1 - abs(2 * $lightness - 1)) * $saturation;
 
+    /************************************************************************************/
     // Set related temporary values.
     $temp_1 = $chroma * (1 - abs(fmod(($hue / 60), 2) - 1));
     $temp_2 = ($lightness - ($chroma / 2));
 
+    /************************************************************************************/
     // Assign the RGB values based on what side of the hexagon we are on.
     if ($hue_floor == 0) {
       $red = $chroma;
       $green = $temp_1;
       $blue = 0;
-    }
-    elseif ($hue_floor == 1) {
+    } // if
+    else if ($hue_floor == 1) {
       $red = $temp_1;
       $green = $chroma;
       $blue = 0;
-    }
-    elseif ($hue_floor == 2) {
+    } // else if
+    else if ($hue_floor == 2) {
       $red = 0;
       $green = $chroma;
       $blue = $temp_1;
-    }
-    elseif ($hue_floor == 3) {
+    } // else if
+    else if ($hue_floor == 3) {
       $red = 0;
       $green = $temp_1;
       $blue = $chroma;
-    }
-    elseif ($hue_floor == 4) {
+    } // else if
+    else if ($hue_floor == 4) {
       $red = $temp_1;
       $green = 0;
       $blue = $chroma;
-    }
-    elseif ($hue_floor == 5) {
+    } // else if
+    else if ($hue_floor == 5) {
       $red = $chroma;
       $green = 0;
       $blue = $temp_1;
-    }
+    } // else if
 
+    /************************************************************************************/
     // Round the final values and assign them to an array.
     $ret = array();
     foreach ($this->rgb_components as $rgb_component) {
       $ret[$rgb_component] = round(($$rgb_component + $temp_2) * $this->max_rgb_value, $round_to);
-    }
+    } // foreach
 
+    /************************************************************************************/
     // Return the final values.
     return $ret;
 
