@@ -60,8 +60,8 @@ class colorspaceHelper {
   } // filterViewMode
 
   //**************************************************************************************//
-  // Get the init content.
-  public function initContent($DEBUG_MODE = FALSE) {
+  // Init content.
+  public function initContent($DEBUG_MODE = false) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     //************************************************************************************//
@@ -120,21 +120,6 @@ class colorspaceHelper {
     // Init the display class and get the values.
     $DisplayClass = new Display();
     $infobox = $DisplayClass->init($colorspace, $value);
-    // $ret .=
-    //     '<div class="RGB col col-12">'
-    //   . $DisplayClass->rgb_grid()
-    //   . '</div><!-- .RGB -->'
-    //   ;
-    // // $ret .=
-    // //     '<div class="CMYK col col-12">'
-    // //   . $DisplayClass->cmyk_grid()
-    // //   . '</div><!-- .CMYK -->'
-    // //   ;
-    // $ret .= 
-    //     '<div class="PMS col col-12">'
-    //   . $DisplayClass->pms_grid()
-    //   . '</div><!-- .PMS -->'
-    //   ;
 
     //**************************************************************************************//
     // Set the final return value.
@@ -147,7 +132,35 @@ class colorspaceHelper {
   } // initContent
 
   //**************************************************************************************//
-  // Here is the function to parse the parameters.
+  // A function to render RGB grid content.
+  public function rgbGridContent() {
+
+    //**************************************************************************************//
+    // Do something.
+    $ret = $DisplayClass->rgb_grid();
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $ret;
+
+  } // rgbGridContent
+
+  //**************************************************************************************//
+  // A function to render RGB grid content.
+  public function pmsGridContent() {
+
+    //**************************************************************************************//
+    // Do something.
+    $ret = $DisplayClass->pms_grid();
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $ret;
+
+  } // pmsGridContent
+
+  //**************************************************************************************//
+  // A function to parse the parameters.
   private function parse_parameters() {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 

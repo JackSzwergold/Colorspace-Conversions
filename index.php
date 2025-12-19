@@ -41,7 +41,7 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 // Now deal with the colorspace helper class related stuff.
 $colorspaceHelper = new colorspaceHelper();
 $colorspaceHelper->controller = $controller;
-$colorspace_html_content = $colorspaceHelper->initContent($DEBUG_MODE);
+$infobox = $colorspaceHelper->initContent($DEBUG_MODE);
 
 /******************************************************************************/
 // Handle the substitution map stuff.
@@ -51,7 +51,8 @@ $substitution_map['[[BASE_URI]]'] = BASE_URI;
 $substitution_map['[[NONCE]]'] = $NONCE;
 $substitution_map['[[YEAR]]'] = date('Y');
 $substitution_map['[[VIEW_MODE]]'] = $colorspaceHelper->VIEW_MODE;
-$substitution_map['[[HTML_CONTENT]]'] = $colorspace_html_content;
+$substitution_map['[[INFOBOX]]'] = $infobox;
+$substitution_map['[[INFOBOX_CONTENT]]'] = $infobox;
 
 /******************************************************************************/
 // Load the full page HTML template.
