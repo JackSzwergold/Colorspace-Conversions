@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Colorspace Helper Class (frontendDisplayHelper.class.php) (c) by Jack Szwergold
+ * Colorspace Class (frontendDisplayHelper.class.php) (c) by Jack Szwergold
  *
- * Colorspace Helper Class is licensed under a
+ * Colorspace Class is licensed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
  *
  * You should have received a copy of the license along with this
@@ -21,7 +21,7 @@
 
 //**************************************************************************************//
 // The beginnings of a front end display helper class.
-class colorspaceHelper {
+class colorspaceClass {
 
   public $controller = null;
   public $url_parts = array();
@@ -137,34 +137,6 @@ class colorspaceHelper {
   } // infoboxContent
 
   //**************************************************************************************//
-  // A function to render RGB grid content.
-  public function rgbGridContent() {
-
-    //**************************************************************************************//
-    // Do something.
-    $ret = $this->rgb_grid();
-
-    //**************************************************************************************//
-    // Return the final return value.
-    return $ret;
-
-  } // rgbGridContent
-
-  //**************************************************************************************//
-  // A function to render PMS grid content.
-  public function pmsGridContent() {
-
-    //**************************************************************************************//
-    // Do something.
-    $ret = $this->pms_grid();
-
-    //**************************************************************************************//
-    // Return the final return value.
-    return $ret;
-
-  } // pmsGridContent
-
-  //**************************************************************************************//
   // A function to parse the parameters.
   private function parse_parameters() {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
@@ -208,14 +180,6 @@ class colorspaceHelper {
     return array($colorspace, $page_title, $url_parts);
 
   } // parse_parameters
-
-
-/****************************************************************************************/
-/****************************************************************************************/
-/****************************************************************************************/
-
-/****************************************************************************************/
-// Here is where the magic happens!
 
   public $rgb_to_cmy_map = array();
   public $rgb_to_shift_map = array();
@@ -993,10 +957,6 @@ class colorspaceHelper {
   public $hex_inverted = NULL;
   public $hex_gray = NULL;
   public $hex_gray_inverted = NULL;
-
-  public $show_rgb_grid = false;
-  public $show_cmyk_grid = false;
-  public $show_pms_grid = false;
 
   public $pms_json = 'lib/data/pms_to_rgb.json';
 

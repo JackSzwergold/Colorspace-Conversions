@@ -43,8 +43,8 @@ $colorspaceHelper = new colorspaceHelper();
 $colorspaceHelper->controller = $controller;
 list($colorspace, $value) = $colorspaceHelper->initContent($DEBUG_MODE);
 list($infobox, $infobox_css, $infobox_hex) = $colorspaceHelper->infoboxContent($colorspace, $value);
-$rgb_grid = $colorspaceHelper->rgbGridContent();
-$pms_grid = $colorspaceHelper->pmsGridContent();
+$rgb_grid = $colorspaceHelper->rgb_grid();
+$pms_grid = $colorspaceHelper->pms_grid();
 
 /******************************************************************************/
 // Handle the substitution map stuff.
