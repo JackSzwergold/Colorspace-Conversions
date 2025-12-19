@@ -371,6 +371,7 @@ class Conversions {
       }
     }
 
+    /************************************************************************************/
     // Set the final CMY black value.
     $cmy_value['black'] = round(($cmy_value['black'] * 100), $round_to);
 
