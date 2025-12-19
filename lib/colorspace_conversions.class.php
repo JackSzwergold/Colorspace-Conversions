@@ -318,22 +318,28 @@ class Conversions {
   // The CMYK to RGB function.
   public function cmyk_to_rgb ($cmyk_value = array()) {
 
+    /************************************************************************************/
     // Calculate the X and Y coordinates on the image.
     $x_coor = round($cmyk_value['yellow'] / 5) * 21 + round($cmyk_value['cyan'] / 5);
     $y_coor = round($cmyk_value['black'] / 5) * 21 + round($cmyk_value['magenta'] / 5);
 
+    /************************************************************************************/
     // This is the image with CMYK to RGB color values.
     $cmyk_map = ImageCreateFromPng($this->cmyk_to_rgb_colorspace_image);
 
+    /************************************************************************************/
     // This 'eyedrops' the RGB value from the above table.
     $rgb_value = ImageColorAt($cmyk_map, $x_coor, $y_coor);
 
+    /************************************************************************************/
     // Roll through the RGB shift map values and assign accordingly.
     $ret = array();
     foreach ($this->rgb_to_shift_map as $rgb_name => $shift_value) {
       $ret[$rgb_name] = ($rgb_value >> $shift_value) & 0xFF;
-    }
+    } // foreach
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // cmyk_to_rgb
@@ -368,6 +374,8 @@ class Conversions {
     // Set the final CMY black value.
     $cmy_value['black'] = round(($cmy_value['black'] * 100), $round_to);
 
+    /************************************************************************************/
+    // Return the final return value.
     return $cmy_value;
 
   } // cmy_to_cmyk
