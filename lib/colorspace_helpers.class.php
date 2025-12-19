@@ -102,21 +102,26 @@ class Helpers extends Conversions {
 
     $ret = FALSE;
 
+    /************************************************************************************/
     // If the '$filename' value is empty.
     if (empty($filename)) {
       return $ret;
     }
 
+    /************************************************************************************/
     // Set the boolean for file exists.
     $file_exists = file_exists($filename);
 
+    /************************************************************************************/
     // Set the basic time values.
     $modified_time = $file_exists ? filemtime($filename) : 0;
     $current_time = time();
 
+    /************************************************************************************/
     // Calculate the time difference in minutes.
     $diff_time_minutes = (($current_time - $modified_time) / 60);
 
+    /************************************************************************************/
     // Set the boolean for file expired.
     $file_expired = ($diff_time_minutes > 60);
 
@@ -138,14 +143,17 @@ class Helpers extends Conversions {
 
       $ret = $data;
 
-    }
+    } // if
     else if ($file_exists) {
 
+      /**********************************************************************************/
       // Return the JSON from the file.
       $ret = json_decode(file_get_contents($filename), TRUE);
 
-    }
+    } // else if
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // fetch_pms_JSON
