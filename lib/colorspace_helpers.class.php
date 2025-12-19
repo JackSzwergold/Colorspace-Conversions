@@ -158,6 +158,6 @@ class Helpers extends Conversions {
 
   } // fetch_pms_JSON
 
-} // Display
+} // Helpers
 
 ?>
