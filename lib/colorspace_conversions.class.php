@@ -547,22 +547,26 @@ class Conversions {
   // The PMS to RGB function.
   public function pms_to_rgb ($pms_value) {
 
+    /************************************************************************************/
     // Round the final values and assign them to an array.
     $ret = array();
 
+    /************************************************************************************/
     // Get the PMS to RGB map loaded.
     $pms_data = $this->read_pms_data();
 
+    /************************************************************************************/
     // Simple validation.
     if (array_key_exists($pms_value, $pms_data)) {
       $ret = $pms_data[$pms_value];
-    }
+    } // if
     else {
       foreach ($this->rgb_components as $rgb_key => $rgb_component) {
         $ret[$rgb_component] = 00;
-      }
-    }
+      } // foreach
+    } // else
 
+    /************************************************************************************/
     // Return the final values.
     return $ret;
 
