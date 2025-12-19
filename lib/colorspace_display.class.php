@@ -304,14 +304,26 @@ class Display extends Helpers {
 
   /**************************************************************************************/
   // The build pixel box method.
-  private function build_pixel_box($url = null, $hex = null, $text = null, $css = null) {
+  private function build_pixel_box($url = null, $hex = null, $text = null, $css_for_text = null) {
 
     /************************************************************************************/
-    // Do something.
+    // Set the text.
+    if (!empty($text)) {
+      $text =
+        sprintf('<p class="m-0 p-0 px-2 py-1 %s">', $css_for_text)
+      . '<small>'
+      . $text
+      . '</small>'
+      . '</p>'
+      ;
+    } // if
+
+    /************************************************************************************/
+    // Set the pixel box.
     $ret =
-        sprintf('<a href="%s">', $url)
-      . sprintf('<span class="PixelBox d-inline-block m-0 p-0 %s" style="background-color: %s;">', $css, $hex)
-      . (!empty($text) ? sprintf('<p class="m-0 p-0 px-2 py-1"><small>%s</small></p>', $text) : null)
+        sprintf('<a href="%s" class="%s">', $url, $css_for_text)
+      . sprintf('<span class="PixelBox d-inline-block float-start m-0 p-0" style="background-color: %s;">', $hex)
+      . $text
       . '</span><!-- .PixelBox -->'
       . '</a>'
       ;
