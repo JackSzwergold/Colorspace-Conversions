@@ -124,13 +124,27 @@ class colorspaceHelper {
 
     //**************************************************************************************//
     // Set the final return value.
-    $ret = $this->DisplayClass->init($colorspace, $value);
+    $ret = array($colorspace, $value);
 
     //**************************************************************************************//
     // Return the final return value.
     return $ret;
 
   } // initContent
+
+  //**************************************************************************************//
+  // A function to render infobox content.
+  public function infoboxContent($colorspace, $value) {
+
+    //**************************************************************************************//
+    // Do something.
+    $ret = $this->DisplayClass->init($colorspace, $value);
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $ret;
+
+  } // infoboxContent
 
   //**************************************************************************************//
   // A function to render RGB grid content.
@@ -147,7 +161,7 @@ class colorspaceHelper {
   } // rgbGridContent
 
   //**************************************************************************************//
-  // A function to render RGB grid content.
+  // A function to render PMS grid content.
   public function pmsGridContent() {
 
     //**************************************************************************************//
