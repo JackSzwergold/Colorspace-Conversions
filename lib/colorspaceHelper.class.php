@@ -42,6 +42,8 @@ class colorspaceHelper {
   private function filterViewMode($mode = null, $mode_options = null) {
     global $SITE_DEFAULT_CONTROLLER;
 
+    //************************************************************************************//
+    // Do something.
     if (!empty($mode) && $mode == 'random') {
       $mode_keys = array_keys($mode_options);
       shuffle($mode_keys);
@@ -51,13 +53,15 @@ class colorspaceHelper {
       $mode = $SITE_DEFAULT_CONTROLLER;
     } // else if
 
+    //**************************************************************************************//
+    // Return the final return value.
     return $mode;
 
   } // filterViewMode
 
   //**************************************************************************************//
   // Get the init content.
-  public function renderContent($DEBUG_MODE = FALSE) {
+  public function initContent($DEBUG_MODE = FALSE) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     //************************************************************************************//
@@ -136,7 +140,7 @@ class colorspaceHelper {
     // Return the final return value.
     return $ret;
 
-  } // renderContent
+  } // initContent
 
   //**************************************************************************************//
   // Here is the function to parse the parameters.

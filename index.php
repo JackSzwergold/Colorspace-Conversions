@@ -41,7 +41,7 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 // Now deal with the colorspace helper class related stuff.
 $colorspaceHelper = new colorspaceHelper();
 $colorspaceHelper->controller = $controller;
-$colorspace_html_content = $colorspaceHelper->renderContent($DEBUG_MODE);
+$colorspace_html_content = $colorspaceHelper->initContent($DEBUG_MODE);
 
 /******************************************************************************/
 // Handle the substitution map stuff.
