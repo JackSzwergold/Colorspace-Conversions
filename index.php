@@ -42,6 +42,8 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 $colorspaceHelper = new colorspaceHelper();
 $colorspaceHelper->controller = $controller;
 $infobox = $colorspaceHelper->initContent($DEBUG_MODE);
+$rgb_grid = $colorspaceHelper->rgbGridContent();
+$pms_grid = $colorspaceHelper->pmsGridContent();
 
 /******************************************************************************/
 // Handle the substitution map stuff.
@@ -53,6 +55,8 @@ $substitution_map['[[YEAR]]'] = date('Y');
 $substitution_map['[[VIEW_MODE]]'] = $colorspaceHelper->VIEW_MODE;
 $substitution_map['[[INFOBOX]]'] = $infobox;
 $substitution_map['[[INFOBOX_CONTENT]]'] = $infobox;
+$substitution_map['[[RGB_GRID]]'] = $rgb_grid;
+$substitution_map['[[PMS_GRID]]'] = $pms_grid;
 
 /******************************************************************************/
 // Load the full page HTML template.

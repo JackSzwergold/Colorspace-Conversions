@@ -29,10 +29,12 @@ require_once(BASE_FILEPATH . '/lib/colorspace_display.class.php');
 // The beginnings of a front end display helper class.
 class colorspaceHelper {
 
-  public $controller = '';
+  public $controller = null;
   public $url_parts = array();
 
-  public $page_title = '';
+  public $page_title = null;
+
+  public $DisplayClass = null;
 
   public $VIEW_MODE = null;
   public $DEBUG_MODE = FALSE;
@@ -118,12 +120,11 @@ class colorspaceHelper {
 
     //**************************************************************************************//
     // Init the display class and get the values.
-    $DisplayClass = new Display();
-    $infobox = $DisplayClass->init($colorspace, $value);
+    $this->DisplayClass = new Display();
 
     //**************************************************************************************//
     // Set the final return value.
-    $ret = $infobox;
+    $ret = $this->DisplayClass->init($colorspace, $value);
 
     //**************************************************************************************//
     // Return the final return value.
@@ -137,7 +138,7 @@ class colorspaceHelper {
 
     //**************************************************************************************//
     // Do something.
-    $ret = $DisplayClass->rgb_grid();
+    $ret = $this->DisplayClass->rgb_grid();
 
     //**************************************************************************************//
     // Return the final return value.
@@ -151,7 +152,7 @@ class colorspaceHelper {
 
     //**************************************************************************************//
     // Do something.
-    $ret = $DisplayClass->pms_grid();
+    $ret = $this->DisplayClass->pms_grid();
 
     //**************************************************************************************//
     // Return the final return value.
