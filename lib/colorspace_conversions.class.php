@@ -446,77 +446,87 @@ class Conversions {
 
   /**************************************************************************************/
   // The HSV to RGB function.
-  public function hsv_to_rgb ($hsv_value) {
+  public function hsv_to_rgb($hsv_value = null) {
 
+    /************************************************************************************/
     // Extract the HSV values.
     list($hue, $saturation, $value) = array_values($hsv_value);
 
+    /************************************************************************************/
     // Init the basic values.
     $round_to = 0;
     $red = $green = $blue = 0;
 
+    /************************************************************************************/
     // Convert degrees and percentages back to decimals.
     $hue = $hue / 360;
     $saturation = $saturation / 100;
     $value = $value / 100;
 
+    /************************************************************************************/
     // If saturation is 0, then the color is grey and that is all she wrote.
     if ($saturation == 0) {
       $red = $green = $blue = $value;
-    }
+    } // if
     else {
 
+      /**********************************************************************************/
       // Six sides in a hexagon HSV model, so multiply hue value by 6.
       $hue = $hue * 6;
 
+      /**********************************************************************************/
       // Round to the floor of the value to determine what side of the hexagon the value is on.
       $hue_floor = floor($hue);
 
+      /**********************************************************************************/
       // Calculate the temp values.
       $temp_1 = $value * (1 - $saturation);
       $temp_2 = $value * (1 - $saturation * ($hue - $hue_floor));
       $temp_3 = $value * (1 - $saturation * (1 - ($hue - $hue_floor)));
 
+      /**********************************************************************************/
       // Assign the RGB values based on what side of the hexagon we are on.
       if ($hue_floor == 0) {
         $red = $value;
         $green = $temp_3;
         $blue = $temp_1;
-      }
-      elseif ($hue_floor == 1) {
+      } // if
+      else if ($hue_floor == 1) {
         $red = $temp_2;
         $green = $value;
         $blue = $temp_1;
-      }
-      elseif ($hue_floor == 2) {
+      } // else if
+      else if ($hue_floor == 2) {
         $red = $temp_1;
         $green = $value;
         $blue = $temp_3;
-      }
-      elseif ($hue_floor == 3) {
+      } // else if
+      else if ($hue_floor == 3) {
         $red = $temp_1;
         $green = $temp_2;
         $blue = $value;
-      }
-      elseif ($hue_floor == 4) {
+      } // else if
+      else if ($hue_floor == 4) {
         $red = $temp_3;
         $green = $temp_1;
         $blue = $value;
-      }
-      elseif ($hue_floor == 5) {
+      } // else if
+      else if ($hue_floor == 5) {
         $red = $value;
         $green = $temp_1;
         $blue = $temp_2;
-      }
+      } // else if
 
     }
 
+    /**********************************************************************************/
     // Round the final values and assign them to an array.
     $ret = array();
     foreach ($this->rgb_components as $rgb_component) {
       $ret[$rgb_component] = round($$rgb_component * $this->max_rgb_value, $round_to);
     }
 
+    /**********************************************************************************/
     // Return the final values.
     return $ret;
 
@@ -524,11 +534,13 @@ class Conversions {
 
   /**************************************************************************************/
   // The HEX to RGB function.
-  public function hex_to_rgb ($hex_value) {
+  public function hex_to_rgb($hex_value = null) {
 
+    /************************************************************************************/
     // Convert the HEX value into an RGB array.
     $raw_rgb_array = array_map('hexdec', str_split($hex_value, 2));
 
+    /************************************************************************************/
     // Round the final values and assign them to an array.
     $ret = array();
 
@@ -538,6 +550,7 @@ class Conversions {
       }
     }
 
+    /************************************************************************************/
     // Return the final values.
     return $ret;
 
@@ -545,7 +558,7 @@ class Conversions {
 
   /**************************************************************************************/
   // The PMS to RGB function.
-  public function pms_to_rgb ($pms_value) {
+  public function pms_to_rgb($pms_value = null) {
 
     /************************************************************************************/
     // Round the final values and assign them to an array.
