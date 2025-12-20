@@ -1173,10 +1173,6 @@ class Colorspace {
     if (isset($this->hex)) {
 
       /**********************************************************************************/
-      // Set the text hex color based on the gray percentage.
-      // $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-      /**********************************************************************************/
       // Build the infobox.
       foreach ($final as $key => $value) {
         $ret .=
