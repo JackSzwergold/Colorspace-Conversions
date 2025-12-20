@@ -73,13 +73,14 @@ class Colorspace {
 
   /**************************************************************************************/
   // The constructor.
-  public function __construct() {
+  public function __construct($DEBUG_MODE = false) {
     $this->init_values();
+    $this->getColorspaceValue();
   } // __construct
 
   /**************************************************************************************/
-  // The init method.
-  public function init() {
+  // The manage color request function.
+  public function manageColorRequest() {
 
     /************************************************************************************/
     // Init the basics.
@@ -114,13 +115,13 @@ class Colorspace {
 
     /************************************************************************************/
     // Set the CSS for the text.
-    $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    $css_for_text = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
     /************************************************************************************/
     // Return the final return values.
-    return array($ret, $css, $this->hex);
+    return array($ret, $css_for_text, $this->hex);
 
-  } // init
+  } // manageColorRequest
 
   /**************************************************************************************/
   // The init values function.
@@ -193,17 +194,9 @@ class Colorspace {
   } // init_values
 
   /**************************************************************************************/
-  // The init content function.
-  public function init_content($DEBUG_MODE = false) {
+  // The get colorspace value function.
+  public function getColorspaceValue() {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
-
-    /************************************************************************************/
-    // Set the view mode.
-    $this->VIEW_MODE = $this->controller;
-
-    /************************************************************************************/
-    // Set the debug mode.
-    $this->DEBUG_MODE = $DEBUG_MODE;
 
     /************************************************************************************/
     // Init the arrays.
@@ -250,14 +243,11 @@ class Colorspace {
     list($colorspace, $page_title, $url_parts) = $this->parse_parameters();
 
     /************************************************************************************/
-    // Set the final return value.
-    $ret = array($colorspace, $value);
+    // Set the final return values.
+    $this->colorspace = $colorspace;
+    $this->value = $value;
 
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // init_content
+  } // getColorspaceValue
 
   /**************************************************************************************/
   // Filter the view mode.
