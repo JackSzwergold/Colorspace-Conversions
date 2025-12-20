@@ -79,7 +79,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The init method.
-  public function init($colorspace = null, $value = null) {
+  public function init() {
 
     /************************************************************************************/
     // Init the basics.
@@ -88,19 +88,19 @@ class Colorspace {
 
     /************************************************************************************/
     // Do something.
-    if ($colorspace == 'rgb') {
-      $rgb_array = $this->get_rgb_values($value);
+    if ($this->colorspace == 'rgb') {
+      $rgb_array = $this->get_rgb_values($this->value);
     } // if
-    else if ($colorspace == 'cmyk') {
-      $cmyk_array = $this->get_cmyk_values($value);
+    else if ($this->colorspace == 'cmyk') {
+      $cmyk_array = $this->get_cmyk_values($this->value);
       $rgb_array = $this->cmyk_to_rgb($cmyk_array);
     } // else if
-    else if ($colorspace == 'hex') {
-      $hex_array = $this->get_hex_values($value);
+    else if ($this->colorspace == 'hex') {
+      $hex_array = $this->get_hex_values($this->value);
       $rgb_array = $this->hex_to_rgb($hex_array);
     } // else if
-    else if ($colorspace == 'pms') {
-      $pms_value = $this->get_pms_values($value);
+    else if ($this->colorspace == 'pms') {
+      $pms_value = $this->get_pms_values($this->value);
       $rgb_array = $this->pms_to_rgb($pms_value);
     } // else if
 
