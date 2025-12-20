@@ -19,7 +19,7 @@
  *
  */
 
-//**************************************************************************************//
+/****************************************************************************************/
 // The beginnings of a front end display helper class.
 class Colorspace {
 
@@ -32,6 +32,99 @@ class Colorspace {
 
   public $VIEW_MODE = null;
   public $DEBUG_MODE = FALSE;
+
+  /**************************************************************************************/
+
+  public $rgb_to_cmy_map = array();
+  public $rgb_to_shift_map = array();
+  public $rgb_to_gray_luma_map = array();
+
+  public $rgb_components = array();
+  public $cmy_components = array();
+  public $cmyk_components = array();
+
+  public $hsl_components = array();
+  public $hsv_components = array();
+
+  public $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
+
+  public $max_rgb_value = 0;
+
+  /**************************************************************************************/
+  // The constructor.
+  public function __construct() {
+    $this->init_values();
+  } // __construct
+
+  /**************************************************************************************/
+  // The init values function.
+  private function init_values() {
+
+    /************************************************************************************/
+    // Init the max color value.
+    $this->max_rgb_value = 255;
+
+    /************************************************************************************/
+    // Init the RGB to CMY map array.
+    $this->rgb_to_cmy_map['red'] = 'cyan';
+    $this->rgb_to_cmy_map['green'] = 'magenta';
+    $this->rgb_to_cmy_map['blue'] = 'yellow';
+
+    /************************************************************************************/
+    // Init the RGB to shift map array.
+    $this->rgb_to_shift_map['red'] = 16;
+    $this->rgb_to_shift_map['green'] = 8;
+    $this->rgb_to_shift_map['blue'] = 0;
+
+    /************************************************************************************/
+    // Init the RGB to gray luma standard map array.
+    $this->rgb_to_gray_luma_map['standard'] = array();
+    $this->rgb_to_gray_luma_map['standard']['red'] = 1;
+    $this->rgb_to_gray_luma_map['standard']['green'] = 1;
+    $this->rgb_to_gray_luma_map['standard']['blue'] = 1;
+
+    /************************************************************************************/
+    // Init the RGB to gray luma generic map array.
+    $this->rgb_to_gray_luma_map['generic'] = array();
+    $this->rgb_to_gray_luma_map['generic']['red'] = 0.3086;
+    $this->rgb_to_gray_luma_map['generic']['green'] = 0.6094;
+    $this->rgb_to_gray_luma_map['generic']['blue'] = 0.0820;
+
+    /************************************************************************************/
+    // Init the RGB to gray luma rec601 map array.
+    $this->rgb_to_gray_luma_map['rec601'] = array();
+    $this->rgb_to_gray_luma_map['rec601']['red'] = 0.2989;
+    $this->rgb_to_gray_luma_map['rec601']['green'] = 0.5870;
+    $this->rgb_to_gray_luma_map['rec601']['blue'] = 0.1140;
+
+    /************************************************************************************/
+    // Init the RGB to gray luma rec709 map array.
+    $this->rgb_to_gray_luma_map['rec709'] = array();
+    $this->rgb_to_gray_luma_map['rec709']['red'] = 0.2126;
+    $this->rgb_to_gray_luma_map['rec709']['green'] = 0.7152;
+    $this->rgb_to_gray_luma_map['rec709']['blue'] = 0.0722;
+
+    /************************************************************************************/
+    // Init the RGB component names.
+    $this->rgb_components = array('red', 'green', 'blue');
+
+    /************************************************************************************/
+    // Init the CMY component names.
+    $this->cmy_components = array('cyan', 'magenta', 'yellow');
+
+    /************************************************************************************/
+    // Init the CMYK component names.
+    $this->cmyk_components = array('cyan', 'magenta', 'yellow', 'black');
+
+    /************************************************************************************/
+    // Init the HSL component names.
+    $this->hsl_components = array('hue', 'saturation', 'lightness');
+
+    /************************************************************************************/
+    // Init the HSV component names.
+    $this->hsv_components = array('hue', 'saturation', 'value');
+
+  } // init_values
 
   //**************************************************************************************//
   // Filter the view mode.
@@ -180,97 +273,6 @@ class Colorspace {
     return array($colorspace, $page_title, $url_parts);
 
   } // parse_parameters
-
-  public $rgb_to_cmy_map = array();
-  public $rgb_to_shift_map = array();
-  public $rgb_to_gray_luma_map = array();
-
-  public $rgb_components = array();
-  public $cmy_components = array();
-  public $cmyk_components = array();
-
-  public $hsl_components = array();
-  public $hsv_components = array();
-
-  public $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
-
-  public $max_rgb_value = 0;
-
-  /**************************************************************************************/
-  // The constructor.
-  public function __construct() {
-    $this->init_values();
-  } // __construct
-
-  /**************************************************************************************/
-  // The init values function.
-  private function init_values() {
-
-    /************************************************************************************/
-    // Init the max color value.
-    $this->max_rgb_value = 255;
-
-    /************************************************************************************/
-    // Init the RGB to CMY map array.
-    $this->rgb_to_cmy_map['red'] = 'cyan';
-    $this->rgb_to_cmy_map['green'] = 'magenta';
-    $this->rgb_to_cmy_map['blue'] = 'yellow';
-
-    /************************************************************************************/
-    // Init the RGB to shift map array.
-    $this->rgb_to_shift_map['red'] = 16;
-    $this->rgb_to_shift_map['green'] = 8;
-    $this->rgb_to_shift_map['blue'] = 0;
-
-    /************************************************************************************/
-    // Init the RGB to gray luma standard map array.
-    $this->rgb_to_gray_luma_map['standard'] = array();
-    $this->rgb_to_gray_luma_map['standard']['red'] = 1;
-    $this->rgb_to_gray_luma_map['standard']['green'] = 1;
-    $this->rgb_to_gray_luma_map['standard']['blue'] = 1;
-
-    /************************************************************************************/
-    // Init the RGB to gray luma generic map array.
-    $this->rgb_to_gray_luma_map['generic'] = array();
-    $this->rgb_to_gray_luma_map['generic']['red'] = 0.3086;
-    $this->rgb_to_gray_luma_map['generic']['green'] = 0.6094;
-    $this->rgb_to_gray_luma_map['generic']['blue'] = 0.0820;
-
-    /************************************************************************************/
-    // Init the RGB to gray luma rec601 map array.
-    $this->rgb_to_gray_luma_map['rec601'] = array();
-    $this->rgb_to_gray_luma_map['rec601']['red'] = 0.2989;
-    $this->rgb_to_gray_luma_map['rec601']['green'] = 0.5870;
-    $this->rgb_to_gray_luma_map['rec601']['blue'] = 0.1140;
-
-    /************************************************************************************/
-    // Init the RGB to gray luma rec709 map array.
-    $this->rgb_to_gray_luma_map['rec709'] = array();
-    $this->rgb_to_gray_luma_map['rec709']['red'] = 0.2126;
-    $this->rgb_to_gray_luma_map['rec709']['green'] = 0.7152;
-    $this->rgb_to_gray_luma_map['rec709']['blue'] = 0.0722;
-
-    /************************************************************************************/
-    // Init the RGB component names.
-    $this->rgb_components = array('red', 'green', 'blue');
-
-    /************************************************************************************/
-    // Init the CMY component names.
-    $this->cmy_components = array('cyan', 'magenta', 'yellow');
-
-    /************************************************************************************/
-    // Init the CMYK component names.
-    $this->cmyk_components = array('cyan', 'magenta', 'yellow', 'black');
-
-    /************************************************************************************/
-    // Init the HSL component names.
-    $this->hsl_components = array('hue', 'saturation', 'lightness');
-
-    /************************************************************************************/
-    // Init the HSV component names.
-    $this->hsv_components = array('hue', 'saturation', 'value');
-
-  } // init_values
 
   /**************************************************************************************/
   // The RGB to HEX function.
@@ -811,21 +813,25 @@ class Colorspace {
 
   /**************************************************************************************/
   // The read PMS data function.
-  private function read_pms_data () {
+  private function read_pms_data() {
 
+    /************************************************************************************/
     // Get the data from the JSON file.
     $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json');
 
+    /************************************************************************************/
     // If the JSON variable is empty, generate a new JSON file and load that.
     if (empty($json)) {
 
+      /**********************************************************************************/
       // Parse the PMS HTML data.
       $data = $this->parse_pms_HTML();
 
+      /**********************************************************************************/
       // Roll through all of the parsed values and assign to a new array.
       $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json', $data);
 
-    }
+    } // if
 
     return $json;
 
@@ -835,9 +841,11 @@ class Colorspace {
   // The parse PMS HTML function.
   private function parse_pms_HTML ($extra_fields = array()) {
 
+    /************************************************************************************/
     // Load the raw PMS data HTML file.
     $raw = file('lib/data/pms_to_rgb.html');
 
+    /************************************************************************************/
     // Load the raw PMS data HTML file.
     $data = array();
     foreach ($raw as $key => $value) {
@@ -845,16 +853,19 @@ class Colorspace {
       array_map('trim', $split);
       if (count($split) > 1) {
         $data[] = $split;
-      }
-    }
+      } // if
+    } // foreach
 
+    /************************************************************************************/
     // Set the valid key names.
     $valid_values = array('red', 'green', 'blue', 'hex');
     $valid_values = array_merge($valid_values, $extra_fields);
 
+    /************************************************************************************/
     // Get the key name by shifting the first item off of the array.
     $key_names = array_intersect(array_shift($data),  $valid_values);
 
+    /************************************************************************************/
     // Roll through all of the parsed values and assign to a new array.
     $ret = array();
     foreach ($data as $parent_key => $parent_value) {
@@ -862,16 +873,18 @@ class Colorspace {
         $pms_key = ucwords(preg_replace('~ +~', '_', $parent_value[0]));
         if (array_key_exists($child_key, $key_names)) {
           $ret[$pms_key][$key_names[$child_key]] = $child_value;
-        }
-      }
+        } // if
+      } // foreach
 
+      /************************************************************************************/
       // Convert the RGB value to gray.
       $gray_value = $this->rgb_to_gray($ret[$pms_key], 'standard');
 
+      /************************************************************************************/
       // Set the gray hex and percentage into the array.
       $ret[$pms_key]['gray_hex'] = $this->rgb_to_hex($gray_value);
       $ret[$pms_key]['gray_percentage'] = $this->gray_percentage($gray_value);
-    }
+    } // foreach
 
     return $ret;
 
@@ -887,7 +900,7 @@ class Colorspace {
     // If the '$filename' value is empty.
     if (empty($filename)) {
       return $ret;
-    }
+    } // if
 
     /************************************************************************************/
     // Set the boolean for file exists.
