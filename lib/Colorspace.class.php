@@ -19,192 +19,68 @@
  *
  */
 
-//**************************************************************************************//
+/****************************************************************************************/
 // The beginnings of a front end display helper class.
 class Colorspace {
 
   public $controller = null;
+  public $colorspace = null;
+  public $value = null;
   public $url_parts = array();
 
   public $page_title = null;
 
-  public $DisplayClass = null;
-
   public $VIEW_MODE = null;
   public $DEBUG_MODE = FALSE;
 
-  //**************************************************************************************//
-  // Filter the view mode.
-  private function filterViewMode($mode = null, $mode_options = null) {
-    global $SITE_DEFAULT_CONTROLLER;
+  /**************************************************************************************/
 
-    //************************************************************************************//
-    // Do something.
-    if (!empty($mode) && $mode == 'random') {
-      $mode_keys = array_keys($mode_options);
-      shuffle($mode_keys);
-      $mode = $mode_keys[0];
-    } // if
-    else if (!empty($mode) && !array_key_exists($mode, $mode_options)) {
-      $mode = $SITE_DEFAULT_CONTROLLER;
-    } // else if
+  private $rgb_to_cmy_map = array();
+  private $rgb_to_shift_map = array();
+  private $rgb_to_gray_luma_map = array();
 
-    //**************************************************************************************//
-    // Return the final return value.
-    return $mode;
+  private $rgb_components = array();
+  private $cmy_components = array();
+  private $cmyk_components = array();
 
-  } // filterViewMode
+  private $hsl_components = array();
+  private $hsv_components = array();
 
-  //**************************************************************************************//
-  // Init content.
-  public function initContent($DEBUG_MODE = false) {
-    global $SITE_TITLE, $VALID_GET_PARAMETERS;
+  private $cmyk_to_rgb_colorspace_image = BASE_FILEPATH . '/lib/data/cmyk_to_rgb_colorspace.png';
+  private $pms_to_rgb_json = BASE_FILEPATH . '/lib/data/pms_to_rgb.json';
+  private $pms_to_rgb_html = BASE_FILEPATH . '/lib/data/pms_to_rgb.html';
 
-    //************************************************************************************//
-    // Set the view mode.
-    $this->VIEW_MODE = $this->controller;
+  private $max_rgb_value = 0;
 
-    //************************************************************************************//
-    // Set the debug mode.
-    $this->DEBUG_MODE = $DEBUG_MODE;
+  /**************************************************************************************/
 
-    //************************************************************************************//
-    // Init the arrays.
-    $url_parts = array();
-    $markdown_parts = array();
-    $title_parts = array($SITE_TITLE);
+  private $rgb = NULL;
+  private $gray = NULL;
+  private $gray_percentage = 0;
 
-    //************************************************************************************//
-    // Parse the '$_GET' parameters.
-    foreach($VALID_GET_PARAMETERS as $get_parameter) {
-      $$get_parameter = '';
-      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-          $$get_parameter = $_GET[$get_parameter];
-        } // if
-      } // if
-    } // foreach
+  private $gray_text_cutoff = 36;
 
-    //************************************************************************************//
-    // Set the controller.
-    if (!empty($colorspace)) {
-      $url_parts[] = $colorspace;
-      $title_parts[] = strtoupper($colorspace);
-    } // if
+  private $hex = NULL;
+  private $hex_inverted = NULL;
+  private $hex_gray = NULL;
+  private $hex_gray_inverted = NULL;
 
-    //************************************************************************************//
-    // Set the page.
-    if (!empty($colorspace) && !empty($value)) {
-      $url_parts[] = $value;
-      $title_parts[] = $value;
-    } // if
+  private $rgb_span = 255;
+  private $rgb_step = 50;
 
-    //************************************************************************************//
-    // Set the page title.
-    $this->page_title = join(' / ', $title_parts);
-    $this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
-
-    //************************************************************************************//
-    // Set the URL parts.
-    $this->url_parts = $url_parts;
-
-    //**************************************************************************************//
-    // Run the actual function and get the parts.
-    list($colorspace, $page_title, $url_parts) = $this->parse_parameters();
-
-    //**************************************************************************************//
-    // Set the final return value.
-    $ret = array($colorspace, $value);
-
-    //**************************************************************************************//
-    // Return the final return value.
-    return $ret;
-
-  } // initContent
-
-  //**************************************************************************************//
-  // A function to render infobox content.
-  public function infoboxContent($colorspace, $value) {
-
-    //**************************************************************************************//
-    // Do something.
-    list($ret, $css, $hex) = $this->init($colorspace, $value);
-
-    //**************************************************************************************//
-    // Return the final return value.
-    return array($ret, $css, $hex);
-
-  } // infoboxContent
-
-  //**************************************************************************************//
-  // A function to parse the parameters.
-  private function parse_parameters() {
-    global $SITE_TITLE, $VALID_GET_PARAMETERS;
-
-    //************************************************************************************//
-    // Init the arrays.
-    $url_parts = array();
-    $title_parts = array($SITE_TITLE);
-
-    //************************************************************************************//
-    // Parse the '$_GET' parameters.
-    foreach($VALID_GET_PARAMETERS as $get_parameter) {
-      $$get_parameter = '';
-      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
-        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
-          $$get_parameter = $_GET[$get_parameter];
-        } // if
-      } // if
-    } // foreach
-
-    //************************************************************************************//
-    // Set the controller.
-    if (!empty($colorspace)) {
-      $url_parts[] = $colorspace;
-      $title_parts[] = strtoupper($colorspace);
-    } // if
-
-    //************************************************************************************//
-    // Set the page.
-    if (!empty($colorspace) && !empty($value)) {
-      $url_parts[] = $value;
-      $title_parts[] = $value;
-    } // if
-
-    //************************************************************************************//
-    // Set the page title.
-    $page_title = join(' / ', $title_parts);
-    $page_title = preg_replace('/_/', ' ', $page_title);
-    // $page_title = ucwords($page_title);
-
-    return array($colorspace, $page_title, $url_parts);
-
-  } // parse_parameters
-
-  public $rgb_to_cmy_map = array();
-  public $rgb_to_shift_map = array();
-  public $rgb_to_gray_luma_map = array();
-
-  public $rgb_components = array();
-  public $cmy_components = array();
-  public $cmyk_components = array();
-
-  public $hsl_components = array();
-  public $hsv_components = array();
-
-  public $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
-
-  public $max_rgb_value = 0;
+  private $cmyk_span = 100;
+  private $cmyk_step = 20;
 
   /**************************************************************************************/
   // The constructor.
-  public function __construct() {
-    $this->init_values();
+  public function __construct($DEBUG_MODE = false) {
+    $this->initColorValues();
+    $this->getColorspaceValue();
   } // __construct
 
   /**************************************************************************************/
-  // The init values function.
-  private function init_values() {
+  // The init color values function.
+  private function initColorValues() {
 
     /************************************************************************************/
     // Init the max color value.
@@ -270,7 +146,352 @@ class Colorspace {
     // Init the HSV component names.
     $this->hsv_components = array('hue', 'saturation', 'value');
 
-  } // init_values
+  } // initColorValues
+
+  /**************************************************************************************/
+  // The get colorspace value function.
+  private function getColorspaceValue() {
+    global $SITE_TITLE, $VALID_GET_PARAMETERS;
+
+    /************************************************************************************/
+    // Init the arrays.
+    $url_parts = array();
+    $markdown_parts = array();
+    $title_parts = array($SITE_TITLE);
+
+    /************************************************************************************/
+    // Parse the '$_GET' parameters.
+    foreach($VALID_GET_PARAMETERS as $get_parameter) {
+      $$get_parameter = '';
+      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+          $$get_parameter = $_GET[$get_parameter];
+        } // if
+      } // if
+    } // foreach
+
+    /************************************************************************************/
+    // Set the controller.
+    if (!empty($colorspace)) {
+      $url_parts[] = $colorspace;
+      $title_parts[] = strtoupper($colorspace);
+    } // if
+
+    /************************************************************************************/
+    // Set the page.
+    if (!empty($colorspace) && !empty($value)) {
+      $url_parts[] = $value;
+      $title_parts[] = $value;
+    } // if
+
+    /************************************************************************************/
+    // Set the page title.
+    $this->page_title = join(' / ', $title_parts);
+    $this->page_title = ucwords(preg_replace('/_/', ' ', $this->page_title));
+
+    /************************************************************************************/
+    // Set the URL parts.
+    $this->url_parts = $url_parts;
+
+    /************************************************************************************/
+    // Run the actual function and get the parts.
+    list($colorspace, $page_title, $url_parts) = $this->parse_parameters();
+
+    /************************************************************************************/
+    // Set the final return values.
+    $this->colorspace = $colorspace;
+    $this->value = $value;
+
+  } // getColorspaceValue
+
+  /**************************************************************************************/
+  // The manage color request function.
+  public function manageColorRequest() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+    $rgb_array = array();
+
+    /************************************************************************************/
+    // Do something.
+    if ($this->colorspace == 'rgb') {
+      $rgb_array = $this->get_rgb_values($this->value);
+    } // if
+    else if ($this->colorspace == 'cmyk') {
+      $cmyk_array = $this->get_cmyk_values($this->value);
+      $rgb_array = $this->cmyk_to_rgb($cmyk_array);
+    } // else if
+    else if ($this->colorspace == 'hex') {
+      $hex_array = $this->get_hex_values($this->value);
+      $rgb_array = $this->hex_to_rgb($hex_array);
+    } // else if
+    else if ($this->colorspace == 'pms') {
+      $pms_value = $this->get_pms_values($this->value);
+      $rgb_array = $this->pms_to_rgb($pms_value);
+    } // else if
+
+    /************************************************************************************/
+    // Get the final return values.
+    $final_values = $this->get_color_values($rgb_array);
+
+    /************************************************************************************/
+    // Set the final return values.
+    $ret = $this->set_infobox_content($final_values);
+
+    /************************************************************************************/
+    // Return the final return values.
+    return array($ret, $this->hex);
+
+  } // manageColorRequest
+
+  /**************************************************************************************/
+  // Calculate the CSS text.
+  public function calculateTextCSS($gray_percentage = null) {
+
+    /************************************************************************************/
+    // Do something.
+    if (!empty($gray_percentage)) {
+      $ret = $gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white'; 
+    } // if
+    else {
+      $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    } // else
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // calculateTextCSS
+
+  /**************************************************************************************/
+  // Filter the view mode.
+  private function filterViewMode($mode = null, $mode_options = null) {
+    global $SITE_DEFAULT_CONTROLLER;
+
+    /************************************************************************************/
+    // Do something.
+    if (!empty($mode) && $mode == 'random') {
+      $mode_keys = array_keys($mode_options);
+      shuffle($mode_keys);
+      $mode = $mode_keys[0];
+    } // if
+    else if (!empty($mode) && !array_key_exists($mode, $mode_options)) {
+      $mode = $SITE_DEFAULT_CONTROLLER;
+    } // else if
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $mode;
+
+  } // filterViewMode
+
+  /**************************************************************************************/
+  // The build URL method.
+  private function build_url($params = array()) {
+    return BASE_URL . implode('/', $params);
+  } // build_url
+
+  /**************************************************************************************/
+  // The build pixel box method.
+  private function build_pixel_box($url = null, $hex = null, $text = null, $css_for_text = null) {
+
+    /************************************************************************************/
+    // Set the text.
+    if (!empty($text)) {
+      $text =
+        sprintf('<p class="m-0 p-0 px-2 py-1 %s">', $css_for_text)
+      . '<small>'
+      . $text
+      . '</small>'
+      . '</p>'
+      ;
+    } // if
+
+    /************************************************************************************/
+    // Set the pixel box.
+    $ret =
+        sprintf('<a href="%s" class="%s">', $url, $css_for_text)
+      . sprintf('<span class="PixelBox d-inline-block float-start m-0 p-0" style="background-color: %s;">', $hex)
+      . $text
+      . '</span><!-- .PixelBox -->'
+      . '</a>'
+      ;
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // build_pixel_box
+
+  /**************************************************************************************/
+  // The RGB grid method.
+  public function rgb_grid() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Prep the data.
+    $span = array_fill(1, $this->rgb_span, NULL);
+    $step = range(1, $this->rgb_span, $this->rgb_step);
+
+    $rgb_array = array('red' => $step, 'green' => $step, 'blue' => $step);
+
+    /************************************************************************************/
+    // Roll through the RGB items and do something.
+    foreach ($rgb_array['red'] as $red) {
+      foreach ($rgb_array['green'] as $green) {
+        foreach ($rgb_array['blue'] as $blue) {
+          $color = array('red' => $red, 'green' => $green, 'blue' => $blue);
+          $hex = $this->rgb_to_hex($color);
+          $rgb = sprintf('%s_%s_%s', $red, $green, $blue);
+          $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
+          $ret .= $this->build_pixel_box($url, $hex);
+        } // for
+      } // for
+    } // for
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // rgb_grid
+
+  /**************************************************************************************/
+  // The CMYK grid method.
+  public function cmyk_grid() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Prep the data.
+    $cmyk_span = array_fill(1, $this->cmyk_span, NULL);
+    $cmyk_step = range(1, $this->cmyk_span, $this->cmyk_step);
+
+    /************************************************************************************/
+    // Roll through the CMYK items and do something.
+    for ($black = 0; $black <= ($this->cmyk_span - 20); $black += $this->cmyk_step) {
+      for ($magenta = 0; $magenta <= $this->cmyk_span; $magenta += $this->cmyk_step) {
+        for ($yellow = 0; $yellow <= $this->cmyk_span; $yellow += $this->cmyk_step) {
+          for ($cyan = 0; $cyan <= $this->cmyk_span; $cyan += $this->cmyk_step) {
+            $color = $this->cmyk_to_rgb(array('cyan' => $cyan, 'magenta' => $magenta, 'yellow' => $yellow, 'black' => $black));
+            $hex = $this->rgb_to_hex($color);
+            $cmyk = sprintf('%s_%s_%s_%s', $cyan, $magenta, $yellow, $black);
+            $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
+            $ret .= $this->build_pixel_box($url, $hex);
+          } // for
+        } // for
+      } // for
+    } // for
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // cmyk_grid
+
+  /**************************************************************************************/
+  // The PMS grid method.
+  public function pms_grid() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Get the PMS data.
+    $pms_data = $this->read_pms_data();
+
+    /************************************************************************************/
+    // Do something.
+    if (!empty($pms_data)) {
+
+      /**********************************************************************************/
+      // Sort the PMS to hex array.
+      ksort($pms_data);
+
+      /**********************************************************************************/
+      // Roll through the PMS items and do something.
+      foreach ($pms_data as $pms_key => $pms_value) {
+
+        /********************************************************************************/
+        // Set the CSS based on the gray percentage.
+        $css_for_text = $this->calculateTextCSS($pms_value['gray_percentage']);
+
+        /********************************************************************************/
+        // Set the RGB URL param.
+        $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
+
+        /********************************************************************************/
+        // Set the URL.
+        $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
+
+        /********************************************************************************/
+        // Set the text to be passed back into the pixel box.
+        $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
+
+        /********************************************************************************/
+        // Set the pixel box.
+        $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css_for_text);
+
+      } // foreach
+
+    } // if
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // pms_grid
+
+  //**************************************************************************************//
+  // A function to parse the parameters.
+  private function parse_parameters() {
+    global $SITE_TITLE, $VALID_GET_PARAMETERS;
+
+    //************************************************************************************//
+    // Init the arrays.
+    $url_parts = array();
+    $title_parts = array($SITE_TITLE);
+
+    //************************************************************************************//
+    // Parse the '$_GET' parameters.
+    foreach($VALID_GET_PARAMETERS as $get_parameter) {
+      $$get_parameter = '';
+      if (array_key_exists($get_parameter, $_GET) && !empty($_GET[$get_parameter])) {
+        if (in_array($get_parameter, $VALID_GET_PARAMETERS)) {
+          $$get_parameter = $_GET[$get_parameter];
+        } // if
+      } // if
+    } // foreach
+
+    //************************************************************************************//
+    // Set the controller.
+    if (!empty($colorspace)) {
+      $url_parts[] = $colorspace;
+      $title_parts[] = strtoupper($colorspace);
+    } // if
+
+    //************************************************************************************//
+    // Set the page.
+    if (!empty($colorspace) && !empty($value)) {
+      $url_parts[] = $value;
+      $title_parts[] = $value;
+    } // if
+
+    //************************************************************************************//
+    // Set the page title.
+    $page_title = join(' / ', $title_parts);
+    $page_title = preg_replace('/_/', ' ', $page_title);
+    // $page_title = ucwords($page_title);
+
+    return array($colorspace, $page_title, $url_parts);
+
+  } // parse_parameters
 
   /**************************************************************************************/
   // The RGB to HEX function.
@@ -811,22 +1032,28 @@ class Colorspace {
 
   /**************************************************************************************/
   // The read PMS data function.
-  private function read_pms_data () {
+  private function read_pms_data() {
 
+    /************************************************************************************/
     // Get the data from the JSON file.
-    $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json');
+    $json = $this->fetch_pms_JSON($this->pms_to_rgb_json);
 
+    /************************************************************************************/
     // If the JSON variable is empty, generate a new JSON file and load that.
     if (empty($json)) {
 
+      /**********************************************************************************/
       // Parse the PMS HTML data.
       $data = $this->parse_pms_HTML();
 
+      /**********************************************************************************/
       // Roll through all of the parsed values and assign to a new array.
-      $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json', $data);
+      $json = $this->fetch_pms_JSON($this->pms_to_rgb_json, $data);
 
-    }
+    } // if
 
+    /************************************************************************************/
+    // Return the final return value.
     return $json;
 
   } // read_pms_data
@@ -835,9 +1062,11 @@ class Colorspace {
   // The parse PMS HTML function.
   private function parse_pms_HTML ($extra_fields = array()) {
 
+    /************************************************************************************/
     // Load the raw PMS data HTML file.
-    $raw = file('lib/data/pms_to_rgb.html');
+    $raw = file($this->pms_to_rgb_html);
 
+    /************************************************************************************/
     // Load the raw PMS data HTML file.
     $data = array();
     foreach ($raw as $key => $value) {
@@ -845,16 +1074,19 @@ class Colorspace {
       array_map('trim', $split);
       if (count($split) > 1) {
         $data[] = $split;
-      }
-    }
+      } // if
+    } // foreach
 
+    /************************************************************************************/
     // Set the valid key names.
     $valid_values = array('red', 'green', 'blue', 'hex');
     $valid_values = array_merge($valid_values, $extra_fields);
 
+    /************************************************************************************/
     // Get the key name by shifting the first item off of the array.
     $key_names = array_intersect(array_shift($data),  $valid_values);
 
+    /************************************************************************************/
     // Roll through all of the parsed values and assign to a new array.
     $ret = array();
     foreach ($data as $parent_key => $parent_value) {
@@ -862,17 +1094,21 @@ class Colorspace {
         $pms_key = ucwords(preg_replace('~ +~', '_', $parent_value[0]));
         if (array_key_exists($child_key, $key_names)) {
           $ret[$pms_key][$key_names[$child_key]] = $child_value;
-        }
-      }
+        } // if
+      } // foreach
 
+      /************************************************************************************/
       // Convert the RGB value to gray.
       $gray_value = $this->rgb_to_gray($ret[$pms_key], 'standard');
 
+      /************************************************************************************/
       // Set the gray hex and percentage into the array.
       $ret[$pms_key]['gray_hex'] = $this->rgb_to_hex($gray_value);
       $ret[$pms_key]['gray_percentage'] = $this->gray_percentage($gray_value);
-    }
+    } // foreach
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // parse_pms_HTML
@@ -887,7 +1123,7 @@ class Colorspace {
     // If the '$filename' value is empty.
     if (empty($filename)) {
       return $ret;
-    }
+    } // if
 
     /************************************************************************************/
     // Set the boolean for file exists.
@@ -939,70 +1175,6 @@ class Colorspace {
 
   } // fetch_pms_JSON
 
-  public $rgb = NULL;
-  public $gray = NULL;
-  public $gray_percentage = 0;
-
-  public $gray_text_cutoff = 36;
-
-  public $hex = NULL;
-  public $hex_inverted = NULL;
-  public $hex_gray = NULL;
-  public $hex_gray_inverted = NULL;
-
-  public $pms_json = 'lib/data/pms_to_rgb.json';
-
-  public $rgb_span = 255;
-  public $rgb_step = 50;
-
-  public $cmyk_span = 100;
-  public $cmyk_step = 20;
-
-  /**************************************************************************************/
-  // The init method.
-  private function init($colorspace = NULL, $value = NULL) {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-    $rgb_array = array();
-
-    /************************************************************************************/
-    // Do something.
-    if ($colorspace == 'rgb') {
-      $rgb_array = $this->get_rgb_values($value);
-    } // if
-    else if ($colorspace == 'cmyk') {
-      $cmyk_array = $this->get_cmyk_values($value);
-      $rgb_array = $this->cmyk_to_rgb($cmyk_array);
-    } // else if
-    else if ($colorspace == 'hex') {
-      $hex_array = $this->get_hex_values($value);
-      $rgb_array = $this->hex_to_rgb($hex_array);
-    } // else if
-    else if ($colorspace == 'pms') {
-      $pms_value = $this->get_pms_values($value);
-      $rgb_array = $this->pms_to_rgb($pms_value);
-    } // else if
-
-    /************************************************************************************/
-    // Get the final return values.
-    $final_values = $this->get_color_values($rgb_array);
-
-    /************************************************************************************/
-    // Set the final return values.
-    $ret = $this->set_infobox_content($final_values);
-
-    /************************************************************************************/
-    // Set the CSS for the text.
-    $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-    /************************************************************************************/
-    // Return the final return values.
-    return array($ret, $css, $this->hex);
-
-  } // init
-
   /**************************************************************************************/
   // The set infobox content method.
   private function set_infobox_content($final = array()) {
@@ -1014,10 +1186,6 @@ class Colorspace {
     /************************************************************************************/
     // Set the hex infobox.
     if (isset($this->hex)) {
-
-      /**********************************************************************************/
-      // Set the text hex color based on the gray percentage.
-      // $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
       /**********************************************************************************/
       // Build the infobox.
@@ -1173,7 +1341,7 @@ class Colorspace {
 
     /************************************************************************************/
     // Convert the HSL value to RGB.
-    $hsl_back_to_rgb = $this->hsl_to_rgb($hsl);
+    $hsl_to_rgb = $this->hsl_to_rgb($hsl);
 
     /************************************************************************************/
     // Convert the RGB value to HSV.
@@ -1181,20 +1349,18 @@ class Colorspace {
 
     /************************************************************************************/
     // Convert the HSV value to RGB.
-    $hsv_back_to_rgb = $this->hsv_to_rgb($hsv);
+    $hsv_to_rgb = $this->hsv_to_rgb($hsv);
 
     /************************************************************************************/
     // Set the CSS for text.
-    $css_for_text = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    $css_for_text = $this->calculateTextCSS();
 
     /************************************************************************************/
     // Set all of the different values.
     $ret = array();
     $ret['hex'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="text-decoration-none %s">%s</a>', ltrim($this->hex, '#'), $css_for_text, $this->hex);
-    $ret['hex_inverted'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="text-decoration-none %s">%s</a>', ltrim($this->hex_inverted, '#'), $css_for_text, $this->hex_inverted);
     $ret['hex_complimentary'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="text-decoration-none %s">%s</a>', ltrim($this->hex_inverted, '#'), $css_for_text, $this->hex_inverted);
     $ret['hex_gray'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="text-decoration-none %s">%s</a>', ltrim($this->hex_gray, '#'), $css_for_text, $this->hex_gray);
-    $ret['hex_gray_inverted'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="text-decoration-none %s">%s</a>', ltrim($this->hex_gray_inverted, '#'), $css_for_text, $this->hex_gray_inverted);
     $ret['hex_gray_complimentary'] = sprintf('<a href="' . BASE_URL . 'hex/%s" class="text-decoration-none %s">%s</a>', ltrim($this->hex_gray_inverted, '#'), $css_for_text, $this->hex_gray_inverted);
     $ret['rgb'] = sprintf('R = %s, G = %s, B = %s', $rgb_array['red'], $rgb_array['green'], $rgb_array['blue']);
     $ret['gray'] = sprintf('R = %s, G = %s, B = %s', $this->gray['red'], $this->gray['green'], $this->gray['blue']);
@@ -1202,175 +1368,13 @@ class Colorspace {
     $ret['gray_text_cutoff'] = sprintf('%s', $this->gray_text_cutoff . '%');
     $ret['cmyk'] = sprintf('C = %s, M = %s, Y = %s, K = %s', $cmyk_array['cyan'], $cmyk_array['magenta'], $cmyk_array['yellow'], $cmyk_array['black']);
     $ret['hsl'] = sprintf('H = %s, S = %s, L = %s', $hsl['hue'] . '°', $hsl['saturation'] . '%', $hsl['lightness'] . '%');
-    $ret['hsl_back_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsl_back_to_rgb['red'], $hsl_back_to_rgb['green'], $hsl_back_to_rgb['blue']);
+    $ret['hsl_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsl_to_rgb['red'], $hsl_to_rgb['green'], $hsl_to_rgb['blue']);
     $ret['hsv'] = sprintf('H = %s, S = %s, V = %s', $hsv['hue'] . '°', $hsv['saturation'] . '%', $hsv['value'] . '%');
-    $ret['hsv_back_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsv_back_to_rgb['red'], $hsv_back_to_rgb['green'], $hsv_back_to_rgb['blue']);
+    $ret['hsv_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsv_to_rgb['red'], $hsv_to_rgb['green'], $hsv_to_rgb['blue']);
 
     return $ret;
 
   } // get_color_values
-
-  /**************************************************************************************/
-  // The build URL method.
-  private function build_url($params = array()) {
-    return BASE_URL . implode('/', $params);
-  } // build_url
-
-  /**************************************************************************************/
-  // The build pixel box method.
-  private function build_pixel_box($url = null, $hex = null, $text = null, $css_for_text = null) {
-
-    /************************************************************************************/
-    // Set the text.
-    if (!empty($text)) {
-      $text =
-        sprintf('<p class="m-0 p-0 px-2 py-1 %s">', $css_for_text)
-      . '<small>'
-      . $text
-      . '</small>'
-      . '</p>'
-      ;
-    } // if
-
-    /************************************************************************************/
-    // Set the pixel box.
-    $ret =
-        sprintf('<a href="%s" class="%s">', $url, $css_for_text)
-      . sprintf('<span class="PixelBox d-inline-block float-start m-0 p-0" style="background-color: %s;">', $hex)
-      . $text
-      . '</span><!-- .PixelBox -->'
-      . '</a>'
-      ;
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // build_pixel_box
-
-  /**************************************************************************************/
-  // The RGB grid method.
-  public function rgb_grid() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Prep the data.
-    $span = array_fill(1, $this->rgb_span, NULL);
-    $step = range(1, $this->rgb_span, $this->rgb_step);
-
-    $rgb_array = array('red' => $step, 'green' => $step, 'blue' => $step);
-
-    /************************************************************************************/
-    // Roll through the RGB items and do something.
-    foreach ($rgb_array['red'] as $red) {
-      foreach ($rgb_array['green'] as $green) {
-        foreach ($rgb_array['blue'] as $blue) {
-          $color = array('red' => $red, 'green' => $green, 'blue' => $blue);
-          $hex = $this->rgb_to_hex($color);
-          $rgb = sprintf('%s_%s_%s', $red, $green, $blue);
-          $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
-          $ret .= $this->build_pixel_box($url, $hex);
-        } // for
-      } // for
-    } // for
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // rgb_grid
-
-  /**************************************************************************************/
-  // The CMYK grid method.
-  public function cmyk_grid() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Prep the data.
-    $cmyk_span = array_fill(1, $this->cmyk_span, NULL);
-    $cmyk_step = range(1, $this->cmyk_span, $this->cmyk_step);
-
-    /************************************************************************************/
-    // Roll through the CMYK items and do something.
-    for ($black = 0; $black <= ($this->cmyk_span - 20); $black += $this->cmyk_step) {
-      for ($magenta = 0; $magenta <= $this->cmyk_span; $magenta += $this->cmyk_step) {
-        for ($yellow = 0; $yellow <= $this->cmyk_span; $yellow += $this->cmyk_step) {
-          for ($cyan = 0; $cyan <= $this->cmyk_span; $cyan += $this->cmyk_step) {
-            $color = $this->cmyk_to_rgb(array('cyan' => $cyan, 'magenta' => $magenta, 'yellow' => $yellow, 'black' => $black));
-            $hex = $this->rgb_to_hex($color);
-            $cmyk = sprintf('%s_%s_%s_%s', $cyan, $magenta, $yellow, $black);
-            $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
-            $ret .= $this->build_pixel_box($url, $hex);
-          } // for
-        } // for
-      } // for
-    } // for
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // cmyk_grid
-
-  /**************************************************************************************/
-  // The PMS grid method.
-  public function pms_grid() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Get the PMS data.
-    $pms_data = $this->read_pms_data();
-
-    /************************************************************************************/
-    // Do something.
-    if (!empty($pms_data)) {
-
-      /**********************************************************************************/
-      // Sort the PMS to hex array.
-      ksort($pms_data);
-
-      /**********************************************************************************/
-      // Roll through the PMS items and do something.
-      foreach ($pms_data as $pms_key => $pms_value) {
-
-        /********************************************************************************/
-        // Set the CSS based on the gray percentage.
-        $css = $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-        /********************************************************************************/
-        // Set the RGB URL param.
-        $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
-
-        /********************************************************************************/
-        // Set the URL.
-        $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
-
-        /********************************************************************************/
-        // Set the text to be passed back into the pixel box.
-        $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
-
-        /********************************************************************************/
-        // Set the pixel box.
-        $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
-
-      } // foreach
-
-    } // if
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // pms_grid
 
 } // Colorspace
 
