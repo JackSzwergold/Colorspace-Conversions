@@ -251,8 +251,12 @@ class Colorspace {
 
     /************************************************************************************/
     // Do something.
-    // $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-    $ret = $gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    if (!empty($gray_percentage)) {
+      $ret = $gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white'; 
+    } // if
+    else {
+      $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    } // else
 
     /************************************************************************************/
     // Return the final return value.
@@ -1337,7 +1341,7 @@ class Colorspace {
 
     /************************************************************************************/
     // Convert the HSL value to RGB.
-    $hsl_back_to_rgb = $this->hsl_to_rgb($hsl);
+    $hsl_to_rgb = $this->hsl_to_rgb($hsl);
 
     /************************************************************************************/
     // Convert the RGB value to HSV.
@@ -1345,11 +1349,11 @@ class Colorspace {
 
     /************************************************************************************/
     // Convert the HSV value to RGB.
-    $hsv_back_to_rgb = $this->hsv_to_rgb($hsv);
+    $hsv_to_rgb = $this->hsv_to_rgb($hsv);
 
     /************************************************************************************/
     // Set the CSS for text.
-    $css_for_text = $this->calculateTextCSS($this->gray_percentage);
+    $css_for_text = $this->calculateTextCSS();
 
     /************************************************************************************/
     // Set all of the different values.
@@ -1364,9 +1368,9 @@ class Colorspace {
     $ret['gray_text_cutoff'] = sprintf('%s', $this->gray_text_cutoff . '%');
     $ret['cmyk'] = sprintf('C = %s, M = %s, Y = %s, K = %s', $cmyk_array['cyan'], $cmyk_array['magenta'], $cmyk_array['yellow'], $cmyk_array['black']);
     $ret['hsl'] = sprintf('H = %s, S = %s, L = %s', $hsl['hue'] . '°', $hsl['saturation'] . '%', $hsl['lightness'] . '%');
-    $ret['hsl_back_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsl_back_to_rgb['red'], $hsl_back_to_rgb['green'], $hsl_back_to_rgb['blue']);
+    $ret['hsl_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsl_to_rgb['red'], $hsl_to_rgb['green'], $hsl_to_rgb['blue']);
     $ret['hsv'] = sprintf('H = %s, S = %s, V = %s', $hsv['hue'] . '°', $hsv['saturation'] . '%', $hsv['value'] . '%');
-    $ret['hsv_back_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsv_back_to_rgb['red'], $hsv_back_to_rgb['green'], $hsv_back_to_rgb['blue']);
+    $ret['hsv_to_rgb'] = sprintf('R = %s, G = %s, B = %s', $hsv_to_rgb['red'], $hsv_to_rgb['green'], $hsv_to_rgb['blue']);
 
     return $ret;
 
