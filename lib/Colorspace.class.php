@@ -114,12 +114,8 @@ class Colorspace {
     $ret = $this->set_infobox_content($final_values);
 
     /************************************************************************************/
-    // Set the CSS for the text.
-    $css_for_text = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-    /************************************************************************************/
     // Return the final return values.
-    return array($ret, $css_for_text, $this->hex);
+    return array($ret, $this->hex);
 
   } // manageColorRequest
 
@@ -192,6 +188,20 @@ class Colorspace {
     $this->hsv_components = array('hue', 'saturation', 'value');
 
   } // init_values
+
+  /**************************************************************************************/
+  // Calculate the CSS text.
+  public function calculateTextCSS() {
+
+    /************************************************************************************/
+    // Do something.
+    $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // calculateTextCSS
 
   /**************************************************************************************/
   // The get colorspace value function.

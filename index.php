@@ -40,7 +40,8 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 //**************************************************************************************//
 // Now deal with the colorspace helper class related stuff.
 $Colorspace = new Colorspace($DEBUG_MODE);
-list($infobox, $infobox_css, $infobox_hex) = $Colorspace->manageColorRequest();
+list($infobox, $infobox_hex) = $Colorspace->manageColorRequest();
+$infobox_css = $Colorspace->calculateTextCSS();
 $rgb_grid = $Colorspace->rgb_grid();
 $pms_grid = $Colorspace->pms_grid();
 
