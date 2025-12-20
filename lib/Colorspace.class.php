@@ -204,7 +204,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The init values function.
-  public function init_values() {
+  private function init_values() {
 
     /************************************************************************************/
     // Init the max color value.
@@ -274,19 +274,19 @@ class Colorspace {
 
   /**************************************************************************************/
   // The RGB to HEX function.
-  public function rgb_to_hex($rgb_value = array()) {
+  private function rgb_to_hex($rgb_value = array()) {
     return sprintf("#%02X%02X%02X", $rgb_value['red'], $rgb_value['green'], $rgb_value['blue']);
   } // rgb_to_hex
 
   /**************************************************************************************/
   // The RGB to CMYK function.
-  public function rgb_to_cmyk($rgb_value = array()) {
+  private function rgb_to_cmyk($rgb_value = array()) {
     return $this->cmy_to_cmyk($this->rgb_to_cmy($rgb_value));
   } // rgb_to_cmyk
 
   /**************************************************************************************/
   // The RGB to CMY function.
-  public function rgb_to_cmy($rgb_value = array()) {
+  private function rgb_to_cmy($rgb_value = array()) {
 
     /************************************************************************************/
     // Init the basic values.
@@ -307,7 +307,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The RGB to HSL function.
-  public function rgb_to_hsl($rgb_value = array()) {
+  private function rgb_to_hsl($rgb_value = array()) {
 
     /************************************************************************************/
     // Init the basic values.
@@ -382,7 +382,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The RGB to HSV function.
-  public function rgb_to_hsv($rgb_value = array()) {
+  private function rgb_to_hsv($rgb_value = array()) {
 
     /************************************************************************************/
     // Init the basic values.
@@ -452,7 +452,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The RGB to gray function.
-  public function rgb_to_gray($rgb_value = array(), $luma_type = 'standard') {
+  private function rgb_to_gray($rgb_value = array(), $luma_type = 'standard') {
 
     $gray_array = array();
     foreach ($this->rgb_components as $rgb_name) {
@@ -476,7 +476,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The RGB invert function.
-  public function rgb_invert($rgb_value = array()) {
+  private function rgb_invert($rgb_value = array()) {
 
     /************************************************************************************/
     // Invert the color by subtracting the value from the max RGB value.
@@ -499,7 +499,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The gray percentage function.
-  public function gray_percentage ($gray_value = array()) {
+  private function gray_percentage($gray_value = array()) {
 
     /************************************************************************************/
     // Init the basic values.
@@ -517,7 +517,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The CMYK to RGB function.
-  public function cmyk_to_rgb ($cmyk_value = array()) {
+  private function cmyk_to_rgb($cmyk_value = array()) {
 
     /************************************************************************************/
     // Calculate the X and Y coordinates on the image.
@@ -547,7 +547,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The CMY to CMYK function.
-  public function cmy_to_cmyk ($cmy_value = array()) {
+  private function cmy_to_cmyk($cmy_value = array()) {
 
     /************************************************************************************/
     // Init the basic values.
@@ -588,7 +588,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The HSL to RGB function.
-  public function hsl_to_rgb ($hsl_value = array()) {
+  private function hsl_to_rgb($hsl_value = array()) {
 
     /************************************************************************************/
     // Init the basic values.
@@ -670,7 +670,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The HSV to RGB function.
-  public function hsv_to_rgb($hsv_value = null) {
+  private function hsv_to_rgb($hsv_value = null) {
 
     /************************************************************************************/
     // Extract the HSV values.
@@ -758,7 +758,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The HEX to RGB function.
-  public function hex_to_rgb($hex_value = null) {
+  private function hex_to_rgb($hex_value = null) {
 
     /************************************************************************************/
     // Convert the HEX value into an RGB array.
@@ -782,7 +782,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The PMS to RGB function.
-  public function pms_to_rgb($pms_value = null) {
+  private function pms_to_rgb($pms_value = null) {
 
     /************************************************************************************/
     // Round the final values and assign them to an array.
@@ -811,7 +811,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The read PMS data function.
-  public function read_pms_data () {
+  private function read_pms_data () {
 
     // Get the data from the JSON file.
     $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json');
@@ -833,7 +833,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The parse PMS HTML function.
-  public function parse_pms_HTML ($extra_fields = array()) {
+  private function parse_pms_HTML ($extra_fields = array()) {
 
     // Load the raw PMS data HTML file.
     $raw = file('lib/data/pms_to_rgb.html');
@@ -879,7 +879,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The parse PMS JSON function.
-  public function fetch_pms_JSON ($filename, $data = array()) {
+  private function fetch_pms_JSON ($filename, $data = array()) {
 
     $ret = FALSE;
 
@@ -960,7 +960,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The init method.
-  public function init($colorspace = NULL, $value = NULL) {
+  private function init($colorspace = NULL, $value = NULL) {
 
     /************************************************************************************/
     // Init the basics.
