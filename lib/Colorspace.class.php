@@ -74,54 +74,13 @@ class Colorspace {
   /**************************************************************************************/
   // The constructor.
   public function __construct($DEBUG_MODE = false) {
-    $this->init_values();
+    $this->initColorValues();
     $this->getColorspaceValue();
   } // __construct
 
   /**************************************************************************************/
-  // The manage color request function.
-  public function manageColorRequest() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-    $rgb_array = array();
-
-    /************************************************************************************/
-    // Do something.
-    if ($this->colorspace == 'rgb') {
-      $rgb_array = $this->get_rgb_values($this->value);
-    } // if
-    else if ($this->colorspace == 'cmyk') {
-      $cmyk_array = $this->get_cmyk_values($this->value);
-      $rgb_array = $this->cmyk_to_rgb($cmyk_array);
-    } // else if
-    else if ($this->colorspace == 'hex') {
-      $hex_array = $this->get_hex_values($this->value);
-      $rgb_array = $this->hex_to_rgb($hex_array);
-    } // else if
-    else if ($this->colorspace == 'pms') {
-      $pms_value = $this->get_pms_values($this->value);
-      $rgb_array = $this->pms_to_rgb($pms_value);
-    } // else if
-
-    /************************************************************************************/
-    // Get the final return values.
-    $final_values = $this->get_color_values($rgb_array);
-
-    /************************************************************************************/
-    // Set the final return values.
-    $ret = $this->set_infobox_content($final_values);
-
-    /************************************************************************************/
-    // Return the final return values.
-    return array($ret, $this->hex);
-
-  } // manageColorRequest
-
-  /**************************************************************************************/
-  // The init values function.
-  private function init_values() {
+  // The init color values function.
+  private function initColorValues() {
 
     /************************************************************************************/
     // Init the max color value.
@@ -187,25 +146,11 @@ class Colorspace {
     // Init the HSV component names.
     $this->hsv_components = array('hue', 'saturation', 'value');
 
-  } // init_values
-
-  /**************************************************************************************/
-  // Calculate the CSS text.
-  public function calculateTextCSS() {
-
-    /************************************************************************************/
-    // Do something.
-    $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // calculateTextCSS
+  } // initColorValues
 
   /**************************************************************************************/
   // The get colorspace value function.
-  public function getColorspaceValue() {
+  private function getColorspaceValue() {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     /************************************************************************************/
@@ -258,6 +203,61 @@ class Colorspace {
     $this->value = $value;
 
   } // getColorspaceValue
+
+  /**************************************************************************************/
+  // The manage color request function.
+  public function manageColorRequest() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+    $rgb_array = array();
+
+    /************************************************************************************/
+    // Do something.
+    if ($this->colorspace == 'rgb') {
+      $rgb_array = $this->get_rgb_values($this->value);
+    } // if
+    else if ($this->colorspace == 'cmyk') {
+      $cmyk_array = $this->get_cmyk_values($this->value);
+      $rgb_array = $this->cmyk_to_rgb($cmyk_array);
+    } // else if
+    else if ($this->colorspace == 'hex') {
+      $hex_array = $this->get_hex_values($this->value);
+      $rgb_array = $this->hex_to_rgb($hex_array);
+    } // else if
+    else if ($this->colorspace == 'pms') {
+      $pms_value = $this->get_pms_values($this->value);
+      $rgb_array = $this->pms_to_rgb($pms_value);
+    } // else if
+
+    /************************************************************************************/
+    // Get the final return values.
+    $final_values = $this->get_color_values($rgb_array);
+
+    /************************************************************************************/
+    // Set the final return values.
+    $ret = $this->set_infobox_content($final_values);
+
+    /************************************************************************************/
+    // Return the final return values.
+    return array($ret, $this->hex);
+
+  } // manageColorRequest
+
+  /**************************************************************************************/
+  // Calculate the CSS text.
+  public function calculateTextCSS() {
+
+    /************************************************************************************/
+    // Do something.
+    $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // calculateTextCSS
 
   /**************************************************************************************/
   // Filter the view mode.
@@ -415,7 +415,8 @@ class Colorspace {
 
         /********************************************************************************/
         // Set the CSS based on the gray percentage.
-        $css = $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+        $css_for_text = $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+        // $css_for_text = $this->calculateTextCSS();
 
         /********************************************************************************/
         // Set the RGB URL param.
@@ -431,7 +432,7 @@ class Colorspace {
 
         /********************************************************************************/
         // Set the pixel box.
-        $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
+        $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css_for_text);
 
       } // foreach
 
