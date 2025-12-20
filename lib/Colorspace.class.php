@@ -191,29 +191,7 @@ class Colorspace {
   } // init_values
 
   //**************************************************************************************//
-  // Filter the view mode.
-  private function filterViewMode($mode = null, $mode_options = null) {
-    global $SITE_DEFAULT_CONTROLLER;
-
-    //************************************************************************************//
-    // Do something.
-    if (!empty($mode) && $mode == 'random') {
-      $mode_keys = array_keys($mode_options);
-      shuffle($mode_keys);
-      $mode = $mode_keys[0];
-    } // if
-    else if (!empty($mode) && !array_key_exists($mode, $mode_options)) {
-      $mode = $SITE_DEFAULT_CONTROLLER;
-    } // else if
-
-    //**************************************************************************************//
-    // Return the final return value.
-    return $mode;
-
-  } // filterViewMode
-
-  //**************************************************************************************//
-  // Init content.
+  // The init content function.
   public function init_content($DEBUG_MODE = false) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
@@ -280,6 +258,28 @@ class Colorspace {
   } // init_content
 
   //**************************************************************************************//
+  // Filter the view mode.
+  private function filterViewMode($mode = null, $mode_options = null) {
+    global $SITE_DEFAULT_CONTROLLER;
+
+    //************************************************************************************//
+    // Do something.
+    if (!empty($mode) && $mode == 'random') {
+      $mode_keys = array_keys($mode_options);
+      shuffle($mode_keys);
+      $mode = $mode_keys[0];
+    } // if
+    else if (!empty($mode) && !array_key_exists($mode, $mode_options)) {
+      $mode = $SITE_DEFAULT_CONTROLLER;
+    } // else if
+
+    //**************************************************************************************//
+    // Return the final return value.
+    return $mode;
+
+  } // filterViewMode
+
+  //**************************************************************************************//
   // A function to render infobox content.
   public function infoboxContent($colorspace, $value) {
 
@@ -292,6 +292,168 @@ class Colorspace {
     return array($ret, $css, $hex);
 
   } // infoboxContent
+
+  /**************************************************************************************/
+  // The build URL method.
+  private function build_url($params = array()) {
+    return BASE_URL . implode('/', $params);
+  } // build_url
+
+  /**************************************************************************************/
+  // The build pixel box method.
+  private function build_pixel_box($url = null, $hex = null, $text = null, $css_for_text = null) {
+
+    /************************************************************************************/
+    // Set the text.
+    if (!empty($text)) {
+      $text =
+        sprintf('<p class="m-0 p-0 px-2 py-1 %s">', $css_for_text)
+      . '<small>'
+      . $text
+      . '</small>'
+      . '</p>'
+      ;
+    } // if
+
+    /************************************************************************************/
+    // Set the pixel box.
+    $ret =
+        sprintf('<a href="%s" class="%s">', $url, $css_for_text)
+      . sprintf('<span class="PixelBox d-inline-block float-start m-0 p-0" style="background-color: %s;">', $hex)
+      . $text
+      . '</span><!-- .PixelBox -->'
+      . '</a>'
+      ;
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // build_pixel_box
+
+  /**************************************************************************************/
+  // The RGB grid method.
+  public function rgb_grid() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Prep the data.
+    $span = array_fill(1, $this->rgb_span, NULL);
+    $step = range(1, $this->rgb_span, $this->rgb_step);
+
+    $rgb_array = array('red' => $step, 'green' => $step, 'blue' => $step);
+
+    /************************************************************************************/
+    // Roll through the RGB items and do something.
+    foreach ($rgb_array['red'] as $red) {
+      foreach ($rgb_array['green'] as $green) {
+        foreach ($rgb_array['blue'] as $blue) {
+          $color = array('red' => $red, 'green' => $green, 'blue' => $blue);
+          $hex = $this->rgb_to_hex($color);
+          $rgb = sprintf('%s_%s_%s', $red, $green, $blue);
+          $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
+          $ret .= $this->build_pixel_box($url, $hex);
+        } // for
+      } // for
+    } // for
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // rgb_grid
+
+  /**************************************************************************************/
+  // The CMYK grid method.
+  public function cmyk_grid() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Prep the data.
+    $cmyk_span = array_fill(1, $this->cmyk_span, NULL);
+    $cmyk_step = range(1, $this->cmyk_span, $this->cmyk_step);
+
+    /************************************************************************************/
+    // Roll through the CMYK items and do something.
+    for ($black = 0; $black <= ($this->cmyk_span - 20); $black += $this->cmyk_step) {
+      for ($magenta = 0; $magenta <= $this->cmyk_span; $magenta += $this->cmyk_step) {
+        for ($yellow = 0; $yellow <= $this->cmyk_span; $yellow += $this->cmyk_step) {
+          for ($cyan = 0; $cyan <= $this->cmyk_span; $cyan += $this->cmyk_step) {
+            $color = $this->cmyk_to_rgb(array('cyan' => $cyan, 'magenta' => $magenta, 'yellow' => $yellow, 'black' => $black));
+            $hex = $this->rgb_to_hex($color);
+            $cmyk = sprintf('%s_%s_%s_%s', $cyan, $magenta, $yellow, $black);
+            $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
+            $ret .= $this->build_pixel_box($url, $hex);
+          } // for
+        } // for
+      } // for
+    } // for
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // cmyk_grid
+
+  /**************************************************************************************/
+  // The PMS grid method.
+  public function pms_grid() {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+
+    /************************************************************************************/
+    // Get the PMS data.
+    $pms_data = $this->read_pms_data();
+
+    /************************************************************************************/
+    // Do something.
+    if (!empty($pms_data)) {
+
+      /**********************************************************************************/
+      // Sort the PMS to hex array.
+      ksort($pms_data);
+
+      /**********************************************************************************/
+      // Roll through the PMS items and do something.
+      foreach ($pms_data as $pms_key => $pms_value) {
+
+        /********************************************************************************/
+        // Set the CSS based on the gray percentage.
+        $css = $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+        /********************************************************************************/
+        // Set the RGB URL param.
+        $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
+
+        /********************************************************************************/
+        // Set the URL.
+        $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
+
+        /********************************************************************************/
+        // Set the text to be passed back into the pixel box.
+        $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
+
+        /********************************************************************************/
+        // Set the pixel box.
+        $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
+
+      } // foreach
+
+    } // if
+
+    /************************************************************************************/
+    // Return the final return value.
+    return $ret;
+
+  } // pms_grid
 
   //**************************************************************************************//
   // A function to parse the parameters.
@@ -1226,168 +1388,6 @@ class Colorspace {
     return $ret;
 
   } // get_color_values
-
-  /**************************************************************************************/
-  // The build URL method.
-  private function build_url($params = array()) {
-    return BASE_URL . implode('/', $params);
-  } // build_url
-
-  /**************************************************************************************/
-  // The build pixel box method.
-  private function build_pixel_box($url = null, $hex = null, $text = null, $css_for_text = null) {
-
-    /************************************************************************************/
-    // Set the text.
-    if (!empty($text)) {
-      $text =
-        sprintf('<p class="m-0 p-0 px-2 py-1 %s">', $css_for_text)
-      . '<small>'
-      . $text
-      . '</small>'
-      . '</p>'
-      ;
-    } // if
-
-    /************************************************************************************/
-    // Set the pixel box.
-    $ret =
-        sprintf('<a href="%s" class="%s">', $url, $css_for_text)
-      . sprintf('<span class="PixelBox d-inline-block float-start m-0 p-0" style="background-color: %s;">', $hex)
-      . $text
-      . '</span><!-- .PixelBox -->'
-      . '</a>'
-      ;
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // build_pixel_box
-
-  /**************************************************************************************/
-  // The RGB grid method.
-  public function rgb_grid() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Prep the data.
-    $span = array_fill(1, $this->rgb_span, NULL);
-    $step = range(1, $this->rgb_span, $this->rgb_step);
-
-    $rgb_array = array('red' => $step, 'green' => $step, 'blue' => $step);
-
-    /************************************************************************************/
-    // Roll through the RGB items and do something.
-    foreach ($rgb_array['red'] as $red) {
-      foreach ($rgb_array['green'] as $green) {
-        foreach ($rgb_array['blue'] as $blue) {
-          $color = array('red' => $red, 'green' => $green, 'blue' => $blue);
-          $hex = $this->rgb_to_hex($color);
-          $rgb = sprintf('%s_%s_%s', $red, $green, $blue);
-          $url = $this->build_url(array('colorspace' => 'rgb', 'value' => $rgb));
-          $ret .= $this->build_pixel_box($url, $hex);
-        } // for
-      } // for
-    } // for
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // rgb_grid
-
-  /**************************************************************************************/
-  // The CMYK grid method.
-  public function cmyk_grid() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Prep the data.
-    $cmyk_span = array_fill(1, $this->cmyk_span, NULL);
-    $cmyk_step = range(1, $this->cmyk_span, $this->cmyk_step);
-
-    /************************************************************************************/
-    // Roll through the CMYK items and do something.
-    for ($black = 0; $black <= ($this->cmyk_span - 20); $black += $this->cmyk_step) {
-      for ($magenta = 0; $magenta <= $this->cmyk_span; $magenta += $this->cmyk_step) {
-        for ($yellow = 0; $yellow <= $this->cmyk_span; $yellow += $this->cmyk_step) {
-          for ($cyan = 0; $cyan <= $this->cmyk_span; $cyan += $this->cmyk_step) {
-            $color = $this->cmyk_to_rgb(array('cyan' => $cyan, 'magenta' => $magenta, 'yellow' => $yellow, 'black' => $black));
-            $hex = $this->rgb_to_hex($color);
-            $cmyk = sprintf('%s_%s_%s_%s', $cyan, $magenta, $yellow, $black);
-            $url = $this->build_url(array('colorspace' => 'cmyk', 'value' => $cmyk));
-            $ret .= $this->build_pixel_box($url, $hex);
-          } // for
-        } // for
-      } // for
-    } // for
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // cmyk_grid
-
-  /**************************************************************************************/
-  // The PMS grid method.
-  public function pms_grid() {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-
-    /************************************************************************************/
-    // Get the PMS data.
-    $pms_data = $this->read_pms_data();
-
-    /************************************************************************************/
-    // Do something.
-    if (!empty($pms_data)) {
-
-      /**********************************************************************************/
-      // Sort the PMS to hex array.
-      ksort($pms_data);
-
-      /**********************************************************************************/
-      // Roll through the PMS items and do something.
-      foreach ($pms_data as $pms_key => $pms_value) {
-
-        /********************************************************************************/
-        // Set the CSS based on the gray percentage.
-        $css = $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-        /********************************************************************************/
-        // Set the RGB URL param.
-        $rgb_param = sprintf('%s_%s_%s', $pms_value['red'], $pms_value['green'], $pms_value['blue']);
-
-        /********************************************************************************/
-        // Set the URL.
-        $url = $this->build_url(array('colorspace' => 'pms', 'value' => $pms_key));
-
-        /********************************************************************************/
-        // Set the text to be passed back into the pixel box.
-        $pixel_text = sprintf('PMS %s', ucwords(preg_replace('~_+~', ' ', $pms_key)));
-
-        /********************************************************************************/
-        // Set the pixel box.
-        $ret .= $this->build_pixel_box($url, $pms_value['hex'], $pixel_text, $css);
-
-      } // foreach
-
-    } // if
-
-    /************************************************************************************/
-    // Return the final return value.
-    return $ret;
-
-  } // pms_grid
 
 } // Colorspace
 
