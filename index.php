@@ -26,7 +26,7 @@
 // Require the basic configuration settings & functions.
 require_once('settings/conf.php');
 require_once(BASE_FILEPATH . '/common/functions.inc.php');
-require_once(BASE_FILEPATH . '/lib/colorspaceHelper.class.php');
+require_once(BASE_FILEPATH . '/lib/Colorspace.class.php');
 require_once(BASE_FILEPATH . '/lib/requestFiltering.class.php');
 
 //**************************************************************************************//
@@ -39,12 +39,12 @@ $controller = $requestFilteringClass->process_controllers($url_parts);
 
 //**************************************************************************************//
 // Now deal with the colorspace helper class related stuff.
-$colorspaceHelper = new colorspaceHelper();
-$colorspaceHelper->controller = $controller;
-list($colorspace, $value) = $colorspaceHelper->initContent($DEBUG_MODE);
-list($infobox, $infobox_css, $infobox_hex) = $colorspaceHelper->infoboxContent($colorspace, $value);
-$rgb_grid = $colorspaceHelper->rgbGridContent();
-$pms_grid = $colorspaceHelper->pmsGridContent();
+$Colorspace = new Colorspace();
+$Colorspace->controller = $controller;
+list($colorspace, $value) = $Colorspace->initContent($DEBUG_MODE);
+list($infobox, $infobox_css, $infobox_hex) = $Colorspace->infoboxContent($colorspace, $value);
+$rgb_grid = $Colorspace->rgb_grid();
+$pms_grid = $Colorspace->pms_grid();
 
 /******************************************************************************/
 // Handle the substitution map stuff.
@@ -53,7 +53,6 @@ $substitution_map['[[BASE_URL]]'] = BASE_URL;
 $substitution_map['[[BASE_URI]]'] = BASE_URI;
 $substitution_map['[[NONCE]]'] = $NONCE;
 $substitution_map['[[YEAR]]'] = date('Y');
-$substitution_map['[[VIEW_MODE]]'] = $colorspaceHelper->VIEW_MODE;
 $substitution_map['[[INFOBOX]]'] = $infobox;
 $substitution_map['[[INFOBOX_CSS]]'] = $infobox_css;
 $substitution_map['[[INFOBOX_HEX]]'] = $infobox_hex;
