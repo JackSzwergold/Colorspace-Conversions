@@ -247,11 +247,12 @@ class Colorspace {
 
   /**************************************************************************************/
   // Calculate the CSS text.
-  public function calculateTextCSS() {
+  public function calculateTextCSS($gray_percentage = null) {
 
     /************************************************************************************/
     // Do something.
-    $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    // $ret = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    $ret = $gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
 
     /************************************************************************************/
     // Return the final return value.
@@ -415,8 +416,7 @@ class Colorspace {
 
         /********************************************************************************/
         // Set the CSS based on the gray percentage.
-        $css_for_text = $pms_value['gray_percentage'] > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-        // $css_for_text = $this->calculateTextCSS();
+        $css_for_text = $this->calculateTextCSS($pms_value['gray_percentage']);
 
         /********************************************************************************/
         // Set the RGB URL param.
@@ -1349,7 +1349,7 @@ class Colorspace {
 
     /************************************************************************************/
     // Set the CSS for text.
-    $css_for_text = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+    $css_for_text = $this->calculateTextCSS($this->gray_percentage);
 
     /************************************************************************************/
     // Set all of the different values.
