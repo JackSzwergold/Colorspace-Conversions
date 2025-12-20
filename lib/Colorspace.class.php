@@ -77,7 +77,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The init method.
-  private function init($colorspace = null, $value = null) {
+  public function init($colorspace = null, $value = null) {
 
     /************************************************************************************/
     // Init the basics.
@@ -278,20 +278,6 @@ class Colorspace {
     return $mode;
 
   } // filterViewMode
-
-  //**************************************************************************************//
-  // A function to render infobox content.
-  public function infoboxContent($colorspace, $value) {
-
-    //**************************************************************************************//
-    // Do something.
-    list($ret, $css, $hex) = $this->init($colorspace, $value);
-
-    //**************************************************************************************//
-    // Return the final return value.
-    return array($ret, $css, $hex);
-
-  } // infoboxContent
 
   /**************************************************************************************/
   // The build URL method.
