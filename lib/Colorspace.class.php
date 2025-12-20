@@ -77,7 +77,7 @@ class Colorspace {
 
   /**************************************************************************************/
   // The init method.
-  private function init($colorspace = NULL, $value = NULL) {
+  private function init($colorspace = null, $value = null) {
 
     /************************************************************************************/
     // Init the basics.
