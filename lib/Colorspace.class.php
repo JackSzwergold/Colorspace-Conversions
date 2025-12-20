@@ -46,7 +46,9 @@ class Colorspace {
   public $hsl_components = array();
   public $hsv_components = array();
 
-  public $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
+  private $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
+  private $pms_to_rgb_json = 'lib/data/pms_to_rgb.json';
+  private $pms_to_rgb_html = 'lib/data/pms_to_rgb.html';
 
   public $max_rgb_value = 0;
 
@@ -817,7 +819,7 @@ class Colorspace {
 
     /************************************************************************************/
     // Get the data from the JSON file.
-    $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json');
+    $json = $this->fetch_pms_JSON($this->pms_to_rgb_json);
 
     /************************************************************************************/
     // If the JSON variable is empty, generate a new JSON file and load that.
@@ -829,10 +831,12 @@ class Colorspace {
 
       /**********************************************************************************/
       // Roll through all of the parsed values and assign to a new array.
-      $json = $this->fetch_pms_JSON('lib/data/pms_to_rgb.json', $data);
+      $json = $this->fetch_pms_JSON($this->pms_to_rgb_json, $data);
 
     } // if
 
+    /************************************************************************************/
+    // Return the final return value.
     return $json;
 
   } // read_pms_data
@@ -843,7 +847,7 @@ class Colorspace {
 
     /************************************************************************************/
     // Load the raw PMS data HTML file.
-    $raw = file('lib/data/pms_to_rgb.html');
+    $raw = file($this->pms_to_rgb_html);
 
     /************************************************************************************/
     // Load the raw PMS data HTML file.
@@ -886,6 +890,8 @@ class Colorspace {
       $ret[$pms_key]['gray_percentage'] = $this->gray_percentage($gray_value);
     } // foreach
 
+    /************************************************************************************/
+    // Return the final return value.
     return $ret;
 
   } // parse_pms_HTML
