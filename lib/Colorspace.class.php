@@ -28,35 +28,97 @@ class Colorspace {
 
   public $page_title = null;
 
-  public $DisplayClass = null;
-
   public $VIEW_MODE = null;
   public $DEBUG_MODE = FALSE;
 
   /**************************************************************************************/
 
-  public $rgb_to_cmy_map = array();
-  public $rgb_to_shift_map = array();
-  public $rgb_to_gray_luma_map = array();
+  private $rgb_to_cmy_map = array();
+  private $rgb_to_shift_map = array();
+  private $rgb_to_gray_luma_map = array();
 
-  public $rgb_components = array();
-  public $cmy_components = array();
-  public $cmyk_components = array();
+  private $rgb_components = array();
+  private $cmy_components = array();
+  private $cmyk_components = array();
 
-  public $hsl_components = array();
-  public $hsv_components = array();
+  private $hsl_components = array();
+  private $hsv_components = array();
 
-  private $cmyk_to_rgb_colorspace_image = 'lib/data/cmyk_to_rgb_colorspace.png';
-  private $pms_to_rgb_json = 'lib/data/pms_to_rgb.json';
-  private $pms_to_rgb_html = 'lib/data/pms_to_rgb.html';
+  private $cmyk_to_rgb_colorspace_image = BASE_FILEPATH . '/lib/data/cmyk_to_rgb_colorspace.png';
+  private $pms_to_rgb_json = BASE_FILEPATH . '/lib/data/pms_to_rgb.json';
+  private $pms_to_rgb_html = BASE_FILEPATH . '/lib/data/pms_to_rgb.html';
 
-  public $max_rgb_value = 0;
+  private $max_rgb_value = 0;
+
+  /**************************************************************************************/
+
+  private $rgb = NULL;
+  private $gray = NULL;
+  private $gray_percentage = 0;
+
+  private $gray_text_cutoff = 36;
+
+  private $hex = NULL;
+  private $hex_inverted = NULL;
+  private $hex_gray = NULL;
+  private $hex_gray_inverted = NULL;
+
+  private $rgb_span = 255;
+  private $rgb_step = 50;
+
+  private $cmyk_span = 100;
+  private $cmyk_step = 20;
 
   /**************************************************************************************/
   // The constructor.
   public function __construct() {
     $this->init_values();
   } // __construct
+
+  /**************************************************************************************/
+  // The init method.
+  private function init($colorspace = NULL, $value = NULL) {
+
+    /************************************************************************************/
+    // Init the basics.
+    $ret = null;
+    $rgb_array = array();
+
+    /************************************************************************************/
+    // Do something.
+    if ($colorspace == 'rgb') {
+      $rgb_array = $this->get_rgb_values($value);
+    } // if
+    else if ($colorspace == 'cmyk') {
+      $cmyk_array = $this->get_cmyk_values($value);
+      $rgb_array = $this->cmyk_to_rgb($cmyk_array);
+    } // else if
+    else if ($colorspace == 'hex') {
+      $hex_array = $this->get_hex_values($value);
+      $rgb_array = $this->hex_to_rgb($hex_array);
+    } // else if
+    else if ($colorspace == 'pms') {
+      $pms_value = $this->get_pms_values($value);
+      $rgb_array = $this->pms_to_rgb($pms_value);
+    } // else if
+
+    /************************************************************************************/
+    // Get the final return values.
+    $final_values = $this->get_color_values($rgb_array);
+
+    /************************************************************************************/
+    // Set the final return values.
+    $ret = $this->set_infobox_content($final_values);
+
+    /************************************************************************************/
+    // Set the CSS for the text.
+    $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
+
+    /************************************************************************************/
+    // Return the final return values.
+    return array($ret, $css, $this->hex);
+
+  } // init
 
   /**************************************************************************************/
   // The init values function.
@@ -152,7 +214,7 @@ class Colorspace {
 
   //**************************************************************************************//
   // Init content.
-  public function initContent($DEBUG_MODE = false) {
+  public function init_content($DEBUG_MODE = false) {
     global $SITE_TITLE, $VALID_GET_PARAMETERS;
 
     //************************************************************************************//
@@ -215,7 +277,7 @@ class Colorspace {
     // Return the final return value.
     return $ret;
 
-  } // initContent
+  } // init_content
 
   //**************************************************************************************//
   // A function to render infobox content.
@@ -957,70 +1019,6 @@ class Colorspace {
     return $ret;
 
   } // fetch_pms_JSON
-
-  public $rgb = NULL;
-  public $gray = NULL;
-  public $gray_percentage = 0;
-
-  public $gray_text_cutoff = 36;
-
-  public $hex = NULL;
-  public $hex_inverted = NULL;
-  public $hex_gray = NULL;
-  public $hex_gray_inverted = NULL;
-
-  public $pms_json = 'lib/data/pms_to_rgb.json';
-
-  public $rgb_span = 255;
-  public $rgb_step = 50;
-
-  public $cmyk_span = 100;
-  public $cmyk_step = 20;
-
-  /**************************************************************************************/
-  // The init method.
-  private function init($colorspace = NULL, $value = NULL) {
-
-    /************************************************************************************/
-    // Init the basics.
-    $ret = null;
-    $rgb_array = array();
-
-    /************************************************************************************/
-    // Do something.
-    if ($colorspace == 'rgb') {
-      $rgb_array = $this->get_rgb_values($value);
-    } // if
-    else if ($colorspace == 'cmyk') {
-      $cmyk_array = $this->get_cmyk_values($value);
-      $rgb_array = $this->cmyk_to_rgb($cmyk_array);
-    } // else if
-    else if ($colorspace == 'hex') {
-      $hex_array = $this->get_hex_values($value);
-      $rgb_array = $this->hex_to_rgb($hex_array);
-    } // else if
-    else if ($colorspace == 'pms') {
-      $pms_value = $this->get_pms_values($value);
-      $rgb_array = $this->pms_to_rgb($pms_value);
-    } // else if
-
-    /************************************************************************************/
-    // Get the final return values.
-    $final_values = $this->get_color_values($rgb_array);
-
-    /************************************************************************************/
-    // Set the final return values.
-    $ret = $this->set_infobox_content($final_values);
-
-    /************************************************************************************/
-    // Set the CSS for the text.
-    $css = $this->gray_percentage > $this->gray_text_cutoff ? 'text-black' : 'text-white';
-
-    /************************************************************************************/
-    // Return the final return values.
-    return array($ret, $css, $this->hex);
-
-  } // init
 
   /**************************************************************************************/
   // The set infobox content method.
