@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock ['>= 3.17.0', '< 3.20']
+lock ['>= 3.17.0', '<= 3.20.0']
 
 set :application, 'colorspace'
 set :short_name, 'colorspace'
